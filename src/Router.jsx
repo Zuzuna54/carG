@@ -14,6 +14,7 @@ const Calc = React.lazy(() => import('./components/pages/calc/Calc'));
 const Home = React.lazy(() => import('./components/pages/home/Homepage'));
 const AboutUs = React.lazy(() => import('./components/pages/aboutUs/Aboutus'));
 const ContactUs = React.lazy(() => import('./components/pages/contactUs/Contactus'));
+const Settings = React.lazy(() => import('./components/pages/settings/Settings'));
 
 export default function Routing() {
 
@@ -31,6 +32,7 @@ export default function Routing() {
                                 <Route path='calculator' element={<Calc />} />
                                 <Route path='about-us' element={<AboutUs />} />
                                 <Route path='contact-us' element={<ContactUs />} />
+                                <Route path='settings' element={<Settings />} />
                             </Route>
                         </Route>
                         <Route path='*' element={<Navigate replace to='/401' />} />

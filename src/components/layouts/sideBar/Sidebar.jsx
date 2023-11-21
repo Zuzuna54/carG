@@ -22,11 +22,13 @@ export default function SideBar() {
                 <div className='main-clicker' onClick={() => { navigate(`/dashboard/contact-us`) }} >
                     <div> Contact Us/Support </div>
                 </div>
+                <div className='main-clicker' onClick={() => { navigate(`/dashboard/settings`) }} >
+                    <div> Settings </div>
+                </div>
                 <div className='line-div'>
                     <div className='liner'></div>
                 </div>
             </div>
-
         </div>
     );
 }
