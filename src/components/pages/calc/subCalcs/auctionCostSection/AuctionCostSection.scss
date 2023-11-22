@@ -1,0 +1,108 @@
+.calc-section-auction {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .auction-header {
+
+        h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+
+        }
+    }
+
+
+    label {
+        padding: 0.3rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        width: 45%;
+    }
+
+    .auction-section {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+
+
+        select {
+            width: 51%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+    }
+
+    .car-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        input {
+            width: 45%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+
+            text-align: center;
+        }
+    }
+
+    .total-fee-cost {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        .fee-label {
+            width: 45%;
+            padding: 0.3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .fee-cost {
+            background-color: #fff;
+            width: 45%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+    }
+
+    .total-cost {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        .cost-label {
+            width: 45%;
+            padding: 0.3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .cost {
+            background-color: #fff;
+            width: 45%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    }
+
+
+
+
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AuctionCarCostSection from './subCalcs/AuctionCostSection';
-import TransportationCostSection from './subCalcs/TransportationCostSection';
-import ImportCostSection from './subCalcs/ImportCostSection';
+import AuctionCarCostSection from './subCalcs/auctionCostSection/AuctionCostSection';
+import TransportationCostSection from './subCalcs/transportationCostSection/TransportationCostSection';
+import ImportCostSection from './subCalcs/importCostSection/ImportCostSection';
 import './Calc.scss';
 
 export default function Calc() {
@@ -12,9 +12,12 @@ export default function Calc() {
     return (
         <div className="page-content">
             {/* Select Transportation Company you want to calculate cost for: */}
-            <AuctionCarCostSection selectedAuction={selectedAuction} setSelectedAuction={setSelectedAuction} />
-            <TransportationCostSection selectedAuction={selectedAuction} setSelectedAuction={setSelectedAuction} />
-            <ImportCostSection />
+            <div className="calc">
+                <AuctionCarCostSection selectedAuction={selectedAuction} setSelectedAuction={setSelectedAuction} />
+                <TransportationCostSection selectedAuction={selectedAuction} setSelectedAuction={setSelectedAuction} />
+                <ImportCostSection />
+            </div>
+
             {/* Companies List Section */}
         </div>
     );

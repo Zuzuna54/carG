@@ -4,6 +4,14 @@ export const copartCalc = (carCost) => {
 
     let total = 0;
 
+    console.log('carCost: ', carCost);
+
+    if (!carCost) {
+        return 0;
+    }
+
+
+    //label this copart fee
     if (carCost < 99.99) {
         total += 1;
     }
@@ -133,10 +141,10 @@ export const copartCalc = (carCost) => {
     else if (carCost > 14999.99) {
         total += (carCost * .06);
     }
-    else {
-        total += 0;
-    }
 
+
+
+    //label this copart fee
     if (carCost < 499.99) {
         total += 49;
     }
