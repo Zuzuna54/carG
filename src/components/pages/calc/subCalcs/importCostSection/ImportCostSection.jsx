@@ -6,9 +6,9 @@ export default function ImportCostSection() {
 
     const calculateImportCost = () => {
         // Implement your logic to calculate the import cost based on modelYear and engineSize
-        const importCost = /* Your calculation logic here */
-            // Update state or perform any other actions as needed
-            console.log('Import Cost:', importCost);
+        const importCost = 0/* Your calculation logic here */
+        // Update state or perform any other actions as needed
+        console.log('Import Cost:', importCost);
     };
 
     return (

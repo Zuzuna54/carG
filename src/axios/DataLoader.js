@@ -1,5 +1,5 @@
 import axios from 'axios';
-import customAxios from './path-to-your-custom-axios-instance';
+import customAxios from './customAxios';
 
 // Define the parameters for the request
 const params = {
@@ -29,3 +29,11 @@ const getData = () => {
         });
 
 }
+
+export const getDataSet = () => {
+    return axios
+        .get('/apis/dataset.json', { params: {} })
+        .then((response) => {
+            return response.data;
+        });
+};

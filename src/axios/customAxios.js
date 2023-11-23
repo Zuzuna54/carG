@@ -13,6 +13,6 @@ const createCustomAxios = (baseURL, headers) => {
 };
 
 // Example usage:
-const customAxios = createCustomAxios(`http://91.228.56.207:7778`, {});
+const customAxios = createCustomAxios(`${window.location.origin}/api`, {});
 
 export default customAxios;

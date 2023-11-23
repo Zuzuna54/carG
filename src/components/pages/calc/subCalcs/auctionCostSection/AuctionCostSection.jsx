@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { copartCalc } from './AuctionCostUtils';
+import { useDispatch, useSelector } from 'react-redux';
+import { copartCalc, iaaiCalc } from './AuctionCostUtils';
 import './AuctionCostSection.scss';
+import { SetSelectedAuction } from '../../../../../redux/actions/calcActions';
 
-export default function AuctionCarCostSection({ selectedAuction, setSelectedAuction }) {
+export default function AuctionCarCostSection() {
 
+    const dispatch = useDispatch();
+    const auctionNames = useSelector(state => state.calcData.auctionNames);
+    const selectedAuction = useSelector(state => state.calcData.selectedAuction);
+    const [carCost, setCarCost] = useState(); // THIS NEEDS TO BE FIXED CALC NEEDS TO CLEAR WHEN AUCTION IS CHANGED
     const [totalAuctionCost, setTotalAuctionCost] = useState({
         carCost: null,
         auctionFees: null,
@@ -12,8 +18,22 @@ export default function AuctionCarCostSection({ selectedAuction, setSelectedAuct
 
     const calculateTotalAuctionCost = (carCost) => {
         // Implement your logic to calculate the total auction cost based on carCost
-        const calculatedAuctionCost = copartCalc(parseFloat(carCost));
-        // Update state or perform any other actions as needed
+        let calculatedAuctionCost = 0;
+        console.log('Selected Auction:', selectedAuction);
+
+        switch (selectedAuction) {
+            case 'Copart':
+                calculatedAuctionCost = copartCalc(carCost);
+                break;
+            case 'IAAI':
+                calculatedAuctionCost = iaaiCalc(carCost);
+                break;
+            default:
+                calculatedAuctionCost = 0;
+                break;
+        }
+
+        // Update state
         setTotalAuctionCost({
             carCost: parseFloat(carCost),
             auctionFees: calculatedAuctionCost,
@@ -22,45 +42,59 @@ export default function AuctionCarCostSection({ selectedAuction, setSelectedAuct
         console.log('Total Auction Cost:', totalAuctionCost);
     };
 
+    const handleAuctionChange = (e) => {
+        const selectedValue = e.target.value;
+        dispatch(SetSelectedAuction(selectedValue));
+        setCarCost();
+        setTotalAuctionCost({
+            carCost: null,
+            auctionFees: null,
+            totalCost: null,
+        });
+    };
+
     return (
         <div className="calc-section calc-section-auction">
 
             {/* Auction Section */}
-
             <div className="auction-header">
                 <h2>Auction Cost Section:</h2>
-
             </div>
 
-
             <div className='auction-section'>
-                <label>Auction:</label>
-                <select value={selectedAuction} onChange={(e) => setSelectedAuction(e.target.value)}>
+                <label htmlFor="auction">Auction:</label>
+                <select
+                    id="auction"
+                    value={selectedAuction}
+                    onChange={handleAuctionChange}
+                >
                     <option value="">Select Auction</option>
-                    <option value="Copart">Copart</option>
-                    <option value="IAAI">IAAI</option>
+                    {auctionNames ? auctionNames.map(auction => <option key={auction} value={auction}>{auction}</option>) : null}
                 </select>
             </div>
 
-
             {/* Car Cost Section */}
             <div className="car-section">
-                <label>Car Cost:</label>
-                <input type="number" value={totalAuctionCost.carCost} onChange={(e) => calculateTotalAuctionCost(e.target.value)} />
+                <label htmlFor="carCost">Car Cost:</label>
+                <input
+                    type="number"
+                    id="carCost"
+                    value={carCost}
+                    onChange={(e) => calculateTotalAuctionCost(e.target.value)}
+                />
             </div>
 
-
-            {/* Total Auction Cost Section */}
-
+            {/* Auction Fee Cost Section */}
             <div className="total-fee-cost">
                 <div className="fee-label">
                     Auction Fee:
                 </div>
                 <div className="fee-cost">
-                    ${totalAuctionCost.auctionFees}
+                    {totalAuctionCost.auctionFees ? `$${totalAuctionCost.auctionFees}` : `$0`}
                 </div>
             </div>
 
+            {/* Total Cost Section */}
             <div className="total-cost">
                 <div className="cost-label">
                     Total Cost:
@@ -69,7 +103,6 @@ export default function AuctionCarCostSection({ selectedAuction, setSelectedAuct
                     {totalAuctionCost.totalCost ? `$${totalAuctionCost.totalCost}` : `$0`}
                 </div>
             </div>
-
 
         </div>
     );

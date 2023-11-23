@@ -1,11 +1,10 @@
-.calc-section-auction {
+.calc-section-transportation {
     background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 
-    .auction-header {
-
+    .transposration-header {
         h2 {
             margin: 0;
             font-size: 1.4rem;
@@ -14,7 +13,6 @@
         }
     }
 
-
     label {
         padding: 0.3rem;
         font-size: 1.1rem;
@@ -22,74 +20,37 @@
         width: 45%;
     }
 
+    select {
+        width: 53%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
     .auction-section {
         margin-top: 1rem;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-
-
-
-        select {
-            width: 51%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            text-align: center;
-        }
-
     }
 
-    .car-section {
+    .state-section {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-
-        input {
-            width: 45%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-
-            text-align: center;
-        }
     }
 
-    .total-fee-cost {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-
-        .fee-label {
-            width: 45%;
-            padding: 0.3rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .fee-cost {
-            color: green;
-            background-color: #fff;
-            width: 45%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-    }
-
-    .total-cost {
+    .transportation-price {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
 
         .cost-label {
             width: 45%;
-            padding: 0.3rem;
-            font-size: 1.1rem;
+            padding: .20rem 0rem;
+
             font-weight: 600;
         }
 
@@ -101,10 +62,14 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
+            height: 45%;
         }
     }
 
-
-
+    .location-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 
 }
