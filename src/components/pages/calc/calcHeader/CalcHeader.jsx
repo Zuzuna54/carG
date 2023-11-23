@@ -32,14 +32,16 @@ export default function CalcHeader() {
 
     return (
         <div className="calc-header">
-            <h1>Carvanna Calculator</h1>
-            <h3>Select Company to calculate your car import cost</h3>
-            <div>
-                <label>Select Company:</label>
-                <select value={selectedCompany} onChange={(e) => handleCompanyChange(e)}>
-                    <option value="">Select Company</option>
-                    {companyNames ? companyNames.map(company => <option key={company} value={company}>{company}</option>) : null}
-                </select>
+            <h1>Bidder Cost Calculator</h1>
+            <h3>Select company to calculate your car transportation and import cost</h3>
+            <div className='calc-header-sub'>
+                <div className='company-select'>
+                    <label>Select Company:</label>
+                    <select value={selectedCompany} onChange={(e) => handleCompanyChange(e)}>
+                        <option value="">Select Company</option>
+                        {companyNames ? companyNames.map(company => <option key={company} value={company}>{company}</option>) : null}
+                    </select>
+                </div>
             </div>
         </div>
     );

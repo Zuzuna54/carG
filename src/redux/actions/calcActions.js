@@ -1,4 +1,9 @@
 
+export const SetCarCost = (carCost) => ({
+    type: 'SET_CAR_COST',
+    payload: carCost,
+});
+
 export const SetSelectedCompany = (selectedCompany) => ({
     type: 'SET_SELECTED_COMPANY',
     payload: selectedCompany,

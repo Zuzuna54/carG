@@ -7,6 +7,7 @@ const initialState = {
     selectedCompany: '',
     selectedState: '',
     selectedLocation: '',
+    carCost: undefined,
     locationPrice: 0,
     companyNames: [],
     auctionNames: [],
@@ -40,6 +41,8 @@ export const calcDataReducer = (state = initialState, action) => {
             return { ...state, selectedLocation: action.payload };
         case 'SET_LOCATION_PRICE':
             return { ...state, locationPrice: action.payload };
+        case 'SET_CAR_COST':
+            return { ...state, carCost: action.payload };
 
 
         // Add other cases for additional actions
