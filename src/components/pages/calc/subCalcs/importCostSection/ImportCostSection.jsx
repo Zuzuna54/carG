@@ -12,30 +12,28 @@ export default function ImportCostSection() {
     const engineType = useSelector(state => state.calcData.engineType);
     const engineSize = useSelector(state => state.calcData.engineSize);
     const importCost = useSelector(state => state.calcData.importCost);
+    const usdToGelExchangeRate = useSelector(state => state.calcData.usdToGelExchangeRate);
     // const steeringPosition = useSelector(state => state.calcData.steeringPosition);
-
-    React.useEffect(() => {
-
-        if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || engineSize.length <= 0) return;
-
-        const importCost = importCostCalculator(modelYear, engineType, engineSize);
-        dispatch(SetImportCost(importCost));
-
-    }, [modelYear, engineType, engineSize, dispatch]);
 
     const handleModelYearChange = (e) => {
         const selectedValue = e.target.value;
+        const importCost = importCostCalculator(selectedValue, engineType, engineSize, usdToGelExchangeRate);
         dispatch(SetModelYear(selectedValue));
+        dispatch(SetImportCost(importCost));
     }
 
     const handleEngineTypeChange = (e) => {
         const selectedValue = e.target.value;
+        const importCost = importCostCalculator(selectedValue, selectedValue, engineSize, usdToGelExchangeRate);
         dispatch(SetEngineType(selectedValue));
+        dispatch(SetImportCost(importCost));
     }
 
     const handleEngineSizeChange = (e) => {
         const selectedValue = e.target.value;
+        const importCost = importCostCalculator(modelYear, engineType, selectedValue, usdToGelExchangeRate);
         dispatch(SetEngineSize(selectedValue));
+        dispatch(SetImportCost(importCost));
     }
 
     // const handleSteeringPositionChange = (e) => {

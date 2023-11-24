@@ -1,5 +1,4 @@
 
-
 export const modelYears = () => {
     const currentYear = new Date().getFullYear()
     const years = []
@@ -11,10 +10,29 @@ export const modelYears = () => {
 }
 
 
-export const importCostCalculator = (modelYear, engineType, engineSizeStr) => {
+export const importCostCalculator = (modelYear, engineType, engineSizeStr, usdToGelExchangeRate) => {
 
-    if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || engineSizeStr.length <= 0) {
+    if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || !engineSizeStr || !usdToGelExchangeRate) {
         return 0
+    }
+
+    if (engineSizeStr === '0' || engineSizeStr === '') return 0;
+    if (engineSizeStr[1] === '.' || engineSizeStr[1] === ',' || engineSizeStr[2] === ',' || engineSizeStr[2] === '.') {
+        let firstDigit = '';
+        let remainingDigits = ''
+        const positonOfDecimal = engineSizeStr.indexOf('.')
+        const positionOfComma = engineSizeStr.indexOf(',')
+
+        positionOfComma > -1 ? firstDigit = engineSizeStr.slice(0, positionOfComma) : firstDigit = engineSizeStr.slice(0, positonOfDecimal)
+
+        positionOfComma > -1 ? remainingDigits = engineSizeStr.slice(positionOfComma + 1) : remainingDigits = engineSizeStr.slice(positonOfDecimal + 1)
+
+        const intFirstDigit = parseInt(firstDigit);
+        const intRemainingDigits = parseInt(remainingDigits);
+
+        engineSizeStr = intFirstDigit * 1000;
+        remainingDigits ? engineSizeStr += intRemainingDigits * 100 : engineSizeStr += 0;
+
     }
 
     const engineSize = parseInt(engineSizeStr);
@@ -82,13 +100,6 @@ export const importCostCalculator = (modelYear, engineType, engineSizeStr) => {
 
     if (engineType === "Hybrid") {
 
-        output += 150; // add customs fee
-        output += 200; // add registration fee
-        output += (engineSize * 0.058) // add import fee
-        output += 30 // add inspection fee
-        output += 50 // add customs declaration fee
-        output += 50 // add internal transit fee
-
         if (carAge <= 2) {
             output = engineSize * 0.6
         }
@@ -131,10 +142,14 @@ export const importCostCalculator = (modelYear, engineType, engineSizeStr) => {
             output = engineSize * 1
         }
 
-
-
+        output += 150; // add customs fee
+        output += 200; // add registration fee
+        output += (engineSize * 0.058) // add import fee
+        output += 30 // add inspection fee
+        output += 50 // add customs declaration fee
+        output += 50 // add internal transit fee
     }
 
-    return output
+    return Math.round((output / usdToGelExchangeRate) * 10) / 10;
 
 }

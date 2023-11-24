@@ -3,8 +3,385 @@
     "data": {
         "companies": [
             {
-                "name": "Caucasus Auto Import",
+                "name": "Estimated Prices",
                 "id": 1,
+                "title": "Estimated Prices",
+                "description": "Estimated Prices description",
+                "auctions": [
+                    {
+                        "name": "Copart",
+                        "id": 1,
+                        "title": "Auction 1",
+                        "description": "Auction 1 description",
+                        "states": [
+                            {
+                                "name": "Alabama",
+                                "id": 1,
+                                "title": "Alabama",
+                                "description": "Alabama description",
+                                "locations": [
+                                    {
+                                        "name": "Birmingham",
+                                        "id": 1,
+                                        "title": "Birmingham",
+                                        "address": "Birmingham address",
+                                        "city": "Birmingham city",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Mobile",
+                                        "id": 2,
+                                        "title": "Mobile",
+                                        "description": "Mobile description",
+                                        "address": "Mobile address",
+                                        "city": "Mobile city",
+                                        "state": "Mobile state",
+                                        "zip": "Mobile zip",
+                                        "phone": "Mobile phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Montgomery",
+                                        "id": 3,
+                                        "title": "Montgomery",
+                                        "description": "Montgomery description",
+                                        "address": "Montgomery address",
+                                        "city": "Montgomery city",
+                                        "state": "Montgomery state",
+                                        "zip": "Montgomery zip",
+                                        "phone": "Montgomery phone",
+                                        "price": 1000
+                                    }
+                                ]
+                                
+                            },
+                            {
+                                "name": "New York",
+                                "id": 2,
+                                "title": "New York",
+                                "description": "New York description",
+                                "locations": [
+                                    {
+                                        "name": "Manhattan",
+                                        "id": 1,
+                                        "title": "Manhattan",
+                                        "description": "Manhattan description",
+                                        "address": "Manhattan address",
+                                        "city": "Manhattan city",
+                                        "state": "Manhattan state",
+                                        "zip": "Manhattan zip",
+                                        "phone": "Manhattan phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Brooklyn",
+                                        "id": 2,
+                                        "title": "Brooklyn",
+                                        "description": "Brooklyn description",
+                                        "address": "Brooklyn address",
+                                        "city": "Brooklyn city",
+                                        "state": "Brooklyn state",
+                                        "zip": "Brooklyn zip",
+                                        "phone": "Brooklyn phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Queens",
+                                        "id": 3,
+                                        "title": "Queens",
+                                        "description": "Queens description",
+                                        "address": "Queens address",
+                                        "city": "Queens city",
+                                        "state": "Queens state",
+                                        "zip": "Queens zip",
+                                        "phone": "Queens phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },        
+                            {
+                                "name": "California",
+                                "id": 3,
+                                "title": "California",
+                                "description": "California description",
+                                "locations": [
+                                    {
+                                        "name": "Los Angeles",
+                                        "id": 1,
+                                        "title": "Los Angeles",
+                                        "description": "Los Angeles description",
+                                        "address": "Los Angeles address",
+                                        "city": "Los Angeles city",
+                                        "state": "Los Angeles state",
+                                        "zip": "Los Angeles zip",
+                                        "phone": "Los Angeles phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "San Francisco",
+                                        "id": 2,
+                                        "title": "San Francisco",
+                                        "description": "San Francisco description",
+                                        "address": "San Francisco address",
+                                        "city": "San Francisco city",
+                                        "state": "San Francisco state",
+                                        "zip": "San Francisco zip",
+                                        "phone": "San Francisco phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "San Diego",
+                                        "id": 3,
+                                        "title": "San Diego",
+                                        "description": "San Diego description",
+                                        "address": "San Diego address",
+                                        "city": "San Diego city",
+                                        "state": "San Diego state",
+                                        "zip": "San Diego zip",
+                                        "phone": "San Diego phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Florida",
+                                "id": 4,
+                                "title": "Florida",
+                                "description": "Florida description",
+                                "locations": [
+                                    {
+                                        "name": "Miami",
+                                        "id": 1,
+                                        "title": "Miami",
+                                        "description": "Miami description",
+                                        "address": "Miami address",
+                                        "city": "Miami city",
+                                        "state": "Miami state",
+                                        "zip": "Miami zip",
+                                        "phone": "Miami phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Orlando",
+                                        "id": 2,
+                                        "title": "Orlando",
+                                        "description": "Orlando description",
+                                        "address": "Orlando address",
+                                        "city": "Orlando city",
+                                        "state": "Orlando state",
+                                        "zip": "Orlando zip",
+                                        "phone": "Orlando phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Tampa",
+                                        "id": 3,
+                                        "title": "Tampa",
+                                        "description": "Tampa description",
+                                        "address": "Tampa address",
+                                        "city": "Tampa city",
+                                        "state": "Tampa state",
+                                        "zip": "Tampa zip",
+                                        "phone": "Tampa phone",
+                                        "price": 1000
+                                    }
+                                ]                       
+                            }
+                        ]
+                     },
+                    {
+                        "name": "IAAI",
+                        "id": 2,
+                        "title": "Auction 2",
+                        "description": "Auction 2 description",
+                        "start_date": "2017-01-01 00:00:00",
+                        "end_date": "2017-01-02 00:00:00",
+                        "created_at": "2017-01-01 00:00:00",
+                        "updated_at": "2017-01-01 00:00:00",
+                        "states": [
+                            {
+                                "name": "Alabama",
+                                "id": 1,
+                                "title": "Alabama",
+                                "description": "Alabama description",
+                                "locations": [
+                                    {
+                                        "name": "Birmingham",
+                                        "id": 1,
+                                        "title": "Birmingham",
+                                        "description": "Birmingham description",
+                                        "address": "Birmingham address",
+                                        "city": "Birmingham city",
+                                        "state": "Birmingham state",
+                                        "zip": "Birmingham zip",
+                                        "phone": "Birmingham phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Mobile",
+                                        "id": 2,
+                                        "title": "Mobile",
+                                        "description": "Mobile description",
+                                        "address": "Mobile address",
+                                        "city": "Mobile city",
+                                        "state": "Mobile state",
+                                        "zip": "Mobile zip",
+                                        "phone": "Mobile phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Montgomery",
+                                        "id": 3,
+                                        "title": "Montgomery",
+                                        "description": "Montgomery description",
+                                        "address": "Montgomery address",
+                                        "city": "Montgomery city",
+                                        "state": "Montgomery state",
+                                        "zip": "Montgomery zip",
+                                        "phone": "Montgomery phone",
+                                        "price": 1000
+                                    }
+                                ]                       
+                            },
+                            {
+                                "name": "New York",
+                                "id": 2,
+                                "title": "New York",
+                                "description": "New York description",
+                                "locations": [
+                                    {
+                                        "name": "Brroklyn",
+                                        "id": 1,
+                                        "title": "Brroklyn",
+                                        "description": "Brroklyn description",
+                                        "address": "Brroklyn address",
+                                        "city": "Brroklyn city",
+                                        "state": "Brroklyn state",
+                                        "zip": "Brroklyn zip",
+                                        "phone": "Brroklyn phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Queens",
+                                        "id": 2,
+                                        "title": "Queens",
+                                        "description": "Queens description",
+                                        "address": "Queens address",
+                                        "city": "Queens city",
+                                        "state": "Queens state",
+                                        "zip": "Queens zip",
+                                        "phone": "Queens phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Bronx",
+                                        "id": 3,
+                                        "title": "Bronx",
+                                        "description": "Bronx description",
+                                        "address": "Bronx address",
+                                        "city": "Bronx city",
+                                        "state": "Bronx state",
+                                        "zip": "Bronx zip",
+                                        "phone": "Bronx phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Colorado",
+                                "id": 3,
+                                "title": "Colorado",
+                                "description": "Colorado description",
+                                "locations": [
+                                    {
+                                        "name": "Denver",
+                                        "id": 1,
+                                        "title": "Denver",
+                                        "description": "Denver description",
+                                        "address": "Denver address",
+                                        "city": "Denver city",
+                                        "state": "Denver state",
+                                        "zip": "Denver zip",
+                                        "phone": "Denver phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Colorado Springs",
+                                        "id": 2,
+                                        "title": "Colorado Springs",
+                                        "description": "Colorado Springs description",
+                                        "address": "Colorado Springs address",
+                                        "city": "Colorado Springs city",
+                                        "state": "Colorado Springs state",
+                                        "zip": "Colorado Springs zip",
+                                        "phone": "Colorado Springs phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Aurora",
+                                        "id": 3,
+                                        "title": "Aurora",
+                                        "description": "Aurora description",
+                                        "address": "Aurora address",
+                                        "city": "Aurora city",
+                                        "state": "Aurora state",
+                                        "zip": "Aurora zip",
+                                        "phone": "Aurora phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Louisiana",
+                                "id": 4,
+                                "title": "Louisiana",
+                                "description": "Louisiana description",
+                                "locations": [
+                                    {
+                                        "name": "New Orleans",
+                                        "id": 1,
+                                        "title": "New Orleans",
+                                        "description": "New Orleans description",
+                                        "address": "New Orleans address",
+                                        "city": "New Orleans city",
+                                        "state": "New Orleans state",
+                                        "zip": "New Orleans zip",
+                                        "phone": "New Orleans phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Baton Rouge",
+                                        "id": 2,
+                                        "title": "Baton Rouge",
+                                        "description": "Baton Rouge description",
+                                        "address": "Baton Rouge address",
+                                        "city": "Baton Rouge city",
+                                        "state": "Baton Rouge state",
+                                        "zip": "Baton Rouge zip",
+                                        "phone": "Baton Rouge phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Shreveport",
+                                        "id": 3,
+                                        "title": "Shreveport",
+                                        "description": "Shreveport description",
+                                        "address": "Shreveport address",
+                                        "city": "Shreveport city",
+                                        "state": "Shreveport state",
+                                        "zip": "Shreveport zip",
+                                        "phone": "Shreveport phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Caucasus Auto Import",
+                "id": 2,
                 "title": "Auction 1",
                 "description": "Auction 1 description",
                 "auctions":[
@@ -376,9 +753,200 @@
                                 ]
                             }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                "name": "Tbilisi Auto Import",
+                "id": 3,
+                "title": "Auction 3",
+                "description": "Auction 3 description",
+                "start_date": "2017-01-01 00:00:00",
+                "end_date": "2017-01-02 00:00:00",
+                "auctions":[
                     {
-                        "name": "Manheim",
+                        "name": "Copart",
+                        "id": 1,
+                        "title": "Auction 1",
+                        "description": "Auction 1 description",
+                        "states": [
+                            {
+                                "name": "Alabama",
+                                "id": 1,
+                                "title": "Alabama",
+                                "description": "Alabama description",
+                                "locations": [
+                                    {
+                                        "name": "Birmingham",
+                                        "id": 1,
+                                        "title": "Birmingham",
+                                        "address": "Birmingham address",
+                                        "city": "Birmingham city",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Mobile",
+                                        "id": 2,
+                                        "title": "Mobile",
+                                        "description": "Mobile description",
+                                        "address": "Mobile address",
+                                        "city": "Mobile city",
+                                        "state": "Mobile state",
+                                        "zip": "Mobile zip",
+                                        "phone": "Mobile phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Montgomery",
+                                        "id": 3,
+                                        "title": "Montgomery",
+                                        "description": "Montgomery description",
+                                        "address": "Montgomery address",
+                                        "city": "Montgomery city",
+                                        "state": "Montgomery state",
+                                        "zip": "Montgomery zip",
+                                        "phone": "Montgomery phone",
+                                        "price": 1000
+                                    }
+                                ]
+                                
+                            },
+                            {
+                                "name": "New York",
+                                "id": 2,
+                                "title": "New York",
+                                "description": "New York description",
+                                "locations": [
+                                    {
+                                        "name": "Manhattan",
+                                        "id": 1,
+                                        "title": "Manhattan",
+                                        "description": "Manhattan description",
+                                        "address": "Manhattan address",
+                                        "city": "Manhattan city",
+                                        "state": "Manhattan state",
+                                        "zip": "Manhattan zip",
+                                        "phone": "Manhattan phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Brooklyn",
+                                        "id": 2,
+                                        "title": "Brooklyn",
+                                        "description": "Brooklyn description",
+                                        "address": "Brooklyn address",
+                                        "city": "Brooklyn city",
+                                        "state": "Brooklyn state",
+                                        "zip": "Brooklyn zip",
+                                        "phone": "Brooklyn phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Queens",
+                                        "id": 3,
+                                        "title": "Queens",
+                                        "description": "Queens description",
+                                        "address": "Queens address",
+                                        "city": "Queens city",
+                                        "state": "Queens state",
+                                        "zip": "Queens zip",
+                                        "phone": "Queens phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },        
+                            {
+                                "name": "California",
+                                "id": 3,
+                                "title": "California",
+                                "description": "California description",
+                                "locations": [
+                                    {
+                                        "name": "Los Angeles",
+                                        "id": 1,
+                                        "title": "Los Angeles",
+                                        "description": "Los Angeles description",
+                                        "address": "Los Angeles address",
+                                        "city": "Los Angeles city",
+                                        "state": "Los Angeles state",
+                                        "zip": "Los Angeles zip",
+                                        "phone": "Los Angeles phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "San Francisco",
+                                        "id": 2,
+                                        "title": "San Francisco",
+                                        "description": "San Francisco description",
+                                        "address": "San Francisco address",
+                                        "city": "San Francisco city",
+                                        "state": "San Francisco state",
+                                        "zip": "San Francisco zip",
+                                        "phone": "San Francisco phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "San Diego",
+                                        "id": 3,
+                                        "title": "San Diego",
+                                        "description": "San Diego description",
+                                        "address": "San Diego address",
+                                        "city": "San Diego city",
+                                        "state": "San Diego state",
+                                        "zip": "San Diego zip",
+                                        "phone": "San Diego phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Florida",
+                                "id": 4,
+                                "title": "Florida",
+                                "description": "Florida description",
+                                "locations": [
+                                    {
+                                        "name": "Miami",
+                                        "id": 1,
+                                        "title": "Miami",
+                                        "description": "Miami description",
+                                        "address": "Miami address",
+                                        "city": "Miami city",
+                                        "state": "Miami state",
+                                        "zip": "Miami zip",
+                                        "phone": "Miami phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Orlando",
+                                        "id": 2,
+                                        "title": "Orlando",
+                                        "description": "Orlando description",
+                                        "address": "Orlando address",
+                                        "city": "Orlando city",
+                                        "state": "Orlando state",
+                                        "zip": "Orlando zip",
+                                        "phone": "Orlando phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Tampa",
+                                        "id": 3,
+                                        "title": "Tampa",
+                                        "description": "Tampa description",
+                                        "address": "Tampa address",
+                                        "city": "Tampa city",
+                                        "state": "Tampa state",
+                                        "zip": "Tampa zip",
+                                        "phone": "Tampa phone",
+                                        "price": 1000
+                                    }
+                                ]                       
+                            }
+                        ]
+                     },
+                    {
+                        "name": "IAAI",
                         "id": 2,
                         "title": "Auction 2",
                         "description": "Auction 2 description",
@@ -438,8 +1006,20 @@
                                 "description": "New York description",
                                 "locations": [
                                     {
-                                        "name": "Queens",
+                                        "name": "Brroklyn",
                                         "id": 1,
+                                        "title": "Brroklyn",
+                                        "description": "Brroklyn description",
+                                        "address": "Brroklyn address",
+                                        "city": "Brroklyn city",
+                                        "state": "Brroklyn state",
+                                        "zip": "Brroklyn zip",
+                                        "phone": "Brroklyn phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Queens",
+                                        "id": 2,
                                         "title": "Queens",
                                         "description": "Queens description",
                                         "address": "Queens address",
@@ -447,30 +1027,18 @@
                                         "state": "Queens state",
                                         "zip": "Queens zip",
                                         "phone": "Queens phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Brooklyn",
-                                        "id": 2,
-                                        "title": "Brooklyn",
-                                        "description": "Brooklyn description",
-                                        "address": "Brooklyn address",
-                                        "city": "Brooklyn city",
-                                        "state": "Brooklyn state",
-                                        "zip": "Brooklyn zip",
-                                        "phone": "Brooklyn phone",
                                         "price": 900
                                     },
                                     {
-                                        "name": "Manhattan",
+                                        "name": "Bronx",
                                         "id": 3,
-                                        "title": "Manhattan",
-                                        "description": "Manhattan description",
-                                        "address": "Manhattan address",
-                                        "city": "Manhattan city",
-                                        "state": "Manhattan state",
-                                        "zip": "Manhattan zip",
-                                        "phone": "Manhattan phone",
+                                        "title": "Bronx",
+                                        "description": "Bronx description",
+                                        "address": "Bronx address",
+                                        "city": "Bronx city",
+                                        "state": "Bronx state",
+                                        "zip": "Bronx zip",
+                                        "phone": "Bronx phone",
                                         "price": 1000
                                     }
                                 ]
@@ -568,10 +1136,10 @@
                 ]
             },
             {
-                "name": "Tbilisi Auto Import",
-                "id": 3,
-                "title": "Auction 3",
-                "description": "Auction 3 description",
+                "name": "Batumi Auto Import",
+                "id": 4,
+                "title": "Auction 4",
+                "description": "Auction 4 description",
                 "start_date": "2017-01-01 00:00:00",
                 "end_date": "2017-01-02 00:00:00",
                 "auctions":[
@@ -580,10 +1148,6 @@
                         "id": 1,
                         "title": "Auction 1",
                         "description": "Auction 1 description",
-                        "start_date": "2017-01-01 00:00:00",
-                        "end_date": "2017-01-02 00:00:00",
-                        "created_at": "2017-01-01 00:00:00",
-                        "updated_at": "2017-01-01 00:00:00",
                         "states": [
                             {
                                 "name": "Alabama",
@@ -595,12 +1159,8 @@
                                         "name": "Birmingham",
                                         "id": 1,
                                         "title": "Birmingham",
-                                        "description": "Birmingham description",
                                         "address": "Birmingham address",
                                         "city": "Birmingham city",
-                                        "state": "Birmingham state",
-                                        "zip": "Birmingham zip",
-                                        "phone": "Birmingham phone",
                                         "price": 800
                                     },
                                     {
@@ -628,197 +1188,99 @@
                                         "price": 1000
                                     }
                                 ]
+                                
                             },
                             {
-                                "name": "Illinois",
+                                "name": "New York",
                                 "id": 2,
-                                "title": "Illinois",
-                                "description": "Illinois description",
+                                "title": "New York",
+                                "description": "New York description",
                                 "locations": [
                                     {
-                                        "name": "Chicago",
+                                        "name": "Manhattan",
                                         "id": 1,
-                                        "title": "Chicago",
-                                        "description": "Chicago description",
-                                        "address": "Chicago address",
-                                        "city": "Chicago city",
-                                        "state": "Chicago state",
-                                        "zip": "Chicago zip",
-                                        "phone": "Chicago phone",
+                                        "title": "Manhattan",
+                                        "description": "Manhattan description",
+                                        "address": "Manhattan address",
+                                        "city": "Manhattan city",
+                                        "state": "Manhattan state",
+                                        "zip": "Manhattan zip",
+                                        "phone": "Manhattan phone",
                                         "price": 800
                                     },
                                     {
-                                        "name": "Aurora",
+                                        "name": "Brooklyn",
                                         "id": 2,
-                                        "title": "Aurora",
-                                        "description": "Aurora description",
-                                        "address": "Aurora address",
-                                        "city": "Aurora city",
-                                        "state": "Aurora state",
-                                        "zip": "Aurora zip",
-                                        "phone": "Aurora phone",
+                                        "title": "Brooklyn",
+                                        "description": "Brooklyn description",
+                                        "address": "Brooklyn address",
+                                        "city": "Brooklyn city",
+                                        "state": "Brooklyn state",
+                                        "zip": "Brooklyn zip",
+                                        "phone": "Brooklyn phone",
                                         "price": 900
                                     },
                                     {
-                                        "name": "Rockford",
+                                        "name": "Queens",
                                         "id": 3,
-                                        "title": "Rockford",
-                                        "description": "Rockford description",
-                                        "address": "Rockford address",
-                                        "city": "Rockford city",
-                                        "state": "Rockford state",
-                                        "zip": "Rockford zip",
-                                        "phone": "Rockford phone",
+                                        "title": "Queens",
+                                        "description": "Queens description",
+                                        "address": "Queens address",
+                                        "city": "Queens city",
+                                        "state": "Queens state",
+                                        "zip": "Queens zip",
+                                        "phone": "Queens phone",
                                         "price": 1000
                                     }
                                 ]
-                            },
+                            },        
                             {
-                                "name": "Massachusetts",
+                                "name": "California",
                                 "id": 3,
-                                "title": "Massachusetts",
-                                "description": "Massachusetts description",
+                                "title": "California",
+                                "description": "California description",
                                 "locations": [
                                     {
-                                        "name": "Boston",
+                                        "name": "Los Angeles",
                                         "id": 1,
-                                        "title": "Boston",
-                                        "description": "Boston description",
-                                        "address": "Boston address",
-                                        "city": "Boston city",
-                                        "state": "Boston state",
-                                        "zip": "Boston zip",
-                                        "phone": "Boston phone",
+                                        "title": "Los Angeles",
+                                        "description": "Los Angeles description",
+                                        "address": "Los Angeles address",
+                                        "city": "Los Angeles city",
+                                        "state": "Los Angeles state",
+                                        "zip": "Los Angeles zip",
+                                        "phone": "Los Angeles phone",
                                         "price": 800
                                     },
                                     {
-                                        "name": "Worcester",
+                                        "name": "San Francisco",
                                         "id": 2,
-                                        "title": "Worcester",
-                                        "description": "Worcester description",
-                                        "address": "Worcester address",
-                                        "city": "Worcester city",
-                                        "state": "Worcester state",
-                                        "zip": "Worcester zip",
-                                        "phone": "Worcester phone",
+                                        "title": "San Francisco",
+                                        "description": "San Francisco description",
+                                        "address": "San Francisco address",
+                                        "city": "San Francisco city",
+                                        "state": "San Francisco state",
+                                        "zip": "San Francisco zip",
+                                        "phone": "San Francisco phone",
                                         "price": 900
                                     },
                                     {
-                                        "name": "Springfield",
+                                        "name": "San Diego",
                                         "id": 3,
-                                        "title": "Springfield",
-                                        "description": "Springfield description",
-                                        "address": "Springfield address",
-                                        "city": "Springfield city",
-                                        "state": "Springfield state",
-                                        "zip": "Springfield zip",
-                                        "phone": "Springfield phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            }
-                        ]
-                        
-                    },
-                    {
-                        "name": "IAAI",
-                        "id": 2,
-                        "title": "Auction 2",
-                        "description": "Auction 2 description",
-                        "start_date": "2017-01-01 00:00:00",
-                        "end_date": "2017-01-02 00:00:00",
-                        "states": [
-                            {
-                                "name": "New Mexcio",
-                                "id": 1,
-                                "title": "New Mexcio",
-                                "description": "New Mexcio description",
-                                "locations": [
-                                    {
-                                        "name": "Albuquerque",
-                                        "id": 1,
-                                        "title": "Albuquerque",
-                                        "description": "Albuquerque description",
-                                        "address": "Albuquerque address",
-                                        "city": "Albuquerque city",
-                                        "state": "Albuquerque state",
-                                        "zip": "Albuquerque zip",
-                                        "phone": "Albuquerque phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Las Cruces",
-                                        "id": 2,
-                                        "title": "Las Cruces",
-                                        "description": "Las Cruces description",
-                                        "address": "Las Cruces address",
-                                        "city": "Las Cruces city",
-                                        "state": "Las Cruces state",
-                                        "zip": "Las Cruces zip",
-                                        "phone": "Las Cruces phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Rio Rancho",
-                                        "id": 3,
-                                        "title": "Rio Rancho",
-                                        "description": "Rio Rancho description",
-                                        "address": "Rio Rancho address",
-                                        "city": "Rio Rancho city",
-                                        "state": "Rio Rancho state",
-                                        "zip": "Rio Rancho zip",
-                                        "phone": "Rio Rancho phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Texas",
-                                "id": 2,
-                                "title": "Texas",
-                                "description": "Texas description",
-                                "locations": [
-                                    {
-                                        "name": "Houston",
-                                        "id": 1,
-                                        "title": "Houston",
-                                        "description": "Houston description",
-                                        "address": "Houston address",
-                                        "city": "Houston city",
-                                        "state": "Houston state",
-                                        "zip": "Houston zip",
-                                        "phone": "Houston phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "San Antonio",
-                                        "id": 2,
-                                        "title": "San Antonio",
-                                        "description": "San Antonio description",
-                                        "address": "San Antonio address",
-                                        "city": "San Antonio city",
-                                        "state": "San Antonio state",
-                                        "zip": "San Antonio zip",
-                                        "phone": "San Antonio phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Dallas",
-                                        "id": 3,
-                                        "title": "Dallas",
-                                        "description": "Dallas description",
-                                        "address": "Dallas address",
-                                        "city": "Dallas city",
-                                        "state": "Dallas state",
-                                        "zip": "Dallas zip",
-                                        "phone": "Dallas phone",
+                                        "title": "San Diego",
+                                        "description": "San Diego description",
+                                        "address": "San Diego address",
+                                        "city": "San Diego city",
+                                        "state": "San Diego state",
+                                        "zip": "San Diego zip",
+                                        "phone": "San Diego phone",
                                         "price": 1000
                                     }
                                 ]
                             },
                             {
                                 "name": "Florida",
-                                "id": 3,
+                                "id": 4,
                                 "title": "Florida",
                                 "description": "Florida description",
                                 "locations": [
@@ -858,25 +1320,15 @@
                                         "phone": "Tampa phone",
                                         "price": 1000
                                     }
-                                ]
+                                ]                       
                             }
                         ]
-                    }
-                ]
-            },
-            {
-                "name": "Batumi Auto Import",
-                "id": 4,
-                "title": "Auction 4",
-                "description": "Auction 4 description",
-                "start_date": "2017-01-01 00:00:00",
-                "end_date": "2017-01-02 00:00:00",
-                "auctions":[
+                     },
                     {
-                        "name": "Copart",
-                        "id": 1,
-                        "title": "Auction 1",
-                        "description": "Auction 1 description",
+                        "name": "IAAI",
+                        "id": 2,
+                        "title": "Auction 2",
+                        "description": "Auction 2 description",
                         "start_date": "2017-01-01 00:00:00",
                         "end_date": "2017-01-02 00:00:00",
                         "created_at": "2017-01-01 00:00:00",
@@ -924,29 +1376,85 @@
                                         "phone": "Montgomery phone",
                                         "price": 1000
                                     }
-                                ]
+                                ]                       
                             },
                             {
-                                "name": "Illinois",
+                                "name": "New York",
                                 "id": 2,
-                                "title": "Illinois",
-                                "description": "Illinois description",
+                                "title": "New York",
+                                "description": "New York description",
                                 "locations": [
                                     {
-                                        "name": "Chicago",
+                                        "name": "Brroklyn",
                                         "id": 1,
-                                        "title": "Chicago",
-                                        "description": "Chicago description",
-                                        "address": "Chicago address",
-                                        "city": "Chicago city",
-                                        "state": "Chicago state",
-                                        "zip": "Chicago zip",
-                                        "phone": "Chicago phone",
+                                        "title": "Brroklyn",
+                                        "description": "Brroklyn description",
+                                        "address": "Brroklyn address",
+                                        "city": "Brroklyn city",
+                                        "state": "Brroklyn state",
+                                        "zip": "Brroklyn zip",
+                                        "phone": "Brroklyn phone",
                                         "price": 800
                                     },
                                     {
-                                        "name": "Aurora",
+                                        "name": "Queens",
                                         "id": 2,
+                                        "title": "Queens",
+                                        "description": "Queens description",
+                                        "address": "Queens address",
+                                        "city": "Queens city",
+                                        "state": "Queens state",
+                                        "zip": "Queens zip",
+                                        "phone": "Queens phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Bronx",
+                                        "id": 3,
+                                        "title": "Bronx",
+                                        "description": "Bronx description",
+                                        "address": "Bronx address",
+                                        "city": "Bronx city",
+                                        "state": "Bronx state",
+                                        "zip": "Bronx zip",
+                                        "phone": "Bronx phone",
+                                        "price": 1000
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Colorado",
+                                "id": 3,
+                                "title": "Colorado",
+                                "description": "Colorado description",
+                                "locations": [
+                                    {
+                                        "name": "Denver",
+                                        "id": 1,
+                                        "title": "Denver",
+                                        "description": "Denver description",
+                                        "address": "Denver address",
+                                        "city": "Denver city",
+                                        "state": "Denver state",
+                                        "zip": "Denver zip",
+                                        "phone": "Denver phone",
+                                        "price": 800
+                                    },
+                                    {
+                                        "name": "Colorado Springs",
+                                        "id": 2,
+                                        "title": "Colorado Springs",
+                                        "description": "Colorado Springs description",
+                                        "address": "Colorado Springs address",
+                                        "city": "Colorado Springs city",
+                                        "state": "Colorado Springs state",
+                                        "zip": "Colorado Springs zip",
+                                        "phone": "Colorado Springs phone",
+                                        "price": 900
+                                    },
+                                    {
+                                        "name": "Aurora",
+                                        "id": 3,
                                         "title": "Aurora",
                                         "description": "Aurora description",
                                         "address": "Aurora address",
@@ -954,254 +1462,54 @@
                                         "state": "Aurora state",
                                         "zip": "Aurora zip",
                                         "phone": "Aurora phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Rockford",
-                                        "id": 3,
-                                        "title": "Rockford",
-                                        "description": "Rockford description",
-                                        "address": "Rockford address",
-                                        "city": "Rockford city",
-                                        "state": "Rockford state",
-                                        "zip": "Rockford zip",
-                                        "phone": "Rockford phone",
                                         "price": 1000
                                     }
                                 ]
                             },
                             {
-                                "name": "Massachusetts",
-                                "id": 3,
-                                "title": "Massachusetts",
-                                "description": "Massachusetts description",
-                                "locations": [
-                                    {
-                                        "name": "Boston",
-                                        "id": 1,
-                                        "title": "Boston",
-                                        "description": "Boston description",
-                                        "address": "Boston address",
-                                        "city": "Boston city",
-                                        "state": "Boston state",
-                                        "zip": "Boston zip",
-                                        "phone": "Boston phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Worcester",
-                                        "id": 2,
-                                        "title": "Worcester",
-                                        "description": "Worcester description",
-                                        "address": "Worcester address",
-                                        "city": "Worcester city",
-                                        "state": "Worcester state",
-                                        "zip": "Worcester zip",
-                                        "phone": "Worcester phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Springfield",
-                                        "id": 3,
-                                        "title": "Springfield",
-                                        "description": "Springfield description",
-                                        "address": "Springfield address",
-                                        "city": "Springfield city",
-                                        "state": "Springfield state",
-                                        "zip": "Springfield zip",
-                                        "phone": "Springfield phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            }
-                        ]
-
-                    },
-                    {
-                        "name": "IAAI",
-                        "id": 2,
-                        "title": "Auction 2",
-                        "description": "Auction 2 description",
-                        "start_date": "2017-01-01 00:00:00",
-                        "end_date": "2017-01-02 00:00:00",
-                        "states": [
-                            {
-                                "name": "Montana",
-                                "id": 1,
-                                "title": "Montana",
-                                "description": "Montana description",
-                                "locations": [
-                                    {
-                                        "name": "Billings",
-                                        "id": 1,
-                                        "title": "Billings",
-                                        "description": "Billings description",
-                                        "address": "Billings address",
-                                        "city": "Billings city",
-                                        "state": "Billings state",
-                                        "zip": "Billings zip",
-                                        "phone": "Billings phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Missoula",
-                                        "id": 2,
-                                        "title": "Missoula",
-                                        "description": "Missoula description",
-                                        "address": "Missoula address",
-                                        "city": "Missoula city",
-                                        "state": "Missoula state",
-                                        "zip": "Missoula zip",
-                                        "phone": "Missoula phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Great Falls",
-                                        "id": 3,
-                                        "title": "Great Falls",
-                                        "description": "Great Falls description",
-                                        "address": "Great Falls address",
-                                        "city": "Great Falls city",
-                                        "state": "Great Falls state",
-                                        "zip": "Great Falls zip",
-                                        "phone": "Great Falls phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Georgia",
-                                "id": 2,
-                                "title": "Georgia",
-                                "description": "Georgia description",
-                                "locations": [
-                                    {
-                                        "name": "Atlanta",
-                                        "id": 1,
-                                        "title": "Atlanta",
-                                        "description": "Atlanta description",
-                                        "address": "Atlanta address",
-                                        "city": "Atlanta city",
-                                        "state": "Atlanta state",
-                                        "zip": "Atlanta zip",
-                                        "phone": "Atlanta phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Augusta",
-                                        "id": 2,
-                                        "title": "Augusta",
-                                        "description": "Augusta description",
-                                        "address": "Augusta address",
-                                        "city": "Augusta city",
-                                        "state": "Augusta state",
-                                        "zip": "Augusta zip",
-                                        "phone": "Augusta phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "Columbus",
-                                        "id": 3,
-                                        "title": "Columbus",
-                                        "description": "Columbus description",
-                                        "address": "Columbus address",
-                                        "city": "Columbus city",
-                                        "state": "Columbus state",
-                                        "zip": "Columbus zip",
-                                        "phone": "Columbus phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "South Carolina",
-                                "id": 3,
-                                "title": "South Carolina",
-                                "description": "South Carolina description",
-                                "locations": [
-                                    {
-                                        "name": "Columbia",
-                                        "id": 1,
-                                        "title": "Columbia",
-                                        "description": "Columbia description",
-                                        "address": "Columbia address",
-                                        "city": "Columbia city",
-                                        "state": "Columbia state",
-                                        "zip": "Columbia zip",
-                                        "phone": "Columbia phone",
-                                        "price": 800
-                                    },
-                                    {
-                                        "name": "Charleston",
-                                        "id": 2,
-                                        "title": "Charleston",
-                                        "description": "Charleston description",
-                                        "address": "Charleston address",
-                                        "city": "Charleston city",
-                                        "state": "Charleston state",
-                                        "zip": "Charleston zip",
-                                        "phone": "Charleston phone",
-                                        "price": 900
-                                    },
-                                    {
-                                        "name": "North Charleston",
-                                        "id": 3,
-                                        "title": "North Charleston",
-                                        "description": "North Charleston description",
-                                        "address": "North Charleston address",
-                                        "city": "North Charleston city",
-                                        "state": "North Charleston state",
-                                        "zip": "North Charleston zip",
-                                        "phone": "North Charleston phone",
-                                        "price": 1000
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Delaware",
+                                "name": "Louisiana",
                                 "id": 4,
-                                "title": "Delaware",
-                                "description": "Delaware description",
+                                "title": "Louisiana",
+                                "description": "Louisiana description",
                                 "locations": [
                                     {
-                                        "name": "Wilmington",
+                                        "name": "New Orleans",
                                         "id": 1,
-                                        "title": "Wilmington",
-                                        "description": "Wilmington description",
-                                        "address": "Wilmington address",
-                                        "city": "Wilmington city",
-                                        "state": "Wilmington state",
-                                        "zip": "Wilmington zip",
-                                        "phone": "Wilmington phone",
+                                        "title": "New Orleans",
+                                        "description": "New Orleans description",
+                                        "address": "New Orleans address",
+                                        "city": "New Orleans city",
+                                        "state": "New Orleans state",
+                                        "zip": "New Orleans zip",
+                                        "phone": "New Orleans phone",
                                         "price": 800
                                     },
                                     {
-                                        "name": "Dover",
+                                        "name": "Baton Rouge",
                                         "id": 2,
-                                        "title": "Dover",
-                                        "description": "Dover description",
-                                        "address": "Dover address",
-                                        "city": "Dover city",
-                                        "state": "Dover state",
-                                        "zip": "Dover zip",
-                                        "phone": "Dover phone",
+                                        "title": "Baton Rouge",
+                                        "description": "Baton Rouge description",
+                                        "address": "Baton Rouge address",
+                                        "city": "Baton Rouge city",
+                                        "state": "Baton Rouge state",
+                                        "zip": "Baton Rouge zip",
+                                        "phone": "Baton Rouge phone",
                                         "price": 900
                                     },
                                     {
-                                        "name": "Newark",
+                                        "name": "Shreveport",
                                         "id": 3,
-                                        "title": "Newark",
-                                        "description": "Newark description",
-                                        "address": "Newark address",
-                                        "city": "Newark city",
-                                        "state": "Newark state",
-                                        "zip": "Newark zip",
-                                        "phone": "Newark phone",
+                                        "title": "Shreveport",
+                                        "description": "Shreveport description",
+                                        "address": "Shreveport address",
+                                        "city": "Shreveport city",
+                                        "state": "Shreveport state",
+                                        "zip": "Shreveport zip",
+                                        "phone": "Shreveport phone",
                                         "price": 1000
                                     }
                                 ]
                             }
-
                         ]
                     }
                 ]

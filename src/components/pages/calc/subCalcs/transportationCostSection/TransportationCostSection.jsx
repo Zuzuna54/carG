@@ -27,7 +27,7 @@ export default function TransportationCostSection() {
         if (!data) return;
 
         const companies = data.data.companies;
-        const company = companies.find(company => company.name === selectedCompany);
+        const company = companies.find(company => company.name === "Estimated Prices");
         const auctions = company ? company.auctions : [];
         const auction = auctions.find(auction => auction.name === selectedAuction);
         const statesNames = auction ? auction.states.map(state => state.name) : [];
@@ -88,7 +88,7 @@ export default function TransportationCostSection() {
             <div className="location-section">
                 <label>Location:</label>
                 <select value={selectedLocation} onChange={(e) => handleLocationChange(e)}>
-                    <option value="">Select State</option>
+                    <option value="">Select Location</option>
                     {locationNames ? locationNames.map(location => <option key={location} value={location}>{location}</option>) : null}
                 </select>
 

@@ -20,6 +20,7 @@ const initialState = {
     engineSize: "",
     steeringPosition: 'Pick a Steering Position',
     importCost: 0,
+    usdToGelExchangeRate: 2.7,
 
 };
 
@@ -65,6 +66,8 @@ export const calcDataReducer = (state = initialState, action) => {
             return { ...state, auctionFee: action.payload };
         case 'SET_TOTAL_AUCTION_COST':
             return { ...state, totalAuctionCost: action.payload };
+        case 'SET_USD_TO_GEL_EXCHANGE_RATE':
+            return { ...state, usdToGelExchangeRate: action.payload };
 
 
         // Add other cases for additional actions

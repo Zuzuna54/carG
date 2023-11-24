@@ -34,12 +34,21 @@ export default function AuctionCarCostSection() {
 
     };
 
+    React.useEffect(() => {
+        if (!selectedAuction) return;
+        calculateTotalAuctionCost(carCost, selectedAuction);
+    }, [selectedAuction, carCost]);
+
+
     const handleAuctionChange = (e) => {
+        console.log('handleAuctionChange', e.target.value);
         const selectedValue = e.target.value;
         calculateTotalAuctionCost(carCost, selectedValue);
         dispatch(SetSelectedAuction(selectedValue));
 
     };
+
+
 
     return (
         <div className="calc-section calc-section-auction">
