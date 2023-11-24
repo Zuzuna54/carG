@@ -8,7 +8,6 @@ export const copartCalc = (carCost) => {
         return 0;
     }
 
-
     //High Volume Buyer Fee
     if (carCost < 99.99) {
         total += 1;
@@ -170,8 +169,8 @@ export const copartCalc = (carCost) => {
 
 
     total += 10; //Eviromental fee
-    total += 20; // Title fee
-    total += 79; // Documentation fee
+    total += 20; //Title fee
+    total += 79; //Documentation fee
 
     return total;
 }
@@ -345,7 +344,7 @@ export const iaaiCalc = (carCost) => {
 
     total += 10; //Eviromental fee
     total += 35; //Broker fee 
-    total += 79; // Documentation fee
+    total += 79; //Documentation fee
 
     return total;
 }

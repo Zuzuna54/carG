@@ -15,7 +15,7 @@ export default function TransportationCostSection() {
     const dispatch = useDispatch();
     const data = useSelector(state => state.calcData.data);
     const selectedAuction = useSelector(state => state.calcData.selectedAuction);
-    const auctionNames = useSelector(state => state.calcData.auctionNames);
+    // const auctionNames = useSelector(state => state.calcData.auctionNames);
     const selectedCompany = useSelector(state => state.calcData.selectedCompany);
     const statesNames = useSelector(state => state.calcData.stateNames);
     const selectedState = useSelector(state => state.calcData.selectedState);
@@ -40,7 +40,7 @@ export default function TransportationCostSection() {
         dispatch(SetLocationNames(locationNames));
         dispatch(SetLocationPrice(price));
 
-    }, [data, selectedCompany, selectedAuction, selectedState, selectedLocation]);
+    }, [data, selectedCompany, selectedAuction, selectedState, selectedLocation, dispatch]);
 
     const handleAuctionChange = (e) => {
         const selectedValue = e.target.value;
@@ -71,7 +71,9 @@ export default function TransportationCostSection() {
                 <label>Auction:</label>
                 <select value={selectedAuction} onChange={(e) => handleAuctionChange(e)}>
                     <option value="">Select Auction</option>
-                    {auctionNames ? auctionNames.map(auction => <option key={auction} value={auction}>{auction}</option>) : null}
+                    <option value="Copart">Copart</option>
+                    <option value="IAAI">IAAI</option>
+                    {/* {auctionNames ? auctionNames.map(auction => <option key={auction} value={auction}>{auction}</option>) : null} */}
                 </select>
             </div>
 

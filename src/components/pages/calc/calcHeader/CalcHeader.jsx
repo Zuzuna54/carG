@@ -34,7 +34,7 @@ export default function CalcHeader() {
         <div className="calc-header">
             <h1>Bidder Cost Calculator</h1>
             <h3>Select company to calculate your car transportation and import cost</h3>
-            <div className='calc-header-sub'>
+            {/* <div className='calc-header-sub'>
                 <div className='company-select'>
                     <label>Select Company:</label>
                     <select value={selectedCompany} onChange={(e) => handleCompanyChange(e)}>
@@ -42,7 +42,7 @@ export default function CalcHeader() {
                         {companyNames ? companyNames.map(company => <option key={company} value={company}>{company}</option>) : null}
                     </select>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

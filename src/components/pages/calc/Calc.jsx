@@ -5,7 +5,7 @@ import TransportationCostSection from './subCalcs/transportationCostSection/Tran
 import ImportCostSection from './subCalcs/importCostSection/ImportCostSection';
 import CalcHeader from './calcHeader/CalcHeader';
 import { getDataSet } from '../../../axios/DataLoader';
-import { SetCalcDataSet, SetError, SetLoading, SetSelectedAuction } from '../../../redux/actions/calcActions';
+import { SetCalcDataSet, SetError, SetLoading } from '../../../redux/actions/calcActions';
 import './Calc.scss';
 
 export default function Calc() {

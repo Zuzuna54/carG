@@ -1,60 +1,23 @@
 
 
-export const modelYears = [
-    2024,
-    2023,
-    2022,
-    2021,
-    2020,
-    2019,
-    2018,
-    2017,
-    2016,
-    2015,
-    2014,
-    2013,
-    2012,
-    2011,
-    2010,
-    2009,
-    2008,
-    2007,
-    2006,
-    2005,
-    2004,
-    2003,
-    2002,
-    2001,
-    2000,
-    1999,
-    1998,
-    1997,
-    1996,
-    1995,
-    1994,
-    1993,
-    1992,
-    1991,
-    1990,
-    1989,
-    1988,
-    1987,
-    1986,
-    1985,
-    1984,
-    "1983 and older"
-]
+export const modelYears = () => {
+    const currentYear = new Date().getFullYear()
+    const years = []
+    for (let i = currentYear; i >= 1984; i--) {
+        years.push(i)
+    }
+    years.push(`1983 or older`)
+    return years
+}
 
 
-export const importCostCalculator = (modelYear, engineType, engineSizeStr, steeringPosition) => {
+export const importCostCalculator = (modelYear, engineType, engineSizeStr) => {
 
-    if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || steeringPosition === 'Pick a Steering Position' || engineSizeStr) {
+    if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || engineSizeStr.length <= 0) {
         return 0
     }
 
-    console.log(engineSizeStr)
     const engineSize = parseInt(engineSizeStr);
-    console.log(engineSize)
     const currentYear = new Date().getFullYear()
     const carAge = currentYear - modelYear;
     let output = 0;
@@ -98,7 +61,6 @@ export const importCostCalculator = (modelYear, engineType, engineSizeStr, steer
         } else {
             output = engineSize * 1
         }
-
 
         output += 150; // add customs fee
         output += 200; // add registration fee

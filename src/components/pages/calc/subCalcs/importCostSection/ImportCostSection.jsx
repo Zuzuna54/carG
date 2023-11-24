@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SetModelYear, SetEngineType, SetEngineSize, SetSteeringPosition } from '../../../../../redux/actions/calcActions';
+import { SetModelYear, SetEngineType, SetEngineSize, SetImportCost } from '../../../../../redux/actions/calcActions';
 import { modelYears, importCostCalculator } from './ImportCostUtils';
 import './ImportCostSection.scss';
 
@@ -11,57 +11,50 @@ export default function ImportCostSection() {
     const modelYear = useSelector(state => state.calcData.modelYear);
     const engineType = useSelector(state => state.calcData.engineType);
     const engineSize = useSelector(state => state.calcData.engineSize);
-    const steeringPosition = useSelector(state => state.calcData.steeringPosition);
-    const state = useSelector(state => state);
-    console.log('state', engineSize);
+    const importCost = useSelector(state => state.calcData.importCost);
+    // const steeringPosition = useSelector(state => state.calcData.steeringPosition);
 
-    console.log(importCostCalculator(modelYear, engineType, engineSize, steeringPosition))
+    React.useEffect(() => {
 
-    const calculateImportCost = () => {
-        // Implement your logic to calculate the import cost based on modelYear and engineSize
-        const importCost = 0/* Your calculation logic here */
-        // Update state or perform any other actions as needed
-        console.log('Import Cost:', importCost);
-    };
+        if (modelYear === 'Pick a Model Year' || engineType === 'Pick an Engine Type' || engineSize.length <= 0) return;
+
+        const importCost = importCostCalculator(modelYear, engineType, engineSize);
+        dispatch(SetImportCost(importCost));
+
+    }, [modelYear, engineType, engineSize, dispatch]);
 
     const handleModelYearChange = (e) => {
         const selectedValue = e.target.value;
         dispatch(SetModelYear(selectedValue));
-        dispatch(SetEngineType('Pick an Engine Type'));
-        dispatch(SetEngineSize(undefined));
-        dispatch(SetSteeringPosition('Pick a Steering Position'));
     }
 
     const handleEngineTypeChange = (e) => {
         const selectedValue = e.target.value;
         dispatch(SetEngineType(selectedValue));
-        dispatch(SetEngineSize(undefined));
-        dispatch(SetSteeringPosition('Pick a Steering Position'));
     }
 
     const handleEngineSizeChange = (e) => {
         const selectedValue = e.target.value;
         dispatch(SetEngineSize(selectedValue));
-        dispatch(SetSteeringPosition('Pick a Steering Position'));
     }
 
-    const handleSteeringPositionChange = (e) => {
-        const selectedValue = e.target.value;
-        console.log('selectedValue', selectedValue);
-        dispatch(SetSteeringPosition(selectedValue));
-    }
-
-
+    // const handleSteeringPositionChange = (e) => {
+    //     const selectedValue = e.target.value;
+    //     dispatch(SetSteeringPosition(selectedValue));
+    // }
 
     return (
-        <div className="calc-section">
+        <div className="calc-section calc-section-transportation">
+
+            <div className="transposration-header">
+                <h2>Import Cost Section:</h2>
+            </div>
 
             <div className='model-year-section'>
                 <label>Model Year:</label>
-                <select value={modelYear} onChange={(e) => handleModelYearChange(e)
-                }>
+                <select value={modelYear} onChange={(e) => handleModelYearChange(e)}>
                     <option value="Pick a Model Year">Pick a Model Year</option>
-                    {modelYears ? modelYears.map(modelYear => <option key={modelYear} value={modelYear}>{modelYear}</option>) : null}
+                    {modelYears ? modelYears().map(modelYear => <option key={modelYear} value={modelYear}>{modelYear}</option>) : null}
                 </select>
             </div>
 
@@ -81,21 +74,21 @@ export default function ImportCostSection() {
                 <input type="text" value={engineSize} onChange={(e) => handleEngineSizeChange(e)} />
             </div>
 
-            <div className="steering-wheel-postion">
+            {/* <div className="steering-wheel-postion">
                 <label>Steering Position:</label>
                 <select value={steeringPosition} onChange={(e) => handleSteeringPositionChange(e)}>
                     <option value="Pick a Steering Position">Pick a Steering Position</option>
                     <option value="left">Left</option>
                     <option value="right">Right</option>
                 </select>
-            </div>
+            </div> */}
 
             <div className="import-cost">
                 <div className="cost-label">
                     Import Cost:
                 </div>
                 <div className="cost">
-                    {`$0`}
+                    {`$${importCost}`}
                 </div>
             </div>
 

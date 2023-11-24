@@ -4,6 +4,16 @@ export const SetCarCost = (carCost) => ({
     payload: carCost,
 });
 
+export const SetAuctionFee = (auctionFee) => ({
+    type: 'SET_AUCTION_FEE',
+    payload: auctionFee,
+});
+
+export const SetTotalAuctionCost = (totalAuctionCost) => ({
+    type: 'SET_TOTAL_AUCTION_COST',
+    payload: totalAuctionCost,
+});
+
 export const SetSelectedCompany = (selectedCompany) => ({
     type: 'SET_SELECTED_COMPANY',
     payload: selectedCompany,
@@ -83,6 +93,12 @@ export const SetSteeringPosition = (steeringPosition) => ({
     type: 'SET_STEERING_POSITION',
     payload: steeringPosition,
 });
+
+export const SetImportCost = (importCost) => ({
+    type: 'SET_IMPORT_COST',
+    payload: importCost,
+});
+
 
 
 // Compare this snippet from carvanna/src/redux/actions/calcActions.js:

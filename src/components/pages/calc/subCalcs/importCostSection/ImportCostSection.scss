@@ -1,0 +1,68 @@
+.calc-section-transportation {
+
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    label {
+        padding: 0.3rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        width: 45%;
+    }
+
+    select {
+        height: 95%;
+        width: 51%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    input {
+        height: 45%;
+        width: 45%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .model-year-section {
+        margin-top: 1rem;
+    }
+
+    .import-cost {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        .cost-label {
+            width: 45%;
+            padding: .20rem 0rem;
+
+            font-weight: 600;
+        }
+
+        .cost {
+            color: green;
+            background-color: #fff;
+            width: 45%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            height: 45%;
+        }
+    }
+}
