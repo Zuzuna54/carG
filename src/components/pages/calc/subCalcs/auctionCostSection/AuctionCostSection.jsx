@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { copartCalc, iaaiCalc } from './AuctionCostUtils';
 import './AuctionCostSection.scss';
-import { SetSelectedAuction, SetCarCost } from '../../../../../redux/actions/calcActions';
+import { SetSelectedAuction, SetCarCost, SetSelectedState, SetSelectedLocation } from '../../../../../redux/actions/calcActions';
 
 export default function AuctionCarCostSection() {
 
@@ -10,7 +10,6 @@ export default function AuctionCarCostSection() {
     const auctionNames = useSelector(state => state.calcData.auctionNames);
     const selectedAuction = useSelector(state => state.calcData.selectedAuction);
     const selectedCarCost = useSelector(state => state.calcData.carCost);
-    console.log('Selected Car Cost:', selectedCarCost);
     const [totalAuctionCost, setTotalAuctionCost] = useState({
         carCost: null,
         auctionFees: null,
@@ -53,6 +52,8 @@ export default function AuctionCarCostSection() {
         const selectedValue = e.target.value;
         dispatch(SetSelectedAuction(selectedValue));
         dispatch(SetCarCost(undefined));
+        dispatch(SetSelectedState(''));
+        dispatch(SetSelectedLocation(''));
         setTotalAuctionCost({
             carCost: null,
             auctionFees: null,
@@ -104,7 +105,7 @@ export default function AuctionCarCostSection() {
             {/* Total Cost Section */}
             <div className="total-cost">
                 <div className="cost-label">
-                    Total Cost:
+                    Total Auction Cost:
                 </div>
                 <div className="cost">
                     {totalAuctionCost.totalCost ? `$${totalAuctionCost.totalCost}` : `$0`}

@@ -7,18 +7,12 @@
                 "id": 1,
                 "title": "Auction 1",
                 "description": "Auction 1 description",
-                "start_date": "2017-01-01 00:00:00",
-                "end_date": "2017-01-02 00:00:00",
                 "auctions":[
                     {
                         "name": "Copart",
                         "id": 1,
                         "title": "Auction 1",
                         "description": "Auction 1 description",
-                        "start_date": "2017-01-01 00:00:00",
-                        "end_date": "2017-01-02 00:00:00",
-                        "created_at": "2017-01-01 00:00:00",
-                        "updated_at": "2017-01-01 00:00:00",
                         "states": [
                             {
                                 "name": "Alabama",
@@ -30,12 +24,8 @@
                                         "name": "Birmingham",
                                         "id": 1,
                                         "title": "Birmingham",
-                                        "description": "Birmingham description",
                                         "address": "Birmingham address",
                                         "city": "Birmingham city",
-                                        "state": "Birmingham state",
-                                        "zip": "Birmingham zip",
-                                        "phone": "Birmingham phone",
                                         "price": 800
                                     },
                                     {
@@ -1215,9 +1205,6 @@
                         ]
                     }
                 ]
-
-
-
             }
         ]
     }

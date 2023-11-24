@@ -13,6 +13,11 @@ const initialState = {
     auctionNames: [],
     stateNames: [],
     locationNames: [],
+    modelYear: 'Pick a Model Year',
+    engineType: 'Pick an Engine Type',
+    engineSize: undefined,
+    steeringPosition: 'Pick a Steering Position',
+
 };
 
 export const calcDataReducer = (state = initialState, action) => {
@@ -43,6 +48,14 @@ export const calcDataReducer = (state = initialState, action) => {
             return { ...state, locationPrice: action.payload };
         case 'SET_CAR_COST':
             return { ...state, carCost: action.payload };
+        case 'SET_MODEL_YEAR':
+            return { ...state, modelYear: action.payload };
+        case 'SET_ENGINE_TYPE':
+            return { ...state, engineType: action.payload };
+        case 'SET_ENGINE_SIZE':
+            return { ...state, enginesize: action.payload };
+        case 'SET_STEERING_POSITION':
+            return { ...state, steeringPosition: action.payload };
 
 
         // Add other cases for additional actions

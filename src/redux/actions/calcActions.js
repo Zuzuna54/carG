@@ -63,4 +63,26 @@ export const SetSelectedAuction = (selectedAuction) => ({
     type: 'SET_SELECTED_AUCTION',
     payload: selectedAuction,
 });
+
+export const SetModelYear = (modelYear) => ({
+    type: 'SET_MODEL_YEAR',
+    payload: modelYear,
+});
+
+export const SetEngineType = (engineType) => ({
+    type: 'SET_ENGINE_TYPE',
+    payload: engineType,
+});
+
+export const SetEngineSize = (engineSize) => ({
+    type: 'SET_ENGINE_SIZE',
+    payload: engineSize,
+});
+
+export const SetSteeringPosition = (steeringPosition) => ({
+    type: 'SET_STEERING_POSITION',
+    payload: steeringPosition,
+});
+
+
 // Compare this snippet from carvanna/src/redux/actions/calcActions.js:

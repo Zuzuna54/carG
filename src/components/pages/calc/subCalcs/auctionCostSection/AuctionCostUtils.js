@@ -169,9 +169,9 @@ export const copartCalc = (carCost) => {
     }
 
 
-    total += 10;
-    total += 20;
-    total += 79;
+    total += 10; //Eviromental fee
+    total += 20; // Title fee
+    total += 79; // Documentation fee
 
     return total;
 }
@@ -343,9 +343,9 @@ export const iaaiCalc = (carCost) => {
         total = total + 149;
     }
 
-    total += 10;
-    total += 50;
-    total += 79;
+    total += 10; //Eviromental fee
+    total += 35; //Broker fee 
+    total += 79; // Documentation fee
 
     return total;
 }

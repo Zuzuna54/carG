@@ -31,6 +31,7 @@
 
 
         select {
+            height: 95%;
             width: 51%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -47,6 +48,7 @@
         justify-content: space-around;
 
         input {
+            height: 45%;
             width: 45%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -70,6 +72,7 @@
         }
 
         .fee-cost {
+            height: 45%;
             color: green;
             background-color: #fff;
             width: 45%;
@@ -94,6 +97,7 @@
         }
 
         .cost {
+            height: 45%;
             color: green;
             background-color: #fff;
             width: 45%;
