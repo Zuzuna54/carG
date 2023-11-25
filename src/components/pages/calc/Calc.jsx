@@ -4,6 +4,7 @@ import AuctionCarCostSection from './subCalcs/auctionCostSection/AuctionCostSect
 import TransportationCostSection from './subCalcs/transportationCostSection/TransportationCostSection';
 import ImportCostSection from './subCalcs/importCostSection/ImportCostSection';
 import CalcHeader from './calcHeader/CalcHeader';
+import CalcFooter from './calcFooter/CalcFooter';
 import { getDataSet } from '../../../axios/DataLoader';
 import { SetCalcDataSet, SetError, SetLoading } from '../../../redux/actions/calcActions';
 import './Calc.scss';
@@ -43,6 +44,7 @@ export default function Calc() {
             </div>
 
             {/* Companies List Section */}
+            <CalcFooter />
         </div>
     );
 }

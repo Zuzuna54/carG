@@ -32,7 +32,7 @@ const getData = () => {
 
 export const getDataSet = () => {
     return axios
-        .get('/apis/dataset.json', { params: {} })
+        .get('/apis/dummy_data.json', { params: {} })
         .then((response) => {
             return response.data;
         });

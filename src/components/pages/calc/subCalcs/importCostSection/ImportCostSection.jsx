@@ -42,7 +42,7 @@ export default function ImportCostSection() {
     // }
 
     return (
-        <div className="calc-section calc-section-transportation">
+        <div className="calc-section calc-section-import">
 
             <div className="transposration-header">
                 <h2>Import Cost Section:</h2>

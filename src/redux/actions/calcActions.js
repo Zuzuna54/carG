@@ -104,6 +104,11 @@ export const SetUsdToGelExchangeRate = (usdToGelExchangeRate) => ({
     payload: usdToGelExchangeRate,
 });
 
+export const SetCompaniesList = (companiesList) => ({
+    type: 'SET_COMPANIES_LIST',
+    payload: companiesList,
+});
+
 
 
 // Compare this snippet from carvanna/src/redux/actions/calcActions.js:

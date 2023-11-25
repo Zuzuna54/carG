@@ -35,18 +35,21 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
     }
 
     .state-section {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
     }
 
     .transportation-price {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
 
         .cost-label {
             width: 45%;
@@ -69,6 +72,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
     }
 
 }
