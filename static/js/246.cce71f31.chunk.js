@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcarvanna=self.webpackChunkcarvanna||[]).push([[246],{6246:(a,e,n)=>{n.r(e),n.d(e,{default:()=>c});var s=n(184);function c(){return(0,s.jsx)(s.Fragment,{children:(0,s.jsx)("div",{className:"page-content",children:"this is home"})})}}}]);
+//# sourceMappingURL=246.cce71f31.chunk.js.map
