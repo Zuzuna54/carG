@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { copartCalc, iaaiCalc } from './AuctionCostUtils';
 import './AuctionCostSection.scss';
-import { SetSelectedAuction, SetCarCost, SetAuctionFee, SetTotalAuctionCost } from '../../../../../redux/actions/calcActions';
+import { SetSelectedAuction, SetCarCost, SetAuctionFee, SetTotalAuctionCost, SetSelectedState, SetSelectedLocation } from '../../../../../redux/actions/calcActions';
 
 export default function AuctionCarCostSection() {
 
@@ -41,10 +41,11 @@ export default function AuctionCarCostSection() {
 
 
     const handleAuctionChange = (e) => {
-        console.log('handleAuctionChange', e.target.value);
         const selectedValue = e.target.value;
         calculateTotalAuctionCost(carCost, selectedValue);
         dispatch(SetSelectedAuction(selectedValue));
+        dispatch(SetSelectedState(''));
+        dispatch(SetSelectedLocation(''));
 
     };
 

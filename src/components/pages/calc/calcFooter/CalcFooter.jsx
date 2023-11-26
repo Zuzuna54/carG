@@ -11,7 +11,9 @@ export default function CalcFooter() {
     const companiesList = useSelector(state => state.calcData.companiesList);
     const totalAuctionCost = useSelector(state => state.calcData.totalAuctionCost);
     const importCost = useSelector(state => state.calcData.importCost);
-    const locationPrice = useSelector(state => state.calcData.locationPrice);
+    const selectedAuction = useSelector(state => state.calcData.selectedAuction);
+    const selectedState = useSelector(state => state.calcData.selectedState);
+    const selectedLocation = useSelector(state => state.calcData.selectedLocation);
     const companiesListInternal = JSON.parse(JSON.stringify(companiesList));
     companiesListInternal.shift();
 
@@ -19,21 +21,40 @@ export default function CalcFooter() {
         if (!data) return;
         const companies = data.data.companies;
         dispatch(SetCompaniesList(companies));
-    }, [data]);
+    }, [data, selectedAuction, selectedLocation, selectedState]);
 
-    const handleTotalCost = () => {
+    // function with an optional parameter
+
+
+    const handleTotalCost = (transportationCost = 0) => {
 
         const totalAuction = totalAuctionCost ? totalAuctionCost : 0;
-        const totalImport = importCost ? importCost : 0
+        const totalImport = importCost ? importCost : 0;
 
-        return totalAuction + totalImport;
+        console.log("totalAuction", transportationCost);
+        return totalAuction + totalImport + parseFloat(transportationCost);
     }
+
+    const handleTransporationCost = (company) => {
+        let output = 0;
+
+        if (selectedAuction && selectedState && selectedLocation) {
+            const auctions = company ? company.auctions : [];
+            const auction = auctions?.find(auction => auction.name === selectedAuction);
+            const states = auction?.states;
+            const state = states?.find(state => state.name === selectedState);
+            const locations = state?.locations;
+            const location = locations?.find(location => location.name === selectedLocation);
+            const price = location?.price;
+            output += price;
+        }
+        return output;
+    }
+
 
     const returnCompanyList = () => {
 
         return companiesListInternal.map(company => {
-
-
 
             return (
                 <div className="company-item" key={company.name}>
@@ -50,7 +71,7 @@ export default function CalcFooter() {
                     </div>
                     <div className="cost-indicator">
                         <div className="sub-value">
-                            {totalAuctionCost ? `$${totalAuctionCost}` : "$0"}
+                            {handleTransporationCost(company) ? `$${handleTransporationCost(company)}` : "$0"}
                         </div>
                     </div>
                     <div className="cost-indicator">
@@ -60,7 +81,7 @@ export default function CalcFooter() {
                     </div>
                     <div className="cost-indicator">
                         <div className="sub-value">
-                            {handleTotalCost() ? `$${handleTotalCost()}` : "$0"}
+                            {handleTotalCost() ? `$${handleTotalCost(handleTransporationCost(company))}` : "$0"}
                         </div>
                     </div>
                     <div className="company-rating">

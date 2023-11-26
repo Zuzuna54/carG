@@ -10,6 +10,7 @@ function PublicLayout() {
         <div className='main-page'>
             <Header />
             <div className='main-page-content'>
+
                 <SideBar />
                 <div className='mainPage-content-container'>
                     <Outlet />
