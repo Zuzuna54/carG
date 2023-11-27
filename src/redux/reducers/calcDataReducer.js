@@ -27,6 +27,10 @@ const initialState = {
         order: '',
     },
     transportationCostList: {},
+    modal: {
+        isOpen: false,
+        company: '',
+    }
 
 };
 
@@ -80,6 +84,8 @@ export const calcDataReducer = (state = initialState, action) => {
             return { ...state, filterValue: { ...state.filterValue, property: action.payload.property, order: action.payload.order } };
         case 'SET_TRANSPORTATION_COST_LIST':
             return { ...state, transportationCostList: { ...state.transportationCostList, [action.payload.name]: action.payload.value } };
+        case 'SET_MODAL':
+            return { ...state, modal: { ...state.modal, isOpen: action.payload.isOpen, company: action.payload.company } };
 
 
         // Add other cases for additional actions

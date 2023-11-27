@@ -16,7 +16,6 @@ const RatingStars = ({ rating }) => {
 
         // Render filled tenth stars
         if (decimal < 0.5) {
-            console.log('decimal', decimal);
             stars.push(<span key="tenth" className={`star filled-tenth below-half`}>&#9733;</span>);
         } else {
             stars.push(<span key="tenth" className={`star filled-tenth above-half`}>&#9733;</span>);

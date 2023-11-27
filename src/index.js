@@ -6,6 +6,10 @@ import store from './redux/store.js';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './styles/index.css';
+import Modal from 'react-modal';
+
+// Set the root element that should be hidden from screen readers
+Modal.setAppElement('#root');
 
 ReactDOM.render(
     <Provider store={store}>

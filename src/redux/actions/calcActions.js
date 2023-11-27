@@ -119,6 +119,11 @@ export const SetTransportationCostList = (trasnporationCostList) => ({
     payload: trasnporationCostList,
 });
 
+export const SetModal = (modal) => ({
+    type: 'SET_MODAL',
+    payload: modal,
+});
+
 
 
 // Compare this snippet from carvanna/src/redux/actions/calcActions.js:

@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SetCompaniesList, SetFilterValue, SetTransportationCostList } from '../../../../redux/actions/calcActions';
+import { SetCompaniesList, SetFilterValue, SetTransportationCostList, SetModal } from '../../../../redux/actions/calcActions';
 import RatingStars from '../../../shared/RatingStars/RatingStars';
+import CompanyModal from '../companyModal/CompanyModal';
 import './CalcFooter.scss';
 
 export default function CalcFooter() {
@@ -16,6 +17,7 @@ export default function CalcFooter() {
     const selectedLocation = useSelector((state) => state.calcData.selectedLocation);
     const filterValue = useSelector((state) => state.calcData.filterValue);
     const transportationCostList = useSelector((state) => state.calcData.transportationCostList);
+    const modal = useSelector((state) => state.calcData.modal);
 
 
     const sortByProperty = useCallback(
@@ -105,6 +107,22 @@ export default function CalcFooter() {
     );
 
 
+    const openModal = useCallback((company) => {
+        dispatch(SetModal({
+            isOpen: true,
+            company: company
+        }));
+    }, [dispatch]);
+
+
+    const closeModal = useCallback(() => {
+        dispatch(SetModal({
+            isOpen: false,
+            company: {}
+        }));
+    }, [dispatch]);
+
+
     const returnCompanyList = useMemo(() => {
         return companiesListInternal.map(company => {
             return (
@@ -140,17 +158,23 @@ export default function CalcFooter() {
                         {Math.round((company.rating * 10)) / 10}
                     </div>
                     <div className="view-more">
-                        <button>
-                            View More
-                        </button>
+                        <button onClick={() => openModal(company)}>View More</button>
+                        {/* Render the CompanyModal */}
+                        {modal.isOpen && (
+                            <CompanyModal
+                                isOpen={modal.isOpen}
+                                onClose={closeModal}
+                                company={company}
+                            />
+                        )}
                     </div>
                 </div>
             )
         })
-    }, [companiesListInternal, totalAuctionCost, transportationCostList, importCost, handleTotalCost]);
+    }, [companiesListInternal, totalAuctionCost, transportationCostList, importCost, handleTotalCost, closeModal, modal.isOpen, openModal]);
 
     return (
-        <div className="footer-content">
+        <div className="footer-content" >
             <div className="company-labels">
                 <div className="name">
                     Company Name :
@@ -181,6 +205,6 @@ export default function CalcFooter() {
                 </div>
             </div>
             {returnCompanyList}
-        </div>
+        </div >
     )
 }
