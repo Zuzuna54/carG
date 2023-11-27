@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { copartCalc, iaaiCalc } from './AuctionCostUtils';
 import './AuctionCostSection.scss';
@@ -13,7 +13,7 @@ export default function AuctionCarCostSection() {
     const totalAuctionCost = useSelector(state => state.calcData.totalAuctionCost);
     const carCost = useSelector(state => state.calcData.carCost);
 
-    const calculateTotalAuctionCost = (carCost, selectedAuction) => {
+    const calculateTotalAuctionCost = useCallback((carCost, selectedAuction) => {
         // Implement your logic to calculate the total auction cost based on carCost
         let calculatedAuctionCost = 0;
         switch (selectedAuction) {
@@ -32,12 +32,12 @@ export default function AuctionCarCostSection() {
         dispatch(SetTotalAuctionCost(parseFloat(carCost) + calculatedAuctionCost));
         return calculatedAuctionCost;
 
-    };
+    }, [dispatch]);
 
     React.useEffect(() => {
         if (!selectedAuction) return;
         calculateTotalAuctionCost(carCost, selectedAuction);
-    }, [selectedAuction, carCost]);
+    }, [selectedAuction, carCost, calculateTotalAuctionCost]);
 
 
     const handleAuctionChange = (e) => {
@@ -46,6 +46,8 @@ export default function AuctionCarCostSection() {
         dispatch(SetSelectedAuction(selectedValue));
         dispatch(SetSelectedState(''));
         dispatch(SetSelectedLocation(''));
+        dispatch(SetAuctionFee(0));
+        dispatch(SetTotalAuctionCost(0));
 
     };
 

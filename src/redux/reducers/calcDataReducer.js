@@ -22,6 +22,8 @@ const initialState = {
     importCost: 0,
     usdToGelExchangeRate: 2.7,
     companiesList: [],
+    filterValue: 'Rating',
+    transportationCostList: {},
 
 };
 
@@ -71,6 +73,11 @@ export const calcDataReducer = (state = initialState, action) => {
             return { ...state, usdToGelExchangeRate: action.payload };
         case 'SET_COMPANIES_LIST':
             return { ...state, companiesList: action.payload };
+        case 'SET_FILTER_VALUE':
+            return { ...state, filterValue: action.payload };
+        case 'SET_TRANSPORTATION_COST_LIST':
+            // return { ...state, trasnporationCostList.action.payload.name : action.payload.value };
+            return { ...state, transportationCostList: { ...state.transportationCostList, [action.payload.name]: action.payload.value } };
 
 
         // Add other cases for additional actions

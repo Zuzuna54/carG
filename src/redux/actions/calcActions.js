@@ -109,6 +109,16 @@ export const SetCompaniesList = (companiesList) => ({
     payload: companiesList,
 });
 
+export const SetFilterValue = (filterValue) => ({
+    type: 'SET_FILTER_VALUE',
+    payload: filterValue,
+});
+
+export const SetTransportationCostList = (trasnporationCostList) => ({
+    type: 'SET_TRANSPORTATION_COST_LIST',
+    payload: trasnporationCostList,
+});
+
 
 
 // Compare this snippet from carvanna/src/redux/actions/calcActions.js:

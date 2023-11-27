@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AuctionCarCostSection from './subCalcs/auctionCostSection/AuctionCostSection';
 import TransportationCostSection from './subCalcs/transportationCostSection/TransportationCostSection';
 import ImportCostSection from './subCalcs/importCostSection/ImportCostSection';
@@ -28,7 +28,7 @@ export default function Calc() {
             }
         };
         process();
-    }, []);
+    }, [dispatch]);
 
 
     return (

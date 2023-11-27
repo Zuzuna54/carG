@@ -1,10 +1,11 @@
 
 
-export const copartCalc = (carCost) => {
+export const copartCalc = (carCostStr) => {
 
     let total = 0;
+    let carCost = parseFloat(carCostStr);
 
-    if (!carCost || carCost == 0) {
+    if (!carCost || carCost === 0) {
         return 0;
     }
 
@@ -176,11 +177,12 @@ export const copartCalc = (carCost) => {
 }
 
 
-export const iaaiCalc = (carCost) => {
+export const iaaiCalc = (carCostStr) => {
 
     let total = 0;
+    let carCost = parseFloat(carCostStr);
 
-    if (!carCost || carCost == 0) {
+    if (!carCost || carCost === 0) {
         return 0;
     }
 

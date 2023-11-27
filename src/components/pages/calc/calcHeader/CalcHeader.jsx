@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SetSelectedCompany, SetCompanyNames, SetAuctionNames, SetSelectedAuction, SetSelectedState, SetSelectedLocation } from '../../../../redux/actions/calcActions';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { SetSelectedCompany, SetCompanyNames, SetAuctionNames, SetSelectedAuction, SetSelectedState, SetSelectedLocation } from '../../../../redux/actions/calcActions';
 import "./CalcHeader.scss"
 
 export default function CalcHeader() {

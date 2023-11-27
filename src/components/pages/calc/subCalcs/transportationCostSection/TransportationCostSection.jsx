@@ -6,7 +6,9 @@ import {
     SetSelectedState,
     SetLocationNames,
     SetSelectedLocation,
-    SetLocationPrice
+    SetLocationPrice,
+    SetAuctionFee,
+    SetTotalAuctionCost,
 } from '../../../../../redux/actions/calcActions';
 import './TransportationCostSection.scss';
 
@@ -47,6 +49,8 @@ export default function TransportationCostSection() {
         dispatch(SetSelectedAuction(selectedValue));
         dispatch(SetSelectedState(''));
         dispatch(SetSelectedLocation(''));
+        dispatch(SetAuctionFee(0));
+        dispatch(SetTotalAuctionCost(0));
     };
 
     const handleStateChange = (e) => {

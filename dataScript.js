@@ -48,7 +48,7 @@ const generateDummyData = () => {
                             "description": `Location ${locationId} description`,
                             "address": `Location ${locationId} address`,
                             "city": `Location ${locationId} city`,
-                            "price": 800 + locationId * 100
+                            "price": 800 + Math.floor(Math.random() * 10) * 100
                         };
                         state.locations.push(location);
                     }
@@ -99,7 +99,7 @@ const generateDummyData = () => {
                             "description": `Location ${locationId} description`,
                             "address": `Location ${locationId} address`,
                             "city": `Location ${locationId} city`,
-                            "price": 800 + locationId * 100
+                            "price": 800 + Math.floor(Math.random() * 10) * 100
                         };
                         state.locations.push(location);
                     }
