@@ -1,18 +1,45 @@
+// RatingStars.scss
+
 .rating-stars {
-    font-size: 24px;
-    /* Adjust font size as needed */
+    display: flex;
+    font-size: 24px; // Adjust the font size as needed
+}
 
+.star {
+    color: #ccc; // Default color for empty stars
+}
 
-    .star {
-        color: #FFA500;
-        /* Set the color to yellow-orange */
-    }
+.filled {
+    color: #FFA500; // Color for filled stars
+}
 
-    .filled {
-        color: #FFA500;
-    }
+// Add more classes for each tenth value (0.1 to 0.9) as needed
+// .filled-tenth {
 
-    .half {
-        color: #FFA500;
-    }
+//     // Additional styling for filled tenth stars
+//     &.star-1,
+//     .star-2,
+//     .star-3,
+//     .star-4,
+//     .star-5,
+//     .star-6,
+//     .star-7,
+//     .star-8,
+//     .star-9 {
+//         // Additional styling for filled tenth stars (if needed)
+//         color: #FFA500; // Example color for 0.2 to 0.9
+//     }
+
+//     // Repeat for other values (e.g., .star-2, .star-3, ..., .star-9)
+// }
+
+// Customize the color for the tenth star
+.filled-tenth.above-half {
+    color: #ffe478; // Example color for 0.1
+}
+
+// Customize the color for the remaining empty stars
+.star-0 {
+    // Additional styling for 0 (if needed)
+    color: #ccc;
 }

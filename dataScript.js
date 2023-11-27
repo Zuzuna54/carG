@@ -65,7 +65,7 @@ const generateDummyData = () => {
                 "id": companyId,
                 "title": `Company ${companyId}`,
                 "description": `Company ${companyId} description`,
-                "rating": Math.floor(Math.random() * 5) + 1,
+                "rating": Math.random() * 5,
                 "auctions": []
 
             };

@@ -136,7 +136,8 @@ export default function CalcFooter() {
                         </div>
                     </div>
                     <div className="company-rating">
-                        <RatingStars rating={company.rating} />
+                        <RatingStars rating={Math.round((company.rating * 10)) / 10} />
+                        {Math.round((company.rating * 10)) / 10}
                     </div>
                     <div className="view-more">
                         <button>
