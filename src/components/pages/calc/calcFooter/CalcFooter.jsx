@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetCompaniesList, SetFilterValue, SetTransportationCostList } from '../../../../redux/actions/calcActions';
+import RatingStars from '../../../shared/RatingStars/RatingStars';
 import './CalcFooter.scss';
 
 export default function CalcFooter() {
+
     const dispatch = useDispatch();
     const data = useSelector((state) => state.calcData.data);
     const companiesList = useSelector((state) => state.calcData.companiesList);
@@ -16,14 +18,29 @@ export default function CalcFooter() {
     const transportationCostList = useSelector((state) => state.calcData.transportationCostList);
 
 
+    const sortByProperty = useCallback(
+        (array, property, order = 'asc') => {
+            const sortOrder = order === 'desc' ? -1 : 1;
+            return array.slice().sort((a, b) => {
+                const valueA = a[property] || 0;
+                const valueB = b[property] || 0;
+
+                return (valueA - valueB) * sortOrder;
+            });
+        },
+        []
+    );
+
+
     const companiesListInternal = useMemo(() => {
-        const clonedList = JSON.parse(JSON.stringify(companiesList));
+        const clonedList = sortByProperty(JSON.parse(JSON.stringify(companiesList)), filterValue.property, filterValue.order);
         const index = clonedList.findIndex((company) => company.name === 'Estimated Prices');
         if (index > -1) {
             clonedList.splice(index, 1);
         }
         return clonedList;
-    }, [companiesList]);
+    }, [companiesList, sortByProperty, filterValue.order, filterValue.property]);
+
 
     const handleTransporationCost = useCallback((company) => {
         let output = 0;
@@ -47,6 +64,7 @@ export default function CalcFooter() {
         return output;
     }, [selectedAuction, selectedState, selectedLocation, dispatch]);
 
+
     useEffect(() => {
         if (!data) return;
         const companies = data.data.companies;
@@ -55,6 +73,7 @@ export default function CalcFooter() {
         }
         dispatch(SetCompaniesList(companies));
     }, [data, selectedLocation, dispatch, handleTransporationCost]);
+
 
     const handleTotalCost = useCallback((company = {}) => {
         const totalAuction = totalAuctionCost || 0;
@@ -65,27 +84,28 @@ export default function CalcFooter() {
         return total;
     }, [totalAuctionCost, importCost, transportationCostList]);
 
-    const sortByProperty = (array, property, order = 'asc') => {
-        const sortOrder = order === 'desc' ? -1 : 1;
 
-        return array.slice().sort((a, b) => {
-            const valueA = a[property] || 0;
-            const valueB = b[property] || 0;
-
-            return (valueA - valueB) * sortOrder;
-        });
-    };
-
-    const handleFilterValueChange = (e) => {
-        const selectedValue = e.target.value;
-        const sortedList = sortByProperty(companiesListInternal, selectedValue.split(' ')[0], selectedValue.split(' ')[1]);
-        dispatch(SetFilterValue(selectedValue));
-        dispatch(SetCompaniesList(sortedList));
-    };
+    const handleFilterValueChange = useCallback(
+        (e) => {
+            const selectedValue = e.target.value;
+            const property = selectedValue.split(' ')[0];
+            const order = selectedValue.split(' ')[1];
+            const sortedList = sortByProperty(
+                companiesListInternal,
+                property,
+                order
+            );
+            dispatch(SetFilterValue({
+                property: property,
+                order: selectedValue.split(' ')[1]
+            }));
+            dispatch(SetCompaniesList(sortedList));
+        },
+        [companiesListInternal, dispatch, sortByProperty]
+    );
 
 
     const returnCompanyList = useMemo(() => {
-
         return companiesListInternal.map(company => {
             return (
                 <div className="company-item" key={company.name}>
@@ -116,7 +136,7 @@ export default function CalcFooter() {
                         </div>
                     </div>
                     <div className="company-rating">
-                        {company.rating}
+                        <RatingStars rating={company.rating} />
                     </div>
                     <div className="view-more">
                         <button>
@@ -151,7 +171,7 @@ export default function CalcFooter() {
                 </div>
                 <div className="filter">
                     <label>Filter By:</label>
-                    <select value={filterValue} onChange={(e) => handleFilterValueChange(e)}>
+                    <select value={filterValue.property + ' ' + filterValue.order} onChange={(e) => handleFilterValueChange(e)}>
                         <option value="rating asc">Rating asc</option>
                         <option value="rating desc">Rating desc</option>
                         <option value="totalCost asc">Total Cost asc</option>
