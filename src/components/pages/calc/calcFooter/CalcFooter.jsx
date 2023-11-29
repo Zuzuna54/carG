@@ -21,7 +21,9 @@ export default function CalcFooter() {
 
 
     const sortByProperty = useCallback(
-        (array, property, order = 'asc') => {
+        (array, property, order) => {
+
+            if (!order || order === 'none') return array;
             const sortOrder = order === 'desc' ? -1 : 1;
             return array.slice().sort((a, b) => {
                 const valueA = a[property] || 0;
@@ -197,6 +199,7 @@ export default function CalcFooter() {
                 <div className="filter">
                     <label>Filter By:</label>
                     <select value={filterValue.property + ' ' + filterValue.order} onChange={(e) => handleFilterValueChange(e)}>
+                        <option value='none'>None</option>
                         <option value="rating asc">Rating asc</option>
                         <option value="rating desc">Rating desc</option>
                         <option value="totalCost asc">Total Cost asc</option>
