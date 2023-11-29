@@ -2,6 +2,7 @@
 
 # dependencies
 carvanna-backend/node_modules
+carvanna-backend/dist
 carvanna-frontend/node_modules
 /.pnp
 .pnp.js
