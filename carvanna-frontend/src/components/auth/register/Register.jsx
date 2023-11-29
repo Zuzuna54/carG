@@ -23,7 +23,6 @@ const RegistrationForm = () => {
         // Add your registration logic here, e.g., send a request to a registration API
         console.log('Username:', username);
         console.log('Email:', email);
-        console.log('Password:', password);
         // Reset the form
         setUsername('');
         setEmail('');
