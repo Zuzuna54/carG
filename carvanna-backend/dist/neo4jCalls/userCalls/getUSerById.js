@@ -16,24 +16,24 @@ const getUserById = async (id) => {
         if (!result.records[0]) {
             console.error(`failed to get user ${id}: User not found`);
             return {
-                result: `Error: User not found`,
-                user: false
+                result: false,
+                user: `Error: User not found`
             };
         }
         else {
             const user = result.records[0].get('u').properties;
             console.log(`User ${user.username} found with email ${user.email} and access rights of ${user.userType}\n`);
             return {
-                result: `User ${user.username} found with email ${user.email} and access rights of ${user.userType}`,
-                user: true
+                result: true,
+                user: user
             };
         }
     }
     catch (err) {
         console.error(`failed to get user ${id}: ${err}`);
         return {
-            result: `Error: ${err}`,
-            user: false
+            result: false,
+            user: `Error: ${err}`
         };
     }
     finally {

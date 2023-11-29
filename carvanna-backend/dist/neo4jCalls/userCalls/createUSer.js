@@ -10,7 +10,7 @@ const createUser = async (id, username, email, password, userType) => {
     const session = db_1.default.session();
     try {
         console.log(`session opened, creating user ${username} with email ${email} and access rights of ${userType}\n`);
-        const result = await session.run('CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType}) RETURN u', { id, username, email, password, userType });
+        const result = await session.run('CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType}) RETURN u', { id, username, email, password: password, userType });
         const createdUser = result.records[0].get('u').properties;
         console.log(createdUser);
         console.log(`User ${createdUser.username} created with email ${createdUser.email} and access rights of ${createdUser.userType}\n`);

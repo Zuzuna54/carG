@@ -13,7 +13,7 @@ export const createUser = async (id: string, username: string, email: string, pa
 
         const result: QueryResult<RecordShape> = await session.run(
             'CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType}) RETURN u',
-            { id, username, email, password, userType }
+            { id, username, email, password: password, userType }
         );
 
 

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
@@ -18,8 +19,9 @@ const main = async () => {
     await appoloServer.start();
     const app = (0, express_1.default)();
     appoloServer.applyMiddleware({ app });
-    app.listen(8001, () => {
-        console.log(`Server is running on port ${8001}`);
+    const port = process.env.PORT || "8002";
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
     });
 };
 main().catch((err) => {

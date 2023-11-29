@@ -1,6 +1,7 @@
-import { createUser } from '../neo4jCalls/userCalls/createUser';
-import { getUserByUsername } from '../neo4jCalls/userCalls/getUserByUsername';
+import { createUser } from '../../neo4jCalls/userCalls/createUser';
+import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 // import { context } from '../index';
 
 const createUserHandler = async (username: string, email: string, password: string, userType: string): Promise<string> => {
@@ -36,17 +37,12 @@ const createUserHandler = async (username: string, email: string, password: stri
         // Check if the user already exists
         console.log(`Checking if the user already exists \n`)
         const userCheck: Record<string, any> = await getUserByUsername(username);
-        if (userCheck.user) {
+        if (!userCheck.result) {
 
             console.error('Error: Username already exists');
             return `Error: Username already exists`;
 
         }
-
-        //Generate a salt and hash the password
-        // console.log(`Generating a salt and hashing the password`)
-        // const salt = await bcrypt.genSalt(10);
-        // const hashedPassword = await bcrypt.hash(password, salt);
 
         //Generate a random 6 digit code for email verification
         // console.log(`Generating a random 6 digit code for email verification`)
@@ -63,9 +59,15 @@ const createUserHandler = async (username: string, email: string, password: stri
         const id: string = uuidv4();
         console.log(`id: ${id}`);
 
+        //Generate a salt and hash the password
+        console.log(`Encrypting the password\n`)
+        const salt: string = await bcrypt.genSalt(10);
+        const hashedPassword: string = await bcrypt.hash(password, salt);
+        console.log(`hashedPassword: ${hashedPassword}`);
+
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
-        const user: Record<string, any> = await createUser(id, username, email, password, userType);
+        const user: Record<string, any> = await createUser(id, username, email, hashedPassword, userType);
         console.log(`result: ${user.result}`);
 
         return user.result

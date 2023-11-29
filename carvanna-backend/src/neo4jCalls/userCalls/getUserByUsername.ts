@@ -23,8 +23,8 @@ export const getUserByUsername = async (username: string): Promise<Record<string
             console.error(`failed to get user ${username}: User not found`);
             return {
 
-                result: `Error: User not found`,
-                user: false
+                result: false,
+                user: `Error: User not found`
 
             }
 
@@ -35,8 +35,8 @@ export const getUserByUsername = async (username: string): Promise<Record<string
 
             return {
 
-                result: `User ${user.username} found with email ${user.email} and access rights of ${user.userType}`,
-                user: true
+                result: true,
+                user: user
 
             };
 
@@ -48,8 +48,8 @@ export const getUserByUsername = async (username: string): Promise<Record<string
         console.error(`failed to get user ${username}: ${err}`);
         return {
 
-            result: `Error: ${err}`,
-            user: false
+            result: false,
+            user: `Error: ${err}`
 
         }
 

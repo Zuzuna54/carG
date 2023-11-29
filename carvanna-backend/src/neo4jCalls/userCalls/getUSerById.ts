@@ -23,8 +23,8 @@ export const getUserById = async (id: string): Promise<Record<string, any>> => {
             console.error(`failed to get user ${id}: User not found`);
             return {
 
-                result: `Error: User not found`,
-                user: false
+                result: false,
+                user: `Error: User not found`
 
             }
 
@@ -35,8 +35,8 @@ export const getUserById = async (id: string): Promise<Record<string, any>> => {
 
             return {
 
-                result: `User ${user.username} found with email ${user.email} and access rights of ${user.userType}`,
-                user: true
+                result: true,
+                user: user
 
             };
 
@@ -47,8 +47,8 @@ export const getUserById = async (id: string): Promise<Record<string, any>> => {
         console.error(`failed to get user ${id}: ${err}`);
         return {
 
-            result: `Error: ${err}`,
-            user: false
+            result: false,
+            user: `Error: ${err}`
 
         }
 

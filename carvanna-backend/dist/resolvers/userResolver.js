@@ -17,13 +17,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const createUserHandler_1 = __importDefault(require("../handlers/createUserHandler"));
+const createUserHandler_1 = __importDefault(require("../handlers/userHandlers/createUserHandler"));
 let UserResolver = class UserResolver {
     hello() {
         return 'Hello World!';
     }
     createUser(username, email, password, userType) {
         return (0, createUserHandler_1.default)(username, email, password, userType);
+    }
+    logInUser(username, password) {
+        return `Log in user ${username} with password ${password}`;
     }
 };
 exports.UserResolver = UserResolver;
@@ -43,6 +46,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "createUser", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => String),
+    __param(0, (0, type_graphql_1.Arg)("username", () => String)),
+    __param(1, (0, type_graphql_1.Arg)("password", () => String)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], UserResolver.prototype, "logInUser", null);
 exports.UserResolver = UserResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], UserResolver);
