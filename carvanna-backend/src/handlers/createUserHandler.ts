@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // import { context } from '../index';
 
 const createUserHandler = async (username: string, email: string, password: string, userType: string): Promise<string> => {
- 
+
     console.log(`initiating createUserHandler \n`);
 
     //Authorization check with JWT
@@ -15,7 +15,6 @@ const createUserHandler = async (username: string, email: string, password: stri
 
     // Validate that name, email, and phone are provided in the request body
     console.log(`Validating that name, email, password and userType are provided in the request body\n`)
-
     if (!username || !email || !password || !userType) {
 
         console.error('Error: name, email, password and userType are required parameters.\n');
@@ -24,7 +23,7 @@ const createUserHandler = async (username: string, email: string, password: stri
     }
 
     console.log(`Validating that the password is valid\n`)
-    if (password.length < 8){
+    if (password.length < 8) {
 
         console.error('Error: password must be at least 8 characters long.\n');
         return `Error: password must be at least 8 characters long.`;
@@ -66,9 +65,9 @@ const createUserHandler = async (username: string, email: string, password: stri
 
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
-        const user: Record<string, any> = await createUser(id ,username, email, password, userType);
+        const user: Record<string, any> = await createUser(id, username, email, password, userType);
         console.log(`result: ${user.result}`);
-        
+
         return user.result
 
     } catch (error) {

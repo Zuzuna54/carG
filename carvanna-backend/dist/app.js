@@ -18,8 +18,8 @@ const main = async () => {
     await appoloServer.start();
     const app = (0, express_1.default)();
     appoloServer.applyMiddleware({ app });
-    app.listen(8000, () => {
-        console.log(`Server is running on port ${8000}`);
+    app.listen(8001, () => {
+        console.log(`Server is running on port ${8001}`);
     });
 };
 main().catch((err) => {
