@@ -7,6 +7,7 @@ const createUser_1 = require("../../neo4jCalls/userCalls/createUser");
 const getUserByUsername_1 = require("../../neo4jCalls/userCalls/getUserByUsername");
 const uuid_1 = require("uuid");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const User_1 = require("../../entities/User");
 const createUserHandler = async (username, email, password, userType) => {
     console.log(`initiating createUserHandler \n`);
     console.log(`Validating that name, email, password and userType are provided in the request body\n`);
@@ -22,7 +23,7 @@ const createUserHandler = async (username, email, password, userType) => {
     try {
         console.log(`Checking if the user already exists \n`);
         const userCheck = await (0, getUserByUsername_1.getUserByUsername)(username);
-        if (!userCheck.result) {
+        if (userCheck.result) {
             console.error('Error: Username already exists');
             return `Error: Username already exists`;
         }
@@ -34,7 +35,17 @@ const createUserHandler = async (username, email, password, userType) => {
         const hashedPassword = await bcrypt_1.default.hash(password, salt);
         console.log(`hashedPassword: ${hashedPassword}`);
         console.log(`Calling createUser neo4j call\n`);
-        const user = await (0, createUser_1.createUser)(id, username, email, hashedPassword, userType);
+        const userTobeCreated = new User_1.User();
+        userTobeCreated.username = username;
+        userTobeCreated.email = email;
+        userTobeCreated.password = hashedPassword;
+        userTobeCreated.userType = userType;
+        userTobeCreated.id = id;
+        userTobeCreated.createdAt = new Date().toISOString();
+        userTobeCreated.lastLogin = new Date().toISOString();
+        userTobeCreated.token = '';
+        userTobeCreated.error = '';
+        const user = await (0, createUser_1.createUser)(userTobeCreated);
         console.log(`result: ${user.result}`);
         return user.result;
     }

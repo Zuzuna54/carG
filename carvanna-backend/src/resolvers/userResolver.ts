@@ -1,5 +1,8 @@
 import { Mutation, Query, Resolver, Arg } from "type-graphql";
 import createUserHandler from "../handlers/userHandlers/createUserHandler";
+import logInHandler from "../handlers/authHandlers/logInHandler";
+import { User } from "../entities/User";
+
 
 @Resolver()
 export class UserResolver {
@@ -14,16 +17,15 @@ export class UserResolver {
         @Arg("email", () => String) email: string,
         @Arg("password", () => String) password: string,
         @Arg("userType", () => String) userType: string
-    ) {
-        return createUserHandler(username, email, password, userType) as Promise<string>;
+    ): Promise<string> {
+        return createUserHandler(username, email, password, userType);
     }
 
-    @Mutation(() => String)
+    @Mutation(() => User)
     logInUser(
         @Arg("username", () => String) username: string,
         @Arg("password", () => String) password: string
-    ) {
-        return `Log in user ${username} with password ${password}`;
+    ): Promise<User> {
+        return logInHandler(username, password);
     }
-
 }

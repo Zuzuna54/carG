@@ -1,19 +1,28 @@
 import { QueryResult, RecordShape, Session } from 'neo4j-driver';
+import { User } from '../../entities/User';
 import driver from '../db';
 
-export const createUser = async (id: string, username: string, email: string, password: string, userType: string): Promise<Record<string, any>> => {
+export const createUser = async (user: User): Promise<Record<string, any>> => {
 
     console.log(`opening neo4j session\n`)
     const session: Session = driver.session();
-
+    console.log(`user: ${user.id}\n`)
 
     try {
 
-        console.log(`session opened, creating user ${username} with email ${email} and access rights of ${userType}\n`);
+        console.log(`session opened, creating user ${user.username} with email ${user.email} and access rights of ${user.userType}\n`);
 
         const result: QueryResult<RecordShape> = await session.run(
-            'CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType}) RETURN u',
-            { id, username, email, password: password, userType }
+            'CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType, createdAt: $createdAt, lastLogin: $lastLogin}) RETURN u',
+            {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                userType: user.userType,
+                createdAt: user.createdAt,
+                lastLogin: user.lastLogin,
+            }
         );
 
 
@@ -30,7 +39,7 @@ export const createUser = async (id: string, username: string, email: string, pa
 
     } catch (err) {
 
-        console.error(`failed to create user ${username} with email ${email} and access rights of ${userType}: ${err}`);
+        console.error(`failed to create user ${user.username} with email ${user.email} and access rights of ${user.userType}: ${err}`);
         return {
 
             result: `Error: ${err}`,

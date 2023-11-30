@@ -2,6 +2,7 @@ import { createUser } from '../../neo4jCalls/userCalls/createUser';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import { User } from '../../entities/User';
 // import { context } from '../index';
 
 const createUserHandler = async (username: string, email: string, password: string, userType: string): Promise<string> => {
@@ -37,7 +38,8 @@ const createUserHandler = async (username: string, email: string, password: stri
         // Check if the user already exists
         console.log(`Checking if the user already exists \n`)
         const userCheck: Record<string, any> = await getUserByUsername(username);
-        if (!userCheck.result) {
+
+        if (userCheck.result) {
 
             console.error('Error: Username already exists');
             return `Error: Username already exists`;
@@ -67,7 +69,18 @@ const createUserHandler = async (username: string, email: string, password: stri
 
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
-        const user: Record<string, any> = await createUser(id, username, email, hashedPassword, userType);
+        const userTobeCreated: User = new User();
+        userTobeCreated.username = username;
+        userTobeCreated.email = email;
+        userTobeCreated.password = hashedPassword;
+        userTobeCreated.userType = userType;
+        userTobeCreated.id = id;
+        userTobeCreated.createdAt = new Date().toISOString();
+        userTobeCreated.lastLogin = new Date().toISOString();
+        userTobeCreated.token = '';
+        userTobeCreated.error = '';
+
+        const user: Record<string, any> = await createUser(userTobeCreated);
         console.log(`result: ${user.result}`);
 
         return user.result
