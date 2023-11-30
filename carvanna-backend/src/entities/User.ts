@@ -13,7 +13,9 @@ export class User {
         this.token = '';
         this.lastLogin = '';
         this.error = '';
-        this.result = false;
+        this.createdBy = '';
+        this.companyId = '';
+        this.status = '';
     }
 
     @Field(() => ID)
@@ -43,7 +45,13 @@ export class User {
     @Field(() => String)
     error: string;
 
-    @Field(() => Boolean)
-    result: boolean;
+    @Field(() => String)
+    createdBy: string;
+
+    @Field(() => String)
+    companyId: string;
+
+    @Field(() => String)
+    status: string;
 
 }

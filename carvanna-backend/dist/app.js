@@ -9,12 +9,14 @@ const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 const userResolver_1 = require("./resolvers/userResolver");
+const companyResolver_1 = require("./resolvers/companyResolver");
 const main = async () => {
     const appoloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [userResolver_1.UserResolver],
+            resolvers: [userResolver_1.UserResolver, companyResolver_1.CompanyResolver],
             validate: false
         }),
+        context: ({ req }) => ({ req })
     });
     await appoloServer.start();
     const app = (0, express_1.default)();

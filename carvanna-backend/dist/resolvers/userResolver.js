@@ -17,15 +17,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const createUserHandler_1 = __importDefault(require("../handlers/userHandlers/createUserHandler"));
+const createCompanyAdmin_1 = __importDefault(require("../handlers/userHandlers/createCompanyAdmin"));
 const logInHandler_1 = __importDefault(require("../handlers/authHandlers/logInHandler"));
 const User_1 = require("../entities/User");
 let UserResolver = class UserResolver {
     hello() {
         return 'Hello World!';
     }
-    createUser(username, email, password, userType) {
-        return (0, createUserHandler_1.default)(username, email, password, userType);
+    createUser(username, email, password, userType, companyId, context) {
+        var _a;
+        const jwtToken = (_a = context.req.headers.authorization) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
+        return (0, createCompanyAdmin_1.default)(username, email, password, userType, companyId, jwtToken);
     }
     logInUser(username, password) {
         return (0, logInHandler_1.default)(username, password);
@@ -44,8 +46,10 @@ __decorate([
     __param(1, (0, type_graphql_1.Arg)("email", () => String)),
     __param(2, (0, type_graphql_1.Arg)("password", () => String)),
     __param(3, (0, type_graphql_1.Arg)("userType", () => String)),
+    __param(4, (0, type_graphql_1.Arg)("companyId", () => String)),
+    __param(5, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createUser", null);
 __decorate([

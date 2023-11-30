@@ -10,12 +10,9 @@ export const getUserByUsername = async (username: string): Promise<Record<string
 
         console.log(`session opened, getting user ${username}\n`);
         const result: QueryResult<RecordShape> = await session.run(
-            'MATCH (u:User {username: $username}) RETURN u',
+            'MATCH (u:CompanyAdmin {username: $username}) RETURN u',
             { username }
         );
-
-        console.log(`result: ${result}\n`);
-        console.log(`result.records: ${result.records}\n`);
 
 
         if (!result.records[0]) {
