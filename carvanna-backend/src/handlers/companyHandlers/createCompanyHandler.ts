@@ -2,9 +2,8 @@ import { createCompany } from '../../neo4jCalls/compnayCalls/createCompany';
 import { getCompanyByName } from '../../neo4jCalls/compnayCalls/getCompanyByName';
 import { v4 as uuidv4 } from 'uuid';
 import { Company } from '../../entities/Company';
-import { decodeToken } from '../../contextInterface/context';
-import { SUPER_ADMIN } from '../../constants/constants';
-import { validateEmail } from '../../utils/utils';
+import { ACTIVE, SUPER_ADMIN } from '../../constants/constants';
+import { validateEmail, validateSession, decodeToken } from '../../utils/utils';
 
 const createCompanyHandler = async (
 
@@ -34,8 +33,18 @@ const createCompanyHandler = async (
         const user: Record<string, any> | null = decodeToken(jwtToken);
         if (user?.userType !== SUPER_ADMIN) {
 
-            console.error('Error: 401 User not authorized to create companies');
-            return `Error: 401 User not authorized to create companies`;
+            console.error('Error: 401 User not authorized to create users');
+            return `Error: 401 User not authorized to create users`;
+        }
+
+        //Validate session duration 
+        console.log(`Validating session duration\n`)
+        const sessionValidated: boolean = validateSession(user.lastLogIn);
+        if (!sessionValidated) {
+
+            console.error('Error: 440 Session has expired');
+            return `Error: 440 Session has expired`;
+
         }
 
         //Validate that the email is valid
@@ -73,20 +82,29 @@ const createCompanyHandler = async (
 
         // Create a new Company object
         console.log(`Creating a new Company object\n`)
-        const company: Company = new Company();
-        company.id = id;
-        company.name = name;
-        company.description = description;
-        company.createdAt = new Date().toISOString();
-        company.createdBy = user?.id;
-        company.address = address;
-        company.phone = phone;
-        company.email = email;
+        const company: Company = new Company(
+            id,
+            name,
+            description,
+            address,
+            phone,
+            email,
+            new Date().toISOString(),
+            user?.id,
+            ACTIVE
+        );
 
         // Create the Company
         console.log(`Creating the Company\n`)
         const companyCreated: Record<string, any> = await createCompany(company);
+        if (!companyCreated.createdCompany) {
 
+            console.error(`Error: 500 ${companyCreated.result} company could not be created\n`);
+            return `Error: 500 ${companyCreated.result} company could not be created`;
+
+        }
+
+        console.log(`Company ${company.id} created successfully\n`);
         return companyCreated.result;
 
     } catch (err) {

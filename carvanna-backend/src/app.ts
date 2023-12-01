@@ -6,13 +6,14 @@ import { buildSchema } from 'type-graphql';
 import { UserResolver } from './resolvers/userResolver';
 import { CompanyResolver } from './resolvers/companyResolver';
 import { Context } from './contextInterface/context';
+import { AuctionResolver } from './resolvers/auctionResolver';
 
 
 const main = async () => {
 
     const appoloServer: ApolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [UserResolver, CompanyResolver],
+            resolvers: [UserResolver, CompanyResolver, AuctionResolver],
             validate: false
         }),
         context: ({ req }): Context => ({ req })

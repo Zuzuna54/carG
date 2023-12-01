@@ -11,10 +11,20 @@ const createUser = async (user) => {
     try {
         console.log(`Session opened, creating user ${user.username} with email ${user.email} and access rights of ${user.userType}\n`);
         const result = await session.run(`
-            MATCH (company:Company {id: $companyId})
-            CREATE (u:User {id: $id, username: $username, email: $email, password: $password, userType: $userType, createdAt: $createdAt, lastLogin: $lastLogin, createdBy: $createdBy})
-            MERGE (u)-[:BELONGS_TO]->(company)
-            RETURN u
+                MATCH (company:Company {id: $companyId})
+                CREATE (u:${user.userType}:User {
+                    id: $id, 
+                    username: $username, 
+                    email: $email, 
+                    password: $password, 
+                    userType: $userType, 
+                    createdAt: $createdAt, 
+                    lastLogin: $lastLogin, 
+                    createdBy: $createdBy, 
+                    status: $status
+                })
+                MERGE (u)-[:BELONGS_TO]->(company)
+                RETURN u
             `, {
             id: user.id,
             username: user.username,
@@ -24,17 +34,18 @@ const createUser = async (user) => {
             createdAt: user.createdAt,
             lastLogin: user.lastLogin,
             createdBy: user.createdBy,
-            companyId: user.companyId
+            companyId: user.companyId,
+            status: user.status
         });
         const createdUser = result.records[0].get('u').properties;
-        console.log(`User ${createdUser.username} created with email ${createdUser.email} and access rights of ${createdUser.userType}\n`);
+        console.log(`User ${createdUser.username} created with id ${createdUser.id} and access rights of ${createdUser.userType}\n`);
         return {
-            result: `200: User ${createdUser.username} created with email ${createdUser.email} and access rights of ${createdUser.userType}`,
+            result: `200: User ${createdUser.username} created with id ${createdUser.id} and access rights of ${createdUser.userType}`,
             createdUser: true
         };
     }
     catch (err) {
-        console.error(`Failed to create user ${user.username} with email ${user.email} and access rights of ${user.userType}: ${err}`);
+        console.error(`Failed to create user ${user.username} with id ${user.id} and access rights of ${user.userType}: ${err}`);
         return {
             result: `Error: ${err}`,
             createdUser: false

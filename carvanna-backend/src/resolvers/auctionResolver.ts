@@ -1,7 +1,7 @@
-import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
-import { Auction } from "../entities/Auction";
+import { Mutation, Resolver, Arg, Ctx } from "type-graphql";
+// import { Auction } from "../entities/Auction";
 import { Context } from "../contextInterface/context";
-import createCompanyHandler from "../handlers/companyHandlers/createCompanyHandler";
+import createAuctionHandler from "../handlers/auctionHandlers/createAuctionHandler";
 
 
 @Resolver()
@@ -27,8 +27,7 @@ export class AuctionResolver {
         @Ctx() context: Context
     ): Promise<string> {
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
-        console.log(`jwtToken: ${jwtToken}`)
-        return createCompanyHandler(name, description, address, phone, email, jwtToken);
+        return createAuctionHandler(name, description, address, phone, email, jwtToken);
     }
 
 }

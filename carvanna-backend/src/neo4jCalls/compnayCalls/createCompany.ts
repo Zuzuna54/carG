@@ -12,7 +12,17 @@ export const createCompany = async (company: Company): Promise<Record<string, an
         console.log(`session opened, creating company ${company.name} with description ${company.description} and address of ${company.address}\n`);
 
         const result: QueryResult<RecordShape> = await session.run(
-            'CREATE (c:Company {id: $id, name: $name, description: $description, createdAt: $createdAt, createdBy: $createdBy, address: $address, phone: $phone, email: $email}) RETURN c',
+            `CREATE (c:Company {
+                id: $id, 
+                name: $name, 
+                description: $description, 
+                createdAt: $createdAt, 
+                createdBy: $createdBy, 
+                address: $address, 
+                phone: $phone, 
+                email: $email
+            }) 
+            RETURN c`,
             {
                 id: company.id,
                 name: company.name,
@@ -27,18 +37,18 @@ export const createCompany = async (company: Company): Promise<Record<string, an
 
 
         const createdCompany: Record<string, any> = result.records[0].get('c').properties;
-        console.log(`Company ${createdCompany.id} created with description ${createdCompany.description} and address of ${createdCompany.address}\n`);
+        console.log(`Company ${createdCompany.id} created with id ${createdCompany.id} and address of ${createdCompany.address}\n`);
 
         return {
 
-            result: `200: Company ${createdCompany.name} created with description ${createdCompany.description} and address of ${createdCompany.address}`,
+            result: `200: Company ${createdCompany.name} created with id ${createdCompany.id} and address of ${createdCompany.address}`,
             createdCompany: true
 
         };
 
     } catch (err) {
 
-        console.error(`failed to create company ${company.name} with description ${company.description} and address of ${company.address}: ${err}`);
+        console.error(`failed to create company ${company.name} with id ${company.id} and address of ${company.address}: ${err}`);
         return {
 
             result: `Error: ${err}`,

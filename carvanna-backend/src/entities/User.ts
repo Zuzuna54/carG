@@ -3,19 +3,37 @@ import { Field, ID, ObjectType } from 'type-graphql';
 @ObjectType()
 export class User {
 
-    constructor() {
-        this.id = '';
-        this.username = '';
-        this.email = '';
-        this.password = '';
-        this.userType = '';
-        this.createdAt = '';
-        this.token = '';
-        this.lastLogin = '';
-        this.error = '';
-        this.createdBy = '';
-        this.companyId = '';
-        this.status = '';
+    constructor(
+        id: string,
+        username: string,
+        email: string,
+        password: string,
+        userType: string,
+        createdAt: string,
+        token: string,
+        lastLogin: string,
+        error: string,
+        createdBy: string,
+        companyId: string,
+        status: string,
+        updatedAt: string,
+        updatedBy: string
+
+    ) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.userType = userType;
+        this.createdAt = createdAt;
+        this.token = token;
+        this.lastLogin = lastLogin;
+        this.error = error;
+        this.createdBy = createdBy;
+        this.companyId = companyId;
+        this.status = status;
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
     }
 
     @Field(() => ID)
@@ -53,5 +71,11 @@ export class User {
 
     @Field(() => String)
     status: string;
+
+    @Field(() => String)
+    updatedAt: string;
+
+    @Field(() => String)
+    updatedBy: string;
 
 }

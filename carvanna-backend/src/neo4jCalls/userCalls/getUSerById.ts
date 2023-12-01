@@ -11,7 +11,7 @@ export const getUserById = async (id: string): Promise<Record<string, any>> => {
         console.log(`session opened, getting user ${id}\n`);
 
         const result: QueryResult<RecordShape> = await session.run(
-            'MATCH (u:CompanyAdmin {id: $id}) RETURN u',
+            'MATCH (u:User {id: $id}) RETURN u',
             { id }
         );
 
@@ -54,6 +54,6 @@ export const getUserById = async (id: string): Promise<Record<string, any>> => {
 
         await session.close();
         console.log(`neo4j session closed\n`);
-
     }
+
 }

@@ -1,13 +1,19 @@
-import { createCompanyAdmin } from '../../neo4jCalls/companyAdminCalls/createCompnayAadmin';
+import { createUser } from '../../neo4jCalls/userCalls/createUser';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { User } from '../../entities/User';
-import { decodeToken } from '../../contextInterface/context';
 import { SUPER_ADMIN, ACTIVE } from '../../constants/constants';
-import { validateEmail } from '../../utils/utils';
+import {
+    validateEmail,
+    decodeToken,
+    validateUsername,
+    validatePassword,
+    validateUserType,
+    validateSession
+} from '../../utils/utils';
 
-const createUserHandler = async (
+const createComanyAdminHandler = async (
 
     username: string,
     email: string,
@@ -18,7 +24,7 @@ const createUserHandler = async (
 
 ): Promise<string> => {
 
-    console.log(`initiating createUserHandler \n`);
+    console.log(`initiating createComanyAdminHandler \n`);
 
     try {
 
@@ -39,13 +45,13 @@ const createUserHandler = async (
             return `Error: 401 User not authorized to create users`;
         }
 
-        //Validate that the email is valid
-        console.log(`Validating that the email is valid\n`)
-        const emailValidated: boolean = validateEmail(email);
-        if (!emailValidated) {
+        //Validate session duration 
+        console.log(`Validating session duration\n`)
+        const sessionValidated: boolean = validateSession(user.lastLogIn);
+        if (!sessionValidated) {
 
-            console.error('Error: 501 Invalid email');
-            return `Error: 501 Invalid email`;
+            console.error('Error: 440 Session has expired');
+            return `Error: 440 Session has expired`;
 
         }
 
@@ -59,18 +65,49 @@ const createUserHandler = async (
 
         }
 
-        console.log(`Validating that the password is valid\n`)
-        if (password.length < 8) {
+        //Validate that the username is valid
+        console.log(`Validating that the username is valid\n`)
+        const usernameValidated: boolean = validateUsername(username);
+        if (!usernameValidated) {
 
-            console.error('Error: 1001 password must be at least 8 characters long.\n');
-            return `Error: 1001 password must be at least 8 characters long.`;
+            console.error('Error: 502 Invalid username');
+            return `Error: 502 Invalid username`;
+
+        }
+
+        //Validate that the password is valid
+        console.log(`Validating that the password is valid\n`)
+        const passwordValidated: boolean = validatePassword(password);
+        if (!passwordValidated) {
+
+            console.error('Error: 503 Invalid password');
+            return `Error: 503 Invalid password`;
+
+        }
+
+        //Validate that the email is valid
+        console.log(`Validating that the email is valid\n`)
+        const emailValidated: boolean = validateEmail(email);
+        if (!emailValidated) {
+
+            console.error('Error: 501 Invalid email');
+            return `Error: 501 Invalid email`;
+
+        }
+
+        //Validate that the userType is valid
+        console.log(`Validating that the userType is valid\n`)
+        const userTypeValidated: boolean = validateUserType(userType);
+        if (!userTypeValidated) {
+
+            console.error('Error: 504 Invalid userType');
+            return `Error: 504 Invalid userType`;
 
         }
 
         // Check if the user already exists
         console.log(`Checking if the user already exists \n`)
         const userCheck: Record<string, any> = await getUserByUsername(username);
-
         if (userCheck.result) {
 
             console.error('Error: 409 Username already exists');
@@ -99,24 +136,34 @@ const createUserHandler = async (
         console.log(`hashedPassword: ${hashedPassword}`);
 
         // Create a new User object
-        const userTobeCreated: User = new User();
-        userTobeCreated.username = username;
-        userTobeCreated.email = email;
-        userTobeCreated.password = hashedPassword;
-        userTobeCreated.userType = userType;
-        userTobeCreated.id = id;
-        userTobeCreated.createdAt = new Date().toISOString();
-        userTobeCreated.lastLogin = new Date().toISOString();
-        userTobeCreated.createdBy = user.username;
-        userTobeCreated.companyId = compnayId;
-        userTobeCreated.status = ACTIVE;
-        userTobeCreated.token = '';
-        userTobeCreated.error = '';
+        const userTobeCreated: User = new User(
+            id,
+            username,
+            email,
+            hashedPassword,
+            userType,
+            new Date().toISOString(),
+            '',
+            new Date().toISOString(),
+            '',
+            user.username,
+            compnayId,
+            ACTIVE,
+            '',
+            ''
+        );
 
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
-        const userCreated: Record<string, any> = await createCompanyAdmin(userTobeCreated);
+        const userCreated: Record<string, any> = await createUser(userTobeCreated);
+        if (!userCreated.createdUser) {
 
+            console.error(`Error: 500 ${userCreated.result} user could not be created\n`);
+            return `Error: 500 ${userCreated.result} user could not be created`;
+
+        }
+
+        console.log(`User ${user.id} created successfully\n`)
         return userCreated.result
 
     } catch (error) {
@@ -128,4 +175,4 @@ const createUserHandler = async (
 
 };
 
-export default createUserHandler;
+export default createComanyAdminHandler;

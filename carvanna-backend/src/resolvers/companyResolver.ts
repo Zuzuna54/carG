@@ -28,7 +28,6 @@ export class CompanyResolver {
         @Ctx() context: Context
     ): Promise<string> {
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
-        console.log(`jwtToken: ${jwtToken}`)
         return createCompanyHandler(name, description, address, phone, email, jwtToken);
     }
 

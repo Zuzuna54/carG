@@ -6,6 +6,8 @@ export class State {
     constructor() {
         this.id = '';
         this.name = '';
+        this.abbrevation = '';
+        this.auctionId = '';
         this.createdAt = '';
         this.createdBy = '';
         this.status = '';
@@ -16,6 +18,12 @@ export class State {
 
     @Field(() => String)
     name: string;
+
+    @Field(() => String)
+    abbrevation: string;
+
+    @Field(() => ID)
+    auctionId: string;
 
     @Field(() => String)
     createdAt: String;

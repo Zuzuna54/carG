@@ -7,12 +7,13 @@ require('dotenv').config();
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getUserByUsername_1 = require("../../neo4jCalls/userCalls/getUserByUsername");
+const updateUser_1 = require("../../neo4jCalls/userCalls/updateUser");
 const User_1 = require("../../entities/User");
 const logInHandler = async (username, password) => {
     console.log(`\n\nRunning logInHandler.ts\n\n`);
+    const user = new User_1.User('', '', '', '', '', '', '', '', '', '', '', '', '', '');
     try {
         console.log(`Creating a new Token object\n`);
-        const user = new User_1.User();
         console.log(`Validating that password and username are provided in the request body\n`);
         if (!username || !password) {
             console.error('Error: 409 Password and username are required parameters.\n');
@@ -42,10 +43,11 @@ const logInHandler = async (username, password) => {
         }
         console.log(`Creating and assigning a token\n`);
         const signature = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            userType: userReturned.user.userType
+            id: userReturned.user.id,
+            username: userReturned.user.username,
+            email: userReturned.user.email,
+            userType: userReturned.user.userType,
+            lastLogIn: Date.now()
         };
         const token = jsonwebtoken_1.default.sign({ user: signature }, tokenSecret);
         user.id = userReturned.user.id;
@@ -54,15 +56,21 @@ const logInHandler = async (username, password) => {
         user.password = userReturned.user.password;
         user.userType = userReturned.user.userType;
         user.createdAt = userReturned.user.createdAt;
-        user.lastLogin = userReturned.user.lastLogin;
+        user.lastLogin = new Date().toISOString();
         user.createdBy = userReturned.user.createdBy;
         user.token = token;
+        console.log(`Updating the last login time\n`);
+        const updateLastLogin = await (0, updateUser_1.updateUser)(user);
+        if (!updateLastLogin.updatedUser) {
+            console.error(`Error: 500 ${updateLastLogin.result} 500 Failed to update last login time`);
+            user.error = `Error: 500  ${updateLastLogin.result} Failed to update last login time`;
+            return user;
+        }
         return user;
     }
     catch (error) {
-        console.error('Error creating user:', error);
-        const user = new User_1.User();
-        user.error = `Error creating user: ${error}`;
+        console.error('Error: 500 creating user:', error);
+        user.error = `Error: 500 creating user: ${error}`;
         return user;
     }
 };

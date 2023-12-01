@@ -10,7 +10,7 @@ export const getUserByUsername = async (username: string): Promise<Record<string
 
         console.log(`session opened, getting user ${username}\n`);
         const result: QueryResult<RecordShape> = await session.run(
-            'MATCH (u:CompanyAdmin {username: $username}) RETURN u',
+            'MATCH (u:User {username: $username}) RETURN u',
             { username }
         );
 

@@ -7,6 +7,8 @@ export class Price {
         this.id = '';
         this.name = '';
         this.cost = 0;
+        this.locationId = '';
+        this.companyId = '';
         this.description = '';
         this.createdAt = '';
         this.createdBy = '';
@@ -21,6 +23,12 @@ export class Price {
 
     @Field(() => Number)
     cost: number;
+
+    @Field(() => ID)
+    locationId: string;
+
+    @Field(() => ID)
+    companyId: string;
 
     @Field(() => String)
     description: string;

@@ -10,7 +10,7 @@ const getUserByUsername = async (username) => {
     const session = db_1.default.session();
     try {
         console.log(`session opened, getting user ${username}\n`);
-        const result = await session.run('MATCH (u:CompanyAdmin {username: $username}) RETURN u', { username });
+        const result = await session.run('MATCH (u:User {username: $username}) RETURN u', { username });
         if (!result.records[0]) {
             console.error(`failed to get user ${username}: User not found`);
             return {

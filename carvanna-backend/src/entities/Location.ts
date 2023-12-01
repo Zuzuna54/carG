@@ -6,6 +6,7 @@ export class Location {
     constructor() {
         this.id = '';
         this.name = '';
+        this.stateId = '';
         this.createdAt = '';
         this.createdBy = '';
         this.status = '';
@@ -16,6 +17,9 @@ export class Location {
 
     @Field(() => String)
     name: string;
+
+    @Field(() => ID)
+    stateId: string
 
     @Field(() => String)
     createdAt: String;
