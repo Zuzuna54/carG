@@ -1,16 +1,15 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class Company {
+export class Price {
+
     constructor() {
         this.id = '';
         this.name = '';
+        this.cost = 0;
         this.description = '';
         this.createdAt = '';
         this.createdBy = '';
-        this.address = '';
-        this.phone = '';
-        this.email = '';
         this.status = '';
     }
 
@@ -20,23 +19,17 @@ export class Company {
     @Field(() => String)
     name: string;
 
+    @Field(() => Number)
+    cost: number;
+
     @Field(() => String)
     description: string;
 
     @Field(() => String)
-    createdAt: string;
+    createdAt: String;
 
     @Field(() => String)
     createdBy: string;
-
-    @Field(() => String)
-    address: string;
-
-    @Field(() => String)
-    phone: string;
-
-    @Field(() => String)
-    email: string;
 
     @Field(() => String)
     status: string;

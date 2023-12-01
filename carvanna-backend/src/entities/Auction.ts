@@ -1,16 +1,17 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class Company {
+export class Auction {
+
     constructor() {
         this.id = '';
         this.name = '';
         this.description = '';
-        this.createdAt = '';
-        this.createdBy = '';
         this.address = '';
         this.phone = '';
         this.email = '';
+        this.createdAt = '';
+        this.createdBy = '';
         this.status = '';
     }
 
@@ -24,12 +25,6 @@ export class Company {
     description: string;
 
     @Field(() => String)
-    createdAt: string;
-
-    @Field(() => String)
-    createdBy: string;
-
-    @Field(() => String)
     address: string;
 
     @Field(() => String)
@@ -37,6 +32,12 @@ export class Company {
 
     @Field(() => String)
     email: string;
+
+    @Field(() => String)
+    createdAt: String;
+
+    @Field(() => String)
+    createdBy: string;
 
     @Field(() => String)
     status: string;

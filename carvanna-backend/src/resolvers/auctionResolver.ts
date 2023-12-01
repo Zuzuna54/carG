@@ -1,12 +1,11 @@
-import { Mutation, Resolver, Arg, Ctx } from "type-graphql";
-import createCompanyHandler from "../handlers/companyHandlers/createCompanyHandler";
-// import { Company } from "../entities/Compnay";
+import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
+import { Auction } from "../entities/Auction";
 import { Context } from "../contextInterface/context";
+import createCompanyHandler from "../handlers/companyHandlers/createCompanyHandler";
 
 
 @Resolver()
-export class CompanyResolver {
-
+export class AuctionResolver {
 
     /**
      * Mutation resolver to create a new company.
@@ -19,7 +18,7 @@ export class CompanyResolver {
      * @returns 
      */
     @Mutation(() => String)
-    createCompany(
+    createAuction(
         @Arg("name", () => String) name: string,
         @Arg("description", () => String) description: string,
         @Arg("address", () => String) address: string,

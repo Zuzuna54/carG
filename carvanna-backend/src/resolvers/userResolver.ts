@@ -15,7 +15,6 @@ export class UserResolver {
         return 'Hello World!';
     }
 
-
     /**
      * Mutation resolver to create a new user.
      * @param username - The username of the new user.
