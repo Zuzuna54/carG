@@ -1,5 +1,5 @@
 import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
-import createComanyAdmin from "../handlers/userHandlers/createCompanyAdmin";
+import createComanyAdmin from "../handlers/companyAdminHandlers/createCompanyAdmin";
 import logInHandler from "../handlers/authHandlers/logInHandler";
 import { User } from "../entities/User";
 import { Context } from "../contextInterface/context";

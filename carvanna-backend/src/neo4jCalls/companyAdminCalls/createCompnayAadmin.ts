@@ -2,7 +2,7 @@ import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import { User } from '../../entities/User';
 import driver from '../db';
 
-export const createUser = async (user: User): Promise<Record<string, any>> => {
+export const createCompanyAdmin = async (user: User): Promise<Record<string, any>> => {
     console.log(`Opening neo4j session\n`);
     const session: Session = driver.session();
 

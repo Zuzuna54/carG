@@ -1,4 +1,4 @@
-import { createUser } from '../../neo4jCalls/companyAdminCalls/createCompnayAadmin';
+import { createCompanyAdmin } from '../../neo4jCalls/companyAdminCalls/createCompnayAadmin';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -51,9 +51,10 @@ const createUserHandler = async (
 
         // Validate that name, email, and phone are provided in the request body
         console.log(`Validating that name, email, password and userType are provided in the request body\n`)
-        if (!username || !email || !password || !userType) {
+        if (!username || !email || !password || !userType || !compnayId) {
 
-            console.error('Error: 400 name, email, password and userType are required parameters.\n');
+            console.error('Error: 400 username, email, password, userType and companyId are required parameters.\n');
+            console.error(`username: ${username} email: ${email} password: ${password} userType: ${userType} companyId: ${compnayId}\n`);
             return `Error: 400 name, email, password and userType are required parameters.`;
 
         }
@@ -114,7 +115,7 @@ const createUserHandler = async (
 
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
-        const userCreated: Record<string, any> = await createUser(userTobeCreated);
+        const userCreated: Record<string, any> = await createCompanyAdmin(userTobeCreated);
 
         return userCreated.result
 
