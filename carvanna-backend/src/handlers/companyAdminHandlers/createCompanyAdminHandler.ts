@@ -27,7 +27,7 @@ const createComanyAdminHandler = async (
 ): Promise<GenericReturn> => {
 
     console.log(`initiating createComanyAdminHandler \n`);
-    const result: GenericReturn = new GenericReturn('', 0, '', '');
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
@@ -159,8 +159,8 @@ const createComanyAdminHandler = async (
 
         //Validate that company exists
         console.log(`Validating that the Company exists\n`)
-        const auction: Record<string, any> = await getCompanyById(compnayId);
-        if (!auction.result) {
+        const company: GenericReturn = await getCompanyById(compnayId);
+        if (company.statusCode !== 200) {
 
             console.error(`Error: 404 Auction ${compnayId} not found`);
             result.result = `failed`;
@@ -173,8 +173,8 @@ const createComanyAdminHandler = async (
 
         // Check if the user already exists
         console.log(`Checking if the user already exists \n`)
-        const userCheck: Record<string, any> = await getUserByUsername(username);
-        if (userCheck.result) {
+        const userCheck: GenericReturn = await getUserByUsername(username);
+        if (userCheck.statusCode === 200) {
 
             console.error('Error: 409 Username already exists');
             result.result = `failed`;
@@ -226,18 +226,18 @@ const createComanyAdminHandler = async (
         // Create the user
         console.log(`Calling createUser neo4j call\n`)
         const userCreated: Record<string, any> = await createUser(userTobeCreated);
-        if (!userCreated.createdUser) {
+        if (userCreated.statusCode !== 200) {
 
-            console.error(`Error: 500 ${userCreated.result} user could not be created\n`);
+            console.error(`Error: 500 ${userCreated.message} user could not be created\n`);
             result.result = `failed`;
             result.statusCode = 500;
-            result.message = `Error: 500 ${userCreated.result} user could not be created`;
+            result.message = `Error: 500 ${userCreated.message} user could not be created`;
 
             return result;
 
         }
 
-        console.log(`User ${user.id} created successfully\n`)
+        console.log(`User ${user.username} created successfully\n`)
         result.id = user.id;
         result.result = `success`;
         result.statusCode = 200;

@@ -2,6 +2,8 @@ import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import { User } from '../../entities/User';
 import driver from '../db';
 import { COMPANY_ADMIN, COMPANY_USER } from '../../constants/constants';
+import { GenericReturn } from '../../entities/genericReturn';
+
 
 //Define query according to User type
 const returnUserQuery = (userType: string): string => {
@@ -54,16 +56,17 @@ const returnUserQuery = (userType: string): string => {
     }
 }
 
-export const createUser = async (user: User): Promise<Record<string, any>> => {
+export const createUser = async (user: User): Promise<GenericReturn> => {
 
     console.log(`Opening neo4j session\n`);
     const session: Session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         console.log(`Session opened, creating user ${user.username} with email ${user.email} and access rights of ${user.userType}\n`);
 
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             returnUserQuery(user.userType),
             {
                 id: user.id,
@@ -79,25 +82,37 @@ export const createUser = async (user: User): Promise<Record<string, any>> => {
             }
         );
 
-        const createdUser: Record<string, any> = result.records[0].get('u').properties;
-        console.log(`User ${createdUser.username} created with id ${createdUser.id} and access rights of ${createdUser.userType}\n`);
+        if (!queryResult.records[0]) {
 
-        return {
+            console.error(`500: Failed to create user ${user.username} with id ${user.id}`);
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 Failed to create user ${user.username} with id ${user.id}`;
 
-            result: `200: User ${createdUser.username} created with id ${createdUser.id} and access rights of ${createdUser.userType}`,
-            createdUser: true
+            return result;
 
-        };
+        } else {
+
+            const createdUser: Record<string, any> = queryResult.records[0].get('u').properties;
+            console.log(`200: User ${createdUser.username} created with email ${createdUser.email}\n`);
+
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: User ${createdUser.username} created with email ${createdUser.email}`;
+            result.id = createdUser.id;
+
+            return result;
+        }
 
     } catch (err) {
 
-        console.error(`Failed to create user ${user.username} with id ${user.id} and access rights of ${user.userType}: ${err}`);
-        return {
+        console.error(`Failed to create user ${user.username} with id ${user.id}: ${err}`);
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to create user ${user.username} with id ${user.id}`;
 
-            result: `Error: ${err}`,
-            createdUser: false
+        return result;
 
-        };
     } finally {
 
         await session.close();

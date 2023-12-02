@@ -21,14 +21,15 @@ const logInHandler = async (username, password) => {
             return user;
         }
         console.log(`Getting the user by username \n`);
-        const userReturned = await (0, getUserByUsername_1.getUserByUsername)(username);
-        if (!userReturned.result) {
+        const result = await (0, getUserByUsername_1.getUserByUsername)(username);
+        if (result.statusCode !== 200) {
             console.error('Error: 404 Username does not exist');
             user.error = `Error: 404 Username does not exist`;
             return user;
         }
+        console.log(`user returned data: ${JSON.stringify(result.data)}`);
         console.log(`Checking if the password is valid\n`);
-        const validPassword = await bcrypt_1.default.compare(password, userReturned.user.password);
+        const validPassword = await bcrypt_1.default.compare(password, result.data.password);
         console.log(`validPassword: ${validPassword}`);
         if (!validPassword) {
             console.error('Error: 401 Invalid password');
@@ -43,34 +44,34 @@ const logInHandler = async (username, password) => {
         }
         console.log(`Creating and assigning a token\n`);
         const signature = {
-            id: userReturned.user.id,
-            username: userReturned.user.username,
-            email: userReturned.user.email,
-            userType: userReturned.user.userType,
+            id: result.data.id,
+            username: result.data.username,
+            email: result.data.email,
+            userType: result.data.userType,
             lastLogIn: Date.now()
         };
         const token = jsonwebtoken_1.default.sign({ user: signature }, tokenSecret);
-        user.id = userReturned.user.id;
-        user.username = userReturned.user.username;
-        user.email = userReturned.user.email;
-        user.password = userReturned.user.password;
-        user.userType = userReturned.user.userType;
-        user.createdAt = userReturned.user.createdAt;
+        user.id = result.data.id;
+        user.username = result.data.username;
+        user.email = result.data.email;
+        user.password = result.data.password;
+        user.userType = result.data.userType;
+        user.createdAt = result.data.createdAt;
         user.lastLogin = new Date().toISOString();
-        user.createdBy = userReturned.user.createdBy;
+        user.createdBy = result.data.createdBy;
         user.token = token;
         console.log(`Updating the last login time\n`);
         const updateLastLogin = await (0, updateUser_1.updateUser)(user);
-        if (!updateLastLogin.updatedUser) {
-            console.error(`Error: 500 ${updateLastLogin.result} 500 Failed to update last login time`);
-            user.error = `Error: 500  ${updateLastLogin.result} Failed to update last login time`;
+        if (updateLastLogin.statusCode !== 200) {
+            console.error(`Error: 500 ${updateLastLogin.message} 500 Failed to update last login time`);
+            user.error = `Error: 500  ${updateLastLogin.message} Failed to update last login time`;
             return user;
         }
         return user;
     }
     catch (error) {
-        console.error('Error: 500 creating user:', error);
-        user.error = `Error: 500 creating user: ${error}`;
+        console.error('Error: 500 logging in user:', error);
+        user.error = `Error: 500 logging in user: ${error}`;
         return user;
     }
 };

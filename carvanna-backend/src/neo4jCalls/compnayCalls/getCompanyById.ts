@@ -1,53 +1,55 @@
 import { QueryResult, RecordShape } from 'neo4j-driver';
 import driver from '../db';
+import { GenericReturn } from '../../entities/genericReturn';
 
-export const getCompanyById = async (id: string): Promise<Record<string, any>> => {
+
+export const getCompanyById = async (id: string): Promise<GenericReturn> => {
 
     console.log(`opening neo4j session\n`)
     const session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         console.log(`session opened, getting company ${id}\n`);
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             'MATCH (c:Company {id: $id}) RETURN c',
             { id }
         );
 
 
-        if (!result.records[0]) {
+        if (!queryResult.records[0]) {
 
             console.error(`404: failed to get company ${id}: Company not found`);
-            return {
+            result.result = `failed`;
+            result.statusCode = 404;
+            result.message = `Error: 404 Company not found`;
 
-                result: false,
-                company: `404 Error: Company not found`
-
-            }
+            return result;
 
         } else {
 
-            const company: Record<string, any> = result.records[0].get('c').properties;
+            const company: Record<string, any> = queryResult.records[0].get('c').properties;
             console.log(`200: Company ${company.name} found with id ${company.id}\n`);
 
-            return {
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: Company ${company.name} found with id ${company.id}`;
+            result.id = company.id;
+            result.data = company;
 
-                result: true,
-                company: company
-
-            };
+            return result;
 
         }
 
     } catch (err) {
 
         console.error(`500: failed to get company ${id}: ${err}`);
-        return {
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to get company ${id}: ${err}`;
 
-            result: false,
-            company: `500 :Error: ${err}`
-
-        }
+        return result;
 
     } finally {
 

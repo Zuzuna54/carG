@@ -4,6 +4,7 @@ import jwt, { Secret } from 'jsonwebtoken';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
 import { updateUser } from '../../neo4jCalls/userCalls/updateUser';
 import { User } from '../../entities/User';
+import { GenericReturn } from '../../entities/genericReturn';
 
 
 const logInHandler = async (username: string, password: string): Promise<User> => {
@@ -41,17 +42,19 @@ const logInHandler = async (username: string, password: string): Promise<User> =
 
         // Get the user by username 
         console.log(`Getting the user by username \n`)
-        const userReturned: Record<string, any> = await getUserByUsername(username);
-        if (!userReturned.result) {
+        const result: GenericReturn = await getUserByUsername(username);
+        if (result.statusCode !== 200) {
 
             console.error('Error: 404 Username does not exist');
             user.error = `Error: 404 Username does not exist`;
             return user
         }
 
+        console.log(`user returned data: ${JSON.stringify(result.data)}`);
+
         //Check if the password is valid
         console.log(`Checking if the password is valid\n`)
-        const validPassword = await bcrypt.compare(password, userReturned.user.password);
+        const validPassword = await bcrypt.compare(password, result.data.password);
         console.log(`validPassword: ${validPassword}`);
         if (!validPassword) {
 
@@ -72,31 +75,31 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         //Create and assign a token
         console.log(`Creating and assigning a token\n`)
         const signature: Record<string, any> = {
-            id: userReturned.user.id,
-            username: userReturned.user.username,
-            email: userReturned.user.email,
-            userType: userReturned.user.userType,
+            id: result.data.id,
+            username: result.data.username,
+            email: result.data.email,
+            userType: result.data.userType,
             lastLogIn: Date.now()
         };
 
         const token = jwt.sign({ user: signature }, tokenSecret);
-        user.id = userReturned.user.id;
-        user.username = userReturned.user.username;
-        user.email = userReturned.user.email;
-        user.password = userReturned.user.password;
-        user.userType = userReturned.user.userType;
-        user.createdAt = userReturned.user.createdAt;
+        user.id = result.data.id;
+        user.username = result.data.username;
+        user.email = result.data.email;
+        user.password = result.data.password;
+        user.userType = result.data.userType;
+        user.createdAt = result.data.createdAt;
         user.lastLogin = new Date().toISOString();
-        user.createdBy = userReturned.user.createdBy;
+        user.createdBy = result.data.createdBy;
         user.token = token;
 
         //Update the last login time
         console.log(`Updating the last login time\n`)
-        const updateLastLogin = await updateUser(user);
-        if (!updateLastLogin.updatedUser) {
+        const updateLastLogin: GenericReturn = await updateUser(user);
+        if (updateLastLogin.statusCode !== 200) {
 
-            console.error(`Error: 500 ${updateLastLogin.result} 500 Failed to update last login time`);
-            user.error = `Error: 500  ${updateLastLogin.result} Failed to update last login time`;
+            console.error(`Error: 500 ${updateLastLogin.message} 500 Failed to update last login time`);
+            user.error = `Error: 500  ${updateLastLogin.message} Failed to update last login time`;
             return user
         }
 
@@ -104,8 +107,8 @@ const logInHandler = async (username: string, password: string): Promise<User> =
 
     } catch (error) {
 
-        console.error('Error: 500 creating user:', error);
-        user.error = `Error: 500 creating user: ${error}`;
+        console.error('Error: 500 logging in user:', error);
+        user.error = `Error: 500 logging in user: ${error}`;
         return user
 
     }

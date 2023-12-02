@@ -8,12 +8,14 @@ export class GenericReturn {
         statusCode: number,
         message: string,
         result: string,
+        data: any
 
     ) {
         this.id = id;
         this.statusCode = statusCode;
         this.message = message;
         this.result = result;
+        this.data = data;
     }
 
     @Field(() => ID)
@@ -28,4 +30,6 @@ export class GenericReturn {
     @Field(() => String)
     result: string;
 
+    @Field(() => String)
+    data: any;
 }

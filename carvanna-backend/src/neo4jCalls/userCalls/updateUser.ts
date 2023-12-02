@@ -1,11 +1,14 @@
 import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import { User } from '../../entities/User';
 import driver from '../db';
+import { GenericReturn } from '../../entities/genericReturn';
 
-export const updateUser = async (user: User): Promise<Record<string, any>> => {
+
+export const updateUser = async (user: User): Promise<GenericReturn> => {
 
     console.log(`opening neo4j session\n`)
     const session: Session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
@@ -13,7 +16,7 @@ export const updateUser = async (user: User): Promise<Record<string, any>> => {
 
         //generate new updatedAt timestamp and updatedBy user conditionally 
 
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             `
             MATCH (u:User {id: $id})
             SET u.username = $username, u.email = $email, u.password = $password, u.userType = $userType, u.lastLogin = $lastLogin
@@ -30,25 +33,37 @@ export const updateUser = async (user: User): Promise<Record<string, any>> => {
             }
         );
 
-        const updatedUser: Record<string, any> = result.records[0].get('u').properties;
-        console.log(`User ${updatedUser.username} updated with email ${updatedUser.email} and access rights of ${updatedUser.userType}\n`);
+        if (!queryResult.records[0]) {
 
-        return {
+            console.error(`404: failed to update user ${user.username}: User not found`);
+            result.result = `failed`;
+            result.statusCode = 404;
+            result.message = `Error: 404 User not found`;
 
-            result: `200: User ${updatedUser.username} updated with email ${updatedUser.email} and access rights of ${updatedUser.userType}`,
-            updatedUser: true
+            return result;
 
-        };
+        } else {
+
+            const updatedUser: Record<string, any> = queryResult.records[0].get('u').properties;
+            console.log(`200: User ${updatedUser.username} updated\n`);
+
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: User ${updatedUser.username} updated`;
+            result.id = updatedUser.id;
+
+            return result;
+
+        }
 
     } catch (err) {
 
         console.error(`failed to update user ${user.username}: ${err}`);
-        return {
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to update user ${user.username}: ${err}`;
 
-            result: `Error: ${err}`,
-            updatedUser: false
-
-        }
+        return result;
 
     } finally {
 

@@ -20,7 +20,7 @@ const createAuctionHandler = async (
 ): Promise<GenericReturn> => {
 
     console.log(`initiating createAuctionHandler \n`);
-    const result: GenericReturn = new GenericReturn('', 0, '', '');
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
@@ -78,8 +78,8 @@ const createAuctionHandler = async (
 
         // Validate that the Auction doesn't already exist
         console.log(`Validating that the Auction doesn't already exist\n`)
-        const auctionReturned: Record<string, any> = await getAuctionByName(name);
-        if (auctionReturned.result) {
+        const auctionReturned: GenericReturn = await getAuctionByName(name);
+        if (auctionReturned.statusCode === 200) {
 
             console.error(`Error: 409 Auction ${name} already exists\n`);
             result.result = `failed`;
@@ -109,12 +109,12 @@ const createAuctionHandler = async (
         );
 
         const auctionCreated: Record<string, any> = await createAuction(auction);
-        if (!auctionCreated.createdAuction) {
+        if (auctionCreated.statusCode !== 200) {
 
-            console.error(`Error: 500 Auction ${auctionCreated.result} could not be created\n`);
+            console.error(`Error: 500 Auction ${auctionCreated.message} could not be created\n`);
             result.result = `failed`;
             result.statusCode = 500;
-            result.message = `Error: 500 Auction ${auctionCreated.result} could not be created`;
+            result.message = `Error: 500 Auction ${auctionCreated.message} could not be created`;
 
             return result;
 

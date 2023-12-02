@@ -1,17 +1,19 @@
 import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import { State } from '../../entities/State';
 import driver from '../db';
+import { GenericReturn } from '../../entities/genericReturn';
 
-export const createState = async (state: State): Promise<Record<string, any>> => {
+
+export const createState = async (state: State): Promise<GenericReturn> => {
 
     console.log(`opening neo4j session\n`)
     const session: Session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         console.log(`session opened, creating state ${state.name}\n`);
-
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             `   MATCH (a:Auction {id: $auctionId})
                 CREATE (s:State {
                     id: $id,
@@ -36,25 +38,37 @@ export const createState = async (state: State): Promise<Record<string, any>> =>
             }
         );
 
-        const createdState: Record<string, any> = result.records[0].get('s').properties;
-        console.log(`200: State ${createdState.name} created with id ${createdState.id} and status of ${createdState.status}\n`);
+        if (!queryResult.records[0]) {
 
-        return {
+            console.error(`500: failed to create state ${state.name}`);
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 Failed to create state ${state.name}`;
 
-            result: `200: State ${createdState.name} created with id ${createdState.id} and status of ${createdState.status}`,
-            createdState: true
+            return result;
 
-        };
+        } else {
+
+            const createdState: Record<string, any> = queryResult.records[0].get('s').properties;
+            console.log(`200: State ${createdState.name} created with id ${createdState.id}\n`);
+
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: State ${createdState.name} created with id ${createdState.id}`;
+            result.id = createdState.id;
+
+            return result;
+        }
+
 
     } catch (err) {
 
         console.error(`500: failed to create state ${state.name}: ${err}`);
-        return {
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to create state ${state.name}: ${err}`;
 
-            result: `500 Error: ${err}`,
-            createdState: false
-
-        }
+        return result;
 
     } finally {
 

@@ -18,7 +18,7 @@ const createCompanyHandler = async (
 ): Promise<GenericReturn> => {
 
     console.log(`initiating createCompanyHandler \n`);
-    const result: GenericReturn = new GenericReturn('', 0, '', '');
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
@@ -90,8 +90,8 @@ const createCompanyHandler = async (
 
         // Validate that the Company doesn't already exist
         console.log(`Validating that the Company doesn't already exist\n`)
-        const companyReturned: Record<string, any> = await getCompanyByName(name);
-        if (companyReturned.result) {
+        const companyReturned: GenericReturn = await getCompanyByName(name);
+        if (companyReturned.statusCode === 200) {
 
             console.error('Error: 409 Company already exists');
             result.result = `failed`;
@@ -123,12 +123,12 @@ const createCompanyHandler = async (
         // Create the Company
         console.log(`Creating the Company\n`)
         const companyCreated: Record<string, any> = await createCompany(company);
-        if (!companyCreated.createdCompany) {
+        if (companyCreated.statusCode !== 200) {
 
-            console.error(`Error: 500 ${companyCreated.result} company could not be created\n`);
+            console.error(`Error: 500 ${companyCreated.message} company could not be created\n`);
             result.result = `failed`;
             result.statusCode = 500;
-            result.message = `Error: 500 ${companyCreated.result} company could not be created`;
+            result.message = `Error: 500 ${companyCreated.message} company could not be created`;
 
             return result;
 

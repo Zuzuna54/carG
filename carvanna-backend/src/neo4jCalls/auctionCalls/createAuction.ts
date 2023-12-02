@@ -1,17 +1,19 @@
 import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import { Auction } from '../../entities/Auction';
 import driver from '../db';
+import { GenericReturn } from '../../entities/genericReturn';
 
-export const createAuction = async (auction: Auction): Promise<Record<string, any>> => {
+export const createAuction = async (auction: Auction): Promise<GenericReturn> => {
 
     console.log(`opening neo4j session\n`)
     const session: Session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         console.log(`session opened, creating auction ${auction.name}\n`);
 
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             `
                 CREATE (a:Auction {
                     id: $id,
@@ -39,25 +41,36 @@ export const createAuction = async (auction: Auction): Promise<Record<string, an
             }
         );
 
-        const createdAuction: Record<string, any> = result.records[0].get('a').properties;
-        console.log(`200: Auction ${createdAuction.name} created with id ${createdAuction.id} and status of ${createdAuction.status}\n`);
+        if (!queryResult.records[0]) {
 
-        return {
+            console.error(`500: failed to create auction ${auction.name}`);
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 Failed to create auction ${auction.name}`;
 
-            result: `200: Auction ${createdAuction.name} created with id ${createdAuction.id} and status of ${createdAuction.status}`,
-            createdAuction: true
+            return result
 
-        };
+        } else {
+
+            const createdAuction: Record<string, any> = queryResult.records[0].get('a').properties;
+            console.log(`200: Auction ${createdAuction.name} created with id ${createdAuction.id}\n`);
+
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: Auction ${createdAuction.name} created with id ${createdAuction.id}`;
+            result.id = createdAuction.id;
+
+            return result;
+        }
 
     } catch (err) {
 
         console.error(`500: failed to create auction ${auction.name}: ${err}`);
-        return {
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to create auction ${auction.name}: ${err}`;
 
-            result: `Error: ${err}`,
-            createdAuction: false
-
-        }
+        return result;
 
     } finally {
 

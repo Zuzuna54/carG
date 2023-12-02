@@ -1,54 +1,55 @@
 import { QueryResult, RecordShape, Session } from 'neo4j-driver';
 import driver from '../db';
+import { GenericReturn } from '../../entities/genericReturn';
 
 
-export const getAuctionById = async (id: string): Promise<Record<string, any>> => {
+export const getAuctionById = async (id: string): Promise<GenericReturn> => {
 
     console.log(`opening neo4j session\n`)
     const session: Session = driver.session();
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         console.log(`session opened, getting auction ${id}\n`);
 
-        const result: QueryResult<RecordShape> = await session.run(
+        const queryResult: QueryResult<RecordShape> = await session.run(
             'MATCH (a:Auction {id: $id}) RETURN a',
             { id }
         );
 
-        if (!result.records[0]) {
+        if (!queryResult.records[0]) {
 
             console.error(`404: failed to get auction ${id}: Auction not found`);
-            return {
+            result.result = `failed`;
+            result.statusCode = 404;
+            result.message = `Error: 404 Auction not found`;
 
-                result: false,
-                auction: `Error: Auction not found`
-
-            }
+            return result;
 
         } else {
 
-            const auction: Record<string, any> = result.records[0].get('a').properties;
+            const auction: Record<string, any> = queryResult.records[0].get('a').properties;
             console.log(`200: Auction ${auction.name} found with id ${auction.id}\n`);
 
-            return {
+            result.result = `success`;
+            result.statusCode = 200;
+            result.message = `200: Auction ${auction.name} found with id ${auction.id}`;
+            result.id = auction.id;
+            result.data = auction;
 
-                result: true,
-                auction: auction
-
-            };
+            return result;
 
         }
 
     } catch (err) {
 
         console.error(`500: failed to get auction ${id}: ${err}`);
-        return {
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to get auction ${id}: ${err}`;
 
-            result: false,
-            auction: `500 Error: ${err}`
-
-        }
+        return result;
 
     } finally {
 

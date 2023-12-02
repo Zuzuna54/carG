@@ -18,7 +18,7 @@ const createStateHandler = async (
 ): Promise<GenericReturn> => {
 
     console.log(`initiating createStateHandler \n`);
-    const result: GenericReturn = new GenericReturn('', 0, '', '');
+    const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
@@ -76,8 +76,8 @@ const createStateHandler = async (
 
         // Validate that the Auction exists
         console.log(`Validating that the Auction exists\n`)
-        const auction: Record<string, any> = await getAuctionById(auctionId);
-        if (!auction.result) {
+        const auction: GenericReturn = await getAuctionById(auctionId);
+        if (auction.statusCode !== 200) {
 
             console.error(`Error: 404 Auction ${auctionId} not found`);
             result.result = `failed`;
@@ -90,8 +90,8 @@ const createStateHandler = async (
 
         // Validate that the State doesn't already exist
         console.log(`Validating that the State doesn't already exist\n`)
-        const state: Record<string, any> = await getStateByName(name);
-        if (state.result) {
+        const state: GenericReturn = await getStateByName(name);
+        if (state.statusCode === 200) {
 
             console.error(`Error: 409 State ${name} already exists`);
             result.result = `failed`;
@@ -116,12 +116,12 @@ const createStateHandler = async (
         );
         const createdState: Record<string, any> = await createState(newState);
 
-        if (!createdState.createdState) {
+        if (createdState.statusCode !== 200) {
 
-            console.error(`Error: 500 Failed to create State ${name}`);
+            console.error(`Error: 500 Failed to create State ${createdState.message}`);
             result.result = `failed`;
             result.statusCode = 500;
-            result.message = `Error: 500 Failed to create State ${createdState.result}`;
+            result.message = `Error: 500 Failed to create State ${createdState.message} `;
 
             return result;
 
