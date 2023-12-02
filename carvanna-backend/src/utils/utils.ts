@@ -139,3 +139,22 @@ export const validateSession = (lastLogin: string): boolean => {
     return sessionValidated
 
 };
+
+
+//Helper function that validates car vin code 
+export const validateVin = (vin: string): boolean => {
+
+    console.log(`initiating validateVin \n`);
+
+    //Regex to validate vin
+    const vinRegex: RegExp = /^[a-zA-Z0-9]+$/;
+    console.log(`vinRegex: ${vinRegex}`);
+
+    //Validate the vin
+    console.log(`Validating the vin\n`)
+    const vinValidated: boolean = vinRegex.test(vin);
+    console.log(`vinValidated: ${vinValidated}`);
+
+    return vinValidated
+
+};

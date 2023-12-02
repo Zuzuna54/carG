@@ -14,10 +14,19 @@ const auctionResolver_1 = require("./resolvers/auctionResolver");
 const stateResolver_1 = require("./resolvers/stateResolver");
 const locationResolver_1 = require("./resolvers/locationResolver");
 const priceResolver_1 = require("./resolvers/priceResolver");
+const carResolver_1 = require("./resolvers/carResolver");
 const main = async () => {
     const appoloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [userResolver_1.UserResolver, companyResolver_1.CompanyResolver, stateResolver_1.StateResolver, auctionResolver_1.AuctionResolver, locationResolver_1.LocationResolver, priceResolver_1.PriceResolver],
+            resolvers: [
+                userResolver_1.UserResolver,
+                companyResolver_1.CompanyResolver,
+                stateResolver_1.StateResolver,
+                auctionResolver_1.AuctionResolver,
+                locationResolver_1.LocationResolver,
+                priceResolver_1.PriceResolver,
+                carResolver_1.CarResolver
+            ],
             validate: false
         }),
         context: ({ req }) => ({ req })
