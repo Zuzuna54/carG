@@ -1,9 +1,10 @@
 import { createUser } from '../../neo4jCalls/userCalls/createUser';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
+import { getCompanyById } from '../../neo4jCalls/compnayCalls/getCompanyById';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { User } from '../../entities/User';
-import { SUPER_ADMIN, ACTIVE } from '../../constants/constants';
+import { SUPER_ADMIN, ACTIVE, COMPANY_ADMIN } from '../../constants/constants';
 import {
     validateEmail,
     decodeToken,
@@ -37,22 +38,34 @@ const createComanyAdminHandler = async (
 
         }
 
+        //Decode the JWT token
         console.log(`Decoding the JWT token\n`)
         const user: Record<string, any> | null = decodeToken(jwtToken);
-        if (user?.userType !== SUPER_ADMIN) {
-
-            console.error('Error: 401 User not authorized to create users');
-            return `Error: 401 User not authorized to create users`;
-        }
 
         //Validate session duration 
         console.log(`Validating session duration\n`)
-        const sessionValidated: boolean = validateSession(user.lastLogIn);
+        const sessionValidated: boolean = validateSession(user?.lastLogIn);
         if (!sessionValidated) {
 
             console.error('Error: 440 Session has expired');
             return `Error: 440 Session has expired`;
 
+        }
+
+        //Validate that the user is a super admin or a company admin
+        console.log(`Validating that the user is a super admin or a company admin\n`)
+        if (user?.userType !== SUPER_ADMIN && user?.userType !== COMPANY_ADMIN) {
+
+            console.error('Error: 401 User not authorized to create users');
+            return `Error: 401 User not authorized to create users`;
+        }
+
+        //validate that compnay admin is not creating another company admin
+        console.log(`Validating that the user is not creating another company admin\n`)
+        if (user?.userType === COMPANY_ADMIN && userType === COMPANY_ADMIN) {
+
+            console.error('Error: 401 User not authorized to create another company admin');
+            return `Error: 401 User not authorized to create another company admin`;
         }
 
         // Validate that name, email, and phone are provided in the request body
@@ -102,6 +115,16 @@ const createComanyAdminHandler = async (
 
             console.error('Error: 504 Invalid userType');
             return `Error: 504 Invalid userType`;
+
+        }
+
+        //Validate that company exists
+        console.log(`Validating that the Company exists\n`)
+        const auction: Record<string, any> = await getCompanyById(compnayId);
+        if (!auction.result) {
+
+            console.error(`Error: 404 Auction ${compnayId} not found`);
+            return `Error: 404 Auction ${compnayId} not found`;
 
         }
 

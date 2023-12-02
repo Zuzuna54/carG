@@ -18,18 +18,18 @@ export const getAuctionByName = async (name: string): Promise<Record<string, any
 
         if (!result.records[0]) {
 
-            console.error(`failed to get auction ${name}: Auction not found`);
+            console.error(`404: failed to get auction ${name}: Auction not found`);
             return {
 
                 result: false,
-                auction: `Error: Auction not found`
+                auction: `404 Error: Auction not found`
 
             }
 
         } else {
 
             const auction: Record<string, any> = result.records[0].get('a').properties;
-            console.log(`Auction ${auction.name} found with description ${auction.description} and status of ${auction.status}\n`);
+            console.log(`200: Auction ${auction.name} found with description ${auction.description} and status of ${auction.status}\n`);
 
             return {
 
@@ -42,11 +42,11 @@ export const getAuctionByName = async (name: string): Promise<Record<string, any
 
     } catch (err) {
 
-        console.error(`failed to get auction ${name}: ${err}`);
+        console.error(`500: failed to get auction ${name}: ${err}`);
         return {
 
             result: false,
-            auction: `Error: ${err}`
+            auction: `500 Error: ${err}`
 
         }
 

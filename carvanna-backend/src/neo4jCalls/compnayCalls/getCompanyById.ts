@@ -17,18 +17,18 @@ export const getCompanyById = async (id: string): Promise<Record<string, any>> =
 
         if (!result.records[0]) {
 
-            console.error(`failed to get company ${id}: Company not found`);
+            console.error(`404: failed to get company ${id}: Company not found`);
             return {
 
                 result: false,
-                company: `Error: Company not found`
+                company: `404 Error: Company not found`
 
             }
 
         } else {
 
             const company: Record<string, any> = result.records[0].get('c').properties;
-            console.log(`Company ${company.name} found with description ${company.description} and address of ${company.address}\n`);
+            console.log(`200: Company ${company.name} found with id ${company.id}\n`);
 
             return {
 
@@ -41,11 +41,11 @@ export const getCompanyById = async (id: string): Promise<Record<string, any>> =
 
     } catch (err) {
 
-        console.error(`failed to get company ${id}: ${err}`);
+        console.error(`500: failed to get company ${id}: ${err}`);
         return {
 
             result: false,
-            company: `Error: ${err}`
+            company: `500 :Error: ${err}`
 
         }
 

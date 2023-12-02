@@ -17,11 +17,11 @@ export const getCompanyByName = async (name: string): Promise<Record<string, any
 
         if (!result.records[0]) {
 
-            console.error(`failed to get company ${name}: Company not found`);
+            console.error(`404: failed to get company ${name}: Company not found`);
             return {
 
                 result: false,
-                company: `Error: Company not found`
+                company: `404 Error: Company not found`
 
             }
 
@@ -41,11 +41,11 @@ export const getCompanyByName = async (name: string): Promise<Record<string, any
 
     } catch (err) {
 
-        console.error(`failed to get company ${name}: ${err}`);
+        console.error(`500: failed to get company ${name}: ${err}`);
         return {
 
             result: false,
-            company: `Error: ${err}`
+            company: `500 Error: ${err}`
 
         }
 

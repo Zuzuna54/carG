@@ -40,7 +40,7 @@ export const createAuction = async (auction: Auction): Promise<Record<string, an
         );
 
         const createdAuction: Record<string, any> = result.records[0].get('a').properties;
-        console.log(`Auction ${createdAuction.name} created with id ${createdAuction.id} and status of ${createdAuction.status}\n`);
+        console.log(`200: Auction ${createdAuction.name} created with id ${createdAuction.id} and status of ${createdAuction.status}\n`);
 
         return {
 
@@ -51,7 +51,7 @@ export const createAuction = async (auction: Auction): Promise<Record<string, an
 
     } catch (err) {
 
-        console.error(`failed to create auction ${auction.name}: ${err}`);
+        console.error(`500: failed to create auction ${auction.name}: ${err}`);
         return {
 
             result: `Error: ${err}`,

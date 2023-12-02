@@ -37,21 +37,21 @@ export const createCompany = async (company: Company): Promise<Record<string, an
 
 
         const createdCompany: Record<string, any> = result.records[0].get('c').properties;
-        console.log(`Company ${createdCompany.id} created with id ${createdCompany.id} and address of ${createdCompany.address}\n`);
+        console.log(`Company ${createdCompany.name} created with id: ${createdCompany.id}\n`);
 
         return {
 
-            result: `200: Company ${createdCompany.name} created with id ${createdCompany.id} and address of ${createdCompany.address}`,
+            result: `200: Company ${createdCompany.name} created with id: ${createdCompany.id}`,
             createdCompany: true
 
         };
 
     } catch (err) {
 
-        console.error(`failed to create company ${company.name} with id ${company.id} and address of ${company.address}: ${err}`);
+        console.error(`500: failed to create company ${company.name} with id ${company.id}: ${err}`);
         return {
 
-            result: `Error: ${err}`,
+            result: `500 Error: ${err}`,
             createdCompany: false
 
         }

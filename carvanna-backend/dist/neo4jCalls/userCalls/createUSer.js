@@ -5,14 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
 const db_1 = __importDefault(require("../db"));
-const createUser = async (user) => {
-    console.log(`Opening neo4j session\n`);
-    const session = db_1.default.session();
-    try {
-        console.log(`Session opened, creating user ${user.username} with email ${user.email} and access rights of ${user.userType}\n`);
-        const result = await session.run(`
+const constants_1 = require("../../constants/constants");
+const returnUserQuery = (userType) => {
+    switch (userType) {
+        case constants_1.COMPANY_ADMIN:
+            return `
                 MATCH (company:Company {id: $companyId})
-                CREATE (u:${user.userType}:User {
+                CREATE (u:${userType}:User {
                     id: $id, 
                     username: $username, 
                     email: $email, 
@@ -25,7 +24,37 @@ const createUser = async (user) => {
                 })
                 MERGE (u)-[:BELONGS_TO]->(company)
                 RETURN u
-            `, {
+            `;
+        case constants_1.COMPANY_USER:
+            return `
+                MATCH (company:Company {id: $companyId})
+                MATCH (creator:User {username: $createdBy})
+                CREATE (u:${userType}:User {
+                    id: $id, 
+                    username: $username, 
+                    email: $email, 
+                    password: $password, 
+                    userType: $userType, 
+                    createdAt: $createdAt, 
+                    lastLogin: $lastLogin, 
+                    createdBy: $createdBy, 
+                    status: $status
+                })
+                MERGE (creator)<-[:CREATED_BY]-(u)-[:BELONGS_TO]->(company)
+                RETURN u
+            `;
+        case 'User':
+            return 'RETURN u';
+        default:
+            return 'RETURN u';
+    }
+};
+const createUser = async (user) => {
+    console.log(`Opening neo4j session\n`);
+    const session = db_1.default.session();
+    try {
+        console.log(`Session opened, creating user ${user.username} with email ${user.email} and access rights of ${user.userType}\n`);
+        const result = await session.run(returnUserQuery(user.userType), {
             id: user.id,
             username: user.username,
             email: user.email,

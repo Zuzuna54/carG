@@ -3,14 +3,22 @@ import { Field, ID, ObjectType } from 'type-graphql';
 @ObjectType()
 export class State {
 
-    constructor() {
-        this.id = '';
-        this.name = '';
-        this.abbrevation = '';
-        this.auctionId = '';
-        this.createdAt = '';
-        this.createdBy = '';
-        this.status = '';
+    constructor(
+        id: string,
+        name: string,
+        abbrevation: string,
+        auctionId: string,
+        createdAt: string,
+        createdBy: string,
+        status: string
+    ) {
+        this.id = id;
+        this.name = name;
+        this.abbrevation = abbrevation;
+        this.auctionId = auctionId;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.status = status;
     }
 
     @Field(() => ID)
