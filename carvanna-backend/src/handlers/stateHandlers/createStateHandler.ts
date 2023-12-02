@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { State } from "../../entities/State";
 import { decodeToken, validateSession } from '../../utils/utils';
 import { ACTIVE, SUPER_ADMIN } from "../../constants/constants";
+import { GenericReturn } from "../../entities/genericReturn";
 
 
 const createStateHandler = async (
@@ -14,9 +15,10 @@ const createStateHandler = async (
     auctionId: string,
     jwtToken: string | undefined
 
-): Promise<string> => {
+): Promise<GenericReturn> => {
 
     console.log(`initiating createStateHandler \n`);
+    const result: GenericReturn = new GenericReturn('', 0, '', '');
 
     try {
 
@@ -25,7 +27,11 @@ const createStateHandler = async (
         if (!jwtToken) {
 
             console.error('Error: 498 No JWT token provided');
-            return `Error: 498 No JWT token provided `;
+            result.result = `failed`;
+            result.statusCode = 498;
+            result.message = `Error 498: No JWT token provided`;
+
+            return result;
 
         }
 
@@ -34,7 +40,11 @@ const createStateHandler = async (
         if (user?.userType !== SUPER_ADMIN) {
 
             console.error('Error: 401 User not authorized to create states');
-            return `Error: 401 User not authorized to create states`;
+            result.result = `failed`;
+            result.statusCode = 401;
+            result.message = `Error: 401 User not authorized to create states`;
+
+            return result;
         }
 
         //Validate session duration 
@@ -43,7 +53,11 @@ const createStateHandler = async (
         if (!sessionValidated) {
 
             console.error('Error: 440 Session has expired');
-            return `Error: 440 Session has expired`;
+            result.result = `failed`;
+            result.statusCode = 440;
+            result.message = `Error: 440 Session has expired`;
+
+            return result;
 
         }
 
@@ -52,7 +66,11 @@ const createStateHandler = async (
         if (!name || !abbrevation || !auctionId) {
 
             console.error('Error: 400 name, abbrevation and auctionId are required parameters.\n');
-            return `Error: 400 name, abbrevation and auctionId are required parameters.`;
+            result.result = `failed`;
+            result.statusCode = 400;
+            result.message = `Error: 400 name, abbrevation and auctionId are required parameters.`;
+
+            return result;
 
         }
 
@@ -62,7 +80,11 @@ const createStateHandler = async (
         if (!auction.result) {
 
             console.error(`Error: 404 Auction ${auctionId} not found`);
-            return `Error: 404 Auction ${auctionId} not found`;
+            result.result = `failed`;
+            result.statusCode = 404;
+            result.message = `Error: 404 Auction ${auctionId} not found`;
+
+            return result;
 
         }
 
@@ -72,7 +94,11 @@ const createStateHandler = async (
         if (state.result) {
 
             console.error(`Error: 409 State ${name} already exists`);
-            return `Error: 409 State ${name} already exists`;
+            result.result = `failed`;
+            result.statusCode = 409;
+            result.message = `Error: 409 State ${name} already exists`;
+
+            return result;
 
         }
 
@@ -85,7 +111,7 @@ const createStateHandler = async (
             abbrevation,
             auctionId,
             new Date().toISOString(),
-            user.id,
+            user.username,
             ACTIVE
         );
         const createdState: Record<string, any> = await createState(newState);
@@ -93,17 +119,30 @@ const createStateHandler = async (
         if (!createdState.createdState) {
 
             console.error(`Error: 500 Failed to create State ${name}`);
-            return `Error: 500 Failed to create State ${name}`;
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 Failed to create State ${createdState.result}`;
+
+            return result;
 
         }
 
         console.log(`State ${name} created successfully\n`);
-        return createdState.result;
+        result.id = id;
+        result.result = `success`;
+        result.statusCode = 200;
+        result.message = createdState.result;
+
+        return result;
 
     } catch (err) {
 
         console.error(`Error: 500 Failed to create State ${name}: ${err}`);
-        return `Error: 500 Failed to create State ${name}: ${err}`;
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 Failed to create State ${name}: ${err}`;
+
+        return result;
 
     }
 }

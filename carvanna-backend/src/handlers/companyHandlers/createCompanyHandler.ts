@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Company } from '../../entities/Company';
 import { ACTIVE, SUPER_ADMIN } from '../../constants/constants';
 import { validateEmail, validateSession, decodeToken } from '../../utils/utils';
+import { GenericReturn } from "../../entities/genericReturn";
 
 const createCompanyHandler = async (
 
@@ -14,9 +15,10 @@ const createCompanyHandler = async (
     email: string,
     jwtToken: string | undefined
 
-): Promise<string> => {
+): Promise<GenericReturn> => {
 
     console.log(`initiating createCompanyHandler \n`);
+    const result: GenericReturn = new GenericReturn('', 0, '', '');
 
     try {
 
@@ -25,7 +27,11 @@ const createCompanyHandler = async (
         if (!jwtToken) {
 
             console.error('Error: 498 No JWT token provided');
-            return `Error: 498 No JWT token provided `;
+            result.result = `failed`;
+            result.statusCode = 498;
+            result.message = `Error 498: No JWT token provided`;
+
+            return result;
 
         }
 
@@ -34,7 +40,11 @@ const createCompanyHandler = async (
         if (user?.userType !== SUPER_ADMIN) {
 
             console.error('Error: 401 User not authorized to create users');
-            return `Error: 401 User not authorized to create users`;
+            result.result = `failed`;
+            result.statusCode = 401;
+            result.message = `Error: 401 User not authorized to create users`;
+
+            return result;
         }
 
         //Validate session duration 
@@ -43,7 +53,11 @@ const createCompanyHandler = async (
         if (!sessionValidated) {
 
             console.error('Error: 440 Session has expired');
-            return `Error: 440 Session has expired`;
+            result.result = `failed`;
+            result.statusCode = 440;
+            result.message = `Error: 440 Session has expired`;
+
+            return result;
 
         }
 
@@ -53,7 +67,11 @@ const createCompanyHandler = async (
         if (!emailValidated) {
 
             console.error('Error: 501 Invalid email');
-            return `Error: 501 Invalid email`;
+            result.result = `failed`;
+            result.statusCode = 501;
+            result.message = `Error: 501 Invalid email`;
+
+            return result;
 
         }
 
@@ -62,7 +80,11 @@ const createCompanyHandler = async (
         if (!name || !description || !address || !phone || !email) {
 
             console.error('Error: 400 name, description, address, phone and email are required parameters.\n');
-            return `Error: 400 name, description, address, phone and email are required parameters.`;
+            result.result = `failed`;
+            result.statusCode = 400;
+            result.message = `Error: 400 name, description, address, phone and email are required parameters.`;
+
+            return result;
 
         }
 
@@ -72,7 +94,11 @@ const createCompanyHandler = async (
         if (companyReturned.result) {
 
             console.error('Error: 409 Company already exists');
-            return `Error: 409 Company already exists`;
+            result.result = `failed`;
+            result.statusCode = 409;
+            result.message = `Error: 409 Company already exists`;
+
+            return result;
 
         }
 
@@ -100,17 +126,30 @@ const createCompanyHandler = async (
         if (!companyCreated.createdCompany) {
 
             console.error(`Error: 500 ${companyCreated.result} company could not be created\n`);
-            return `Error: 500 ${companyCreated.result} company could not be created`;
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 ${companyCreated.result} company could not be created`;
+
+            return result;
 
         }
 
         console.log(`Company ${company.id} created successfully\n`);
-        return companyCreated.result;
+        result.id = company.id;
+        result.result = `success`;
+        result.statusCode = 200;
+        result.message = companyCreated.result;
+
+        return result;
 
     } catch (err) {
 
         console.error(`Error: ${err}`);
-        return `Error: ${err}`;
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: ${err}`;
+
+        return result;
 
     }
 }

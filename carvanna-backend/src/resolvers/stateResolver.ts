@@ -1,6 +1,7 @@
 import { Mutation, Resolver, Arg, Ctx } from "type-graphql";
 import createStateHandler from "../handlers/stateHandlers/createStateHandler";
 import { Context } from "../contextInterface/context";
+import { GenericReturn } from "../entities/genericReturn";
 
 @Resolver()
 export class StateResolver {
@@ -14,15 +15,15 @@ export class StateResolver {
      * @returns A message indicating the success of the user creation.
      */
 
-    @Mutation(() => String)
+    @Mutation(() => GenericReturn)
     createState(
         @Arg("name", () => String) name: string,
         @Arg("abbreviation", () => String) abbreviation: string,
         @Arg("auctionId", () => String) auctionId: string,
         @Ctx() context: Context
-    ): Promise<string> {
+    ): Promise<GenericReturn> {
+
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
-        console.log(`initiating createState \n`);
         return createStateHandler(name, abbreviation, auctionId, jwtToken);
 
     }

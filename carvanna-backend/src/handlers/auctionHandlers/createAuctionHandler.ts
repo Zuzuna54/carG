@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Auction } from "../../entities/Auction";
 import { decodeToken, validateSession } from '../../utils/utils';
 import { ACTIVE, SUPER_ADMIN } from "../../constants/constants";
+import { GenericReturn } from "../../entities/genericReturn";
+
 
 
 const createAuctionHandler = async (
@@ -15,9 +17,10 @@ const createAuctionHandler = async (
     email: string,
     jwtToken: string | undefined
 
-): Promise<string> => {
+): Promise<GenericReturn> => {
 
     console.log(`initiating createAuctionHandler \n`);
+    const result: GenericReturn = new GenericReturn('', 0, '', '');
 
     try {
 
@@ -26,7 +29,11 @@ const createAuctionHandler = async (
         if (!jwtToken) {
 
             console.error('Error: 498 No JWT token provided');
-            return `Error: 498 No JWT token provided `;
+            result.result = `failed`;
+            result.statusCode = 498;
+            result.message = `Error 498: No JWT token provided`;
+
+            return result;
 
         }
 
@@ -35,7 +42,11 @@ const createAuctionHandler = async (
         if (user?.userType !== SUPER_ADMIN) {
 
             console.error('Error: 401 User not authorized to create auctions');
-            return `Error: 401 User not authorized to create auctions`;
+            result.result = `failed`;
+            result.statusCode = 401;
+            result.message = `Error: 401 User not authorized to create auctions`;
+
+            return result;
         }
 
         //Validate session duration 
@@ -44,7 +55,11 @@ const createAuctionHandler = async (
         if (!sessionValidated) {
 
             console.error('Error: 440 Session has expired');
-            return `Error: 440 Session has expired`;
+            result.result = `failed`;
+            result.statusCode = 440;
+            result.message = `Error: 440 Session has expired`;
+
+            return result;
 
         }
 
@@ -53,7 +68,11 @@ const createAuctionHandler = async (
         if (!name || !description || !address || !phone || !email) {
 
             console.error('Error: 400 name, description, address, phone and email are required parameters.\n');
-            return `Error: 400 name, description, address, phone and email are required parameters.`;
+            result.result = `failed`;
+            result.statusCode = 400;
+            result.message = `Error: 400 name, description, address, phone and email are required parameters.`;
+
+            return result;
 
         }
 
@@ -63,7 +82,11 @@ const createAuctionHandler = async (
         if (auctionReturned.result) {
 
             console.error(`Error: 409 Auction ${name} already exists\n`);
-            return `Error: 409 Auction ${name} already exists`;
+            result.result = `failed`;
+            result.statusCode = 409;
+            result.message = `Error: 409 Auction ${name} already exists`;
+
+            return result;
 
         }
 
@@ -89,17 +112,30 @@ const createAuctionHandler = async (
         if (!auctionCreated.createdAuction) {
 
             console.error(`Error: 500 Auction ${auctionCreated.result} could not be created\n`);
-            return `Error: 500 Auction ${auctionCreated.result} could not be created`;
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 Auction ${auctionCreated.result} could not be created`;
+
+            return result;
 
         }
 
         console.log(`Auction ${id} created successfully\n`);
-        return auctionCreated.result
+        result.id = id;
+        result.result = `success`;
+        result.statusCode = 200;
+        result.message = auctionCreated.result;
+
+        return result;
 
     } catch (err) {
 
         console.error(`Error: ${err}\n`);
-        return `Error: ${err}`;
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: ${err}`;
+
+        return result;
 
     }
 }

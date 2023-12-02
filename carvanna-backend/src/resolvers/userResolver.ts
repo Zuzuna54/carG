@@ -13,7 +13,9 @@ export class UserResolver {
      */
     @Query(() => String)
     hello() {
+
         return 'Hello World!';
+
     }
 
     /**
@@ -33,8 +35,8 @@ export class UserResolver {
         @Arg("companyId", () => String) companyId: string,
         @Ctx() context: Context
     ): Promise<GenericReturn> {
-        const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
 
+        const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
         return createComanyAdmin(username, email, password, userType, companyId, jwtToken);
     }
 
@@ -49,6 +51,8 @@ export class UserResolver {
         @Arg("username", () => String) username: string,
         @Arg("password", () => String) password: string
     ): Promise<User> {
+
         return logInHandler(username, password);
+
     }
 }
