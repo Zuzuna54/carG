@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
+import { AnyScalar } from '../utils/utils';
 
 @ObjectType()
 export class GenericReturn {
@@ -30,6 +31,6 @@ export class GenericReturn {
     @Field(() => String)
     result: string;
 
-    @Field(() => String)
+    @Field(() => AnyScalar)
     data: any;
 }

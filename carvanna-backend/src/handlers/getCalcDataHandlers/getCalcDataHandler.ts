@@ -5,148 +5,155 @@ import { getLocation } from "../../neo4jCalls/locationCalls/getLocation";
 import { getPrice } from "../../neo4jCalls/priceCalls/getPrice";
 import { GenericReturn } from "../../entities/genericReturn";
 import { validateSession, decodeToken } from "../../utils/utils";
+import { ACTIVE } from "../../constants/constants";
 
+
+const handleDataRetrieval = async (getDataFunction: () => Promise<GenericReturn>, errorMessage: string): Promise<GenericReturn | null> => {
+    try {
+        const data = await getDataFunction();
+        if (data.statusCode !== 200) {
+            console.error(`Error: 404 ${errorMessage} not found`);
+            return null;
+        }
+        return data;
+    } catch (error) {
+        console.error(`Error: 500 ${error}`);
+        return null;
+    }
+};
 
 const getCalcDataHandler = async (jwtToken: string | undefined): Promise<GenericReturn> => {
-
-    console.log(`initiating getCalcDataHandler \n`);
     const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
 
         //Authorization check with JWT
-        console.log(`Authorization check with JWT\n`)
         if (!jwtToken) {
-
             console.error('Error: 498 No JWT token provided');
-            result.result = `failed`;
             result.statusCode = 498;
-            result.message = `Error 498: No JWT token provided`;
-
+            result.message = 'Error 498: No JWT token provided';
             return result;
-
         }
 
-        console.log(`Decoding the JWT token\n`)
+        //Decode the JWT token
         const user: Record<string, any> | null = decodeToken(jwtToken);
-
-        //Validate session duration 
-        console.log(`Validating session duration\n`)
         const sessionValidated: boolean = validateSession(user?.lastLogIn);
+
+        //Validate session duration
         if (!sessionValidated) {
-
             console.error('Error: 440 Session has expired');
-            result.result = `failed`;
             result.statusCode = 440;
-            result.message = `Error: 440 Session has expired`;
-
+            result.message = 'Error: 440 Session has expired';
             return result;
-
         }
 
-        //Get the companies
-        console.log(`Getting the companies\n`)
-        const companies: GenericReturn | null = await getCompany();
-        if (companies.statusCode !== 200) {
+        // Get data from neo4j
+        const [companies, auctions, states, locations, prices] = await Promise.all([
+            handleDataRetrieval(() => getCompany(), 'Companies'),
+            handleDataRetrieval(() => getAuction(), 'Auctions'),
+            handleDataRetrieval(() => getState(), 'States'),
+            handleDataRetrieval(() => getLocation(), 'Locations'),
+            handleDataRetrieval(() => getPrice(), 'Prices'),
+        ]);
 
-            console.error('Error: 404 Companies not found');
-            result.result = `failed`;
-            result.statusCode = 404;
-            result.message = `Error: 404 Companies not found`;
-
-            return result;
-
+        // Check for individual promise errors
+        if (companies?.statusCode !== 200) {
+            return companies as GenericReturn;
         }
 
-        //Get the auctions
-        console.log(`Getting the auctions\n`)
-        const auctions: GenericReturn | null = await getAuction();
-        if (auctions.statusCode !== 200) {
-
-            console.error('Error: 404 Auctions not found');
-            result.result = `failed`;
-            result.statusCode = 404;
-            result.message = `Error: 404 Auctions not found`;
-
-            return result;
-
+        if (auctions?.statusCode !== 200) {
+            return auctions as GenericReturn;
         }
 
-        //Get the states
-        console.log(`Getting the states\n`)
-        const states: GenericReturn | null = await getState();
-        if (states.statusCode !== 200) {
-
-            console.error('Error: 404 States not found');
-            result.result = `failed`;
-            result.statusCode = 404;
-            result.message = `Error: 404 States not found`;
-
-            return result;
-
+        if (states?.statusCode !== 200) {
+            return states as GenericReturn;
         }
 
-        //Get the locations
-        console.log(`Getting the locations\n`)
-        const locations: GenericReturn | null = await getLocation();
-        if (locations.statusCode !== 200) {
-
-            console.error('Error: 404 Locations not found');
-            result.result = `failed`;
-            result.statusCode = 404;
-            result.message = `Error: 404 Locations not found`;
-
-            return result;
-
+        if (locations?.statusCode !== 200) {
+            return locations as GenericReturn;
         }
 
-        //Get the prices
-        console.log(`Getting the prices\n`)
-        const prices: GenericReturn | null = await getPrice();
-        if (prices.statusCode !== 200) {
-
-            console.error('Error: 404 Prices not found');
-            result.result = `failed`;
-            result.statusCode = 404;
-            result.message = `Error: 404 Prices not found`;
-
-            return result;
-
+        if (prices?.statusCode !== 200) {
+            return prices as GenericReturn;
         }
 
-        // const locationsToReturn: Record<string, any> = [];
-        if (locations.data && prices.data) {
-
-            console.log(`locations.data and prices.data exist\n`)
-            console.log(`locations.data: ${locations.data}\n`)
-            console.log(`prices.data: ${prices.data}\n`)
-
+        if (locations?.data && prices?.data) {
+            console.log('locations.data and prices.data exist');
+            console.log(`locations.data: ${locations.data}`);
+            console.log(`prices.data: ${prices.data}`);
         }
-        result.result = `success`;
+
+        //Massage data into desired format
+        for (let i = 0; i < companies.data.length; i++) {
+            const company = companies.data[i];
+
+            if (company.status === ACTIVE) {
+
+                // Add auctions to company
+                company.auctions = [];
+                for (let j = 0; j < auctions.data.length; j++) {
+                    const auction = auctions.data[j];
+
+                    if (auction.status === ACTIVE) {
+
+                        // Add states to auction
+                        auction.states = [];
+                        for (let k = 0; k < states.data.length; k++) {
+                            const state = states.data[k];
+
+                            if (state.status === ACTIVE) {
+
+                                // Add locations to state
+                                state.locations = [];
+                                for (let l = 0; l < locations.data.length; l++) {
+                                    const location = locations.data[l];
+
+                                    if (location.status === ACTIVE) {
+
+                                        // Add prices to location
+                                        for (let m = 0; m < prices.data.length; m++) {
+                                            const price = prices.data[m];
+
+                                            if (price.status === ACTIVE) {
+
+                                                if (price.locationId === location.id) {
+                                                    location.price = price.cost;
+                                                }
+                                            }
+                                        }
+
+                                        if (location.stateId === state.id) {
+                                            state.locations.push(location);
+                                        }
+                                    }
+                                }
+                                if (auction.id === state.auctionId) {
+                                    auction.states.push(state);
+                                }
+                            }
+                        }
+                        company.auctions.push(auction);
+                    }
+                }
+            }
+        }
+
         result.statusCode = 200;
-        result.message = `200: Success`;
+        result.message = '200: Success';
+        result.result = 'success';
         result.data = {
-            companies: companies.data,
-            auctions: auctions.data,
-            states: states.data,
-            locations: locations.data,
-            prices: prices.data
-        }
+            companies: companies?.data,
+        };
 
         return result;
-
-
     } catch (error) {
-
         console.error(`Error: 500 ${error}`);
-        result.result = `failed`;
         result.statusCode = 500;
         result.message = `Error: 500 ${error}`;
-
         return result;
-
     }
+};
 
-}
+
 
 export default getCalcDataHandler;

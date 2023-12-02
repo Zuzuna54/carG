@@ -158,3 +158,38 @@ export const validateVin = (vin: string): boolean => {
     return vinValidated
 
 };
+
+
+//Helper function that returns a generic return object
+import { GraphQLScalarType, Kind } from 'graphql';
+
+export const AnyScalar: any = new GraphQLScalarType({
+    name: 'Any',
+    description: 'Represents any valid GraphQL type',
+    serialize(value) {
+        return value; // Just return the value as-is
+    },
+    parseValue(value) {
+        return value; // Just return the value as-is
+    },
+    parseLiteral(ast) {
+        switch (ast.kind) {
+            case Kind.STRING:
+            case Kind.BOOLEAN:
+                return ast.value;
+            case Kind.INT:
+            case Kind.FLOAT:
+                return parseFloat(ast.value);
+            case Kind.OBJECT:
+                const objectValue = Object.create(null);
+                ast.fields.forEach((field) => {
+                    objectValue[field.name.value] = AnyScalar.parseLiteral(field.value);
+                });
+                return objectValue;
+            case Kind.LIST:
+                return ast.values.map((valueNode) => AnyScalar.parseLiteral(valueNode));
+            default:
+                return null; // Invalid scalar value
+        }
+    },
+});
