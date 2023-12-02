@@ -57,92 +57,49 @@ const getCalcDataHandler = async (jwtToken: string | undefined): Promise<Generic
         ]);
 
         // Check for individual promise errors
-        if (companies?.statusCode !== 200) {
-            return companies as GenericReturn;
-        }
-
-        if (auctions?.statusCode !== 200) {
-            return auctions as GenericReturn;
-        }
-
-        if (states?.statusCode !== 200) {
-            return states as GenericReturn;
-        }
-
-        if (locations?.statusCode !== 200) {
-            return locations as GenericReturn;
-        }
-
-        if (prices?.statusCode !== 200) {
-            return prices as GenericReturn;
-        }
-
-        if (locations?.data && prices?.data) {
-            console.log('locations.data and prices.data exist');
-            console.log(`locations.data: ${locations.data}`);
-            console.log(`prices.data: ${prices.data}`);
+        if (companies?.statusCode !== 200 || auctions?.statusCode !== 200 || states?.statusCode !== 200 ||
+            locations?.statusCode !== 200 || prices?.statusCode !== 200) {
+            // Handle individual promise errors here
+            return companies || auctions || states || locations || prices as GenericReturn;
         }
 
         //Massage data into desired format
-        for (let i = 0; i < companies.data.length; i++) {
-            const company = companies.data[i];
+        const transformedCompanies = companies.data
+            .filter((company: any) => company.status === ACTIVE)
+            .map((company: any) => ({
+                ...company,
+                auctions: auctions.data
+                    .filter((auction: any) => auction.status === ACTIVE)
+                    .map((auction: any) => ({
+                        ...auction,
+                        states: states.data
+                            .filter((state: any) => state.status === ACTIVE && state.auctionId === auction.id)
+                            .map((state: any) => ({
+                                ...state,
+                                locations: locations.data
+                                    .filter((location: any) => location.status === ACTIVE && location.stateId === state.id)
+                                    .map((location: any) => {
+                                        const price = prices.data
+                                            .filter((price: any) => price.status === ACTIVE && price.locationId === location.id)
+                                            .reduce((acc: any, price: any) => {
+                                                acc.price = price.cost;
+                                                return acc;
+                                            }, {});
 
-            if (company.status === ACTIVE) {
-
-                // Add auctions to company
-                company.auctions = [];
-                for (let j = 0; j < auctions.data.length; j++) {
-                    const auction = auctions.data[j];
-
-                    if (auction.status === ACTIVE) {
-
-                        // Add states to auction
-                        auction.states = [];
-                        for (let k = 0; k < states.data.length; k++) {
-                            const state = states.data[k];
-
-                            if (state.status === ACTIVE) {
-
-                                // Add locations to state
-                                state.locations = [];
-                                for (let l = 0; l < locations.data.length; l++) {
-                                    const location = locations.data[l];
-
-                                    if (location.status === ACTIVE) {
-
-                                        // Add prices to location
-                                        for (let m = 0; m < prices.data.length; m++) {
-                                            const price = prices.data[m];
-
-                                            if (price.status === ACTIVE) {
-
-                                                if (price.locationId === location.id) {
-                                                    location.price = price.cost;
-                                                }
-                                            }
-                                        }
-
-                                        if (location.stateId === state.id) {
-                                            state.locations.push(location);
-                                        }
-                                    }
-                                }
-                                if (auction.id === state.auctionId) {
-                                    auction.states.push(state);
-                                }
-                            }
-                        }
-                        company.auctions.push(auction);
-                    }
-                }
-            }
-        }
+                                        return {
+                                            ...location,
+                                            ...price,
+                                        };
+                                    }),
+                            })),
+                    })),
+            }));
 
         result.statusCode = 200;
         result.message = '200: Success';
         result.result = 'success';
         result.data = {
-            companies: companies?.data,
+            companies: transformedCompanies,
         };
 
         return result;
