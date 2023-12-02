@@ -4,6 +4,7 @@ import { getCompanyById } from '../../neo4jCalls/compnayCalls/getCompanyById';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { User } from '../../entities/User';
+import { GenericReturn } from '../../entities/genericReturn';
 import { SUPER_ADMIN, ACTIVE, COMPANY_ADMIN } from '../../constants/constants';
 import {
     validateEmail,
@@ -23,9 +24,10 @@ const createComanyAdminHandler = async (
     compnayId: string,
     jwtToken: string | undefined
 
-): Promise<string> => {
+): Promise<GenericReturn> => {
 
     console.log(`initiating createComanyAdminHandler \n`);
+    const result: GenericReturn = new GenericReturn('', 0, '', '');
 
     try {
 
@@ -34,7 +36,11 @@ const createComanyAdminHandler = async (
         if (!jwtToken) {
 
             console.error('Error: 498 No JWT token provided');
-            return `Error: 498 No JWT token provided `;
+            result.result = `failed`;
+            result.statusCode = 498;
+            result.message = `Error 498: No JWT token provided`;
+
+            return result;
 
         }
 
@@ -48,7 +54,11 @@ const createComanyAdminHandler = async (
         if (!sessionValidated) {
 
             console.error('Error: 440 Session has expired');
-            return `Error: 440 Session has expired`;
+            result.result = `failed`;
+            result.statusCode = 440;
+            result.message = `Error: 440 Session has expired`;
+
+            return result;
 
         }
 
@@ -57,7 +67,12 @@ const createComanyAdminHandler = async (
         if (user?.userType !== SUPER_ADMIN && user?.userType !== COMPANY_ADMIN) {
 
             console.error('Error: 401 User not authorized to create users');
-            return `Error: 401 User not authorized to create users`;
+            result.result = `failed`;
+            result.statusCode = 401;
+            result.message = `Error: 401 User not authorized to create users`;
+
+            return result;
+
         }
 
         //validate that compnay admin is not creating another company admin
@@ -65,7 +80,11 @@ const createComanyAdminHandler = async (
         if (user?.userType === COMPANY_ADMIN && userType === COMPANY_ADMIN) {
 
             console.error('Error: 401 User not authorized to create another company admin');
-            return `Error: 401 User not authorized to create another company admin`;
+            result.result = `failed`;
+            result.statusCode = 401;
+            result.message = `Error: 401 User not authorized to create another company admin`;
+
+            return result;
         }
 
         // Validate that name, email, and phone are provided in the request body
@@ -74,7 +93,11 @@ const createComanyAdminHandler = async (
 
             console.error('Error: 400 username, email, password, userType and companyId are required parameters.\n');
             console.error(`username: ${username} email: ${email} password: ${password} userType: ${userType} companyId: ${compnayId}\n`);
-            return `Error: 400 name, email, password and userType are required parameters.`;
+            result.result = `failed`;
+            result.statusCode = 400;
+            result.message = `Error: 400 username, email, password, userType and companyId are required parameters.`;
+
+            return result;
 
         }
 
@@ -84,7 +107,11 @@ const createComanyAdminHandler = async (
         if (!usernameValidated) {
 
             console.error('Error: 502 Invalid username');
-            return `Error: 502 Invalid username`;
+            result.result = `failed`;
+            result.statusCode = 502;
+            result.message = `Error: 502 Invalid username`;
+
+            return result;
 
         }
 
@@ -94,7 +121,11 @@ const createComanyAdminHandler = async (
         if (!passwordValidated) {
 
             console.error('Error: 503 Invalid password');
-            return `Error: 503 Invalid password`;
+            result.result = `failed`;
+            result.statusCode = 503;
+            result.message = `Error: 503 Invalid password`;
+
+            return result;
 
         }
 
@@ -104,7 +135,11 @@ const createComanyAdminHandler = async (
         if (!emailValidated) {
 
             console.error('Error: 501 Invalid email');
-            return `Error: 501 Invalid email`;
+            result.result = `failed`;
+            result.statusCode = 501;
+            result.message = `Error: 501 Invalid email`;
+
+            return result;
 
         }
 
@@ -114,7 +149,11 @@ const createComanyAdminHandler = async (
         if (!userTypeValidated) {
 
             console.error('Error: 504 Invalid userType');
-            return `Error: 504 Invalid userType`;
+            result.result = `failed`;
+            result.statusCode = 504;
+            result.message = `Error: 504 Invalid userType`;
+
+            return result;
 
         }
 
@@ -124,7 +163,11 @@ const createComanyAdminHandler = async (
         if (!auction.result) {
 
             console.error(`Error: 404 Auction ${compnayId} not found`);
-            return `Error: 404 Auction ${compnayId} not found`;
+            result.result = `failed`;
+            result.statusCode = 404;
+            result.message = `Error: 404 Auction ${compnayId} not found`;
+
+            return result;
 
         }
 
@@ -134,7 +177,11 @@ const createComanyAdminHandler = async (
         if (userCheck.result) {
 
             console.error('Error: 409 Username already exists');
-            return `Error: 409 Username already exists`;
+            result.result = `failed`;
+            result.statusCode = 409;
+            result.message = `Error: 409 Username already exists`;
+
+            return result;
 
         }
 
@@ -182,17 +229,30 @@ const createComanyAdminHandler = async (
         if (!userCreated.createdUser) {
 
             console.error(`Error: 500 ${userCreated.result} user could not be created\n`);
-            return `Error: 500 ${userCreated.result} user could not be created`;
+            result.result = `failed`;
+            result.statusCode = 500;
+            result.message = `Error: 500 ${userCreated.result} user could not be created`;
+
+            return result;
 
         }
 
         console.log(`User ${user.id} created successfully\n`)
-        return userCreated.result
+        result.id = user.id;
+        result.result = `success`;
+        result.statusCode = 200;
+        result.message = userCreated.result;
+
+        return result;
 
     } catch (error) {
 
         console.error('Error creating user:', error);
-        return `Error: ${error}`;
+        result.result = `failed`;
+        result.statusCode = 500;
+        result.message = `Error: 500 ${error}`;
+
+        return result;
 
     }
 

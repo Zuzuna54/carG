@@ -20,6 +20,7 @@ const type_graphql_1 = require("type-graphql");
 const createCompanyAdmin_1 = __importDefault(require("../handlers/companyAdminHandlers/createCompanyAdmin"));
 const logInHandler_1 = __importDefault(require("../handlers/authHandlers/logInHandler"));
 const User_1 = require("../entities/User");
+const genericReturn_1 = require("../entities/genericReturn");
 let UserResolver = class UserResolver {
     hello() {
         return 'Hello World!';
@@ -41,7 +42,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "hello", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => String),
+    (0, type_graphql_1.Mutation)(() => genericReturn_1.GenericReturn),
     __param(0, (0, type_graphql_1.Arg)("username", () => String)),
     __param(1, (0, type_graphql_1.Arg)("email", () => String)),
     __param(2, (0, type_graphql_1.Arg)("password", () => String)),

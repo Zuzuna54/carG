@@ -2,6 +2,7 @@ import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
 import createComanyAdmin from "../handlers/companyAdminHandlers/createCompanyAdmin";
 import logInHandler from "../handlers/authHandlers/logInHandler";
 import { User } from "../entities/User";
+import { GenericReturn } from "../entities/genericReturn";
 import { Context } from "../contextInterface/context";
 
 @Resolver()
@@ -23,7 +24,7 @@ export class UserResolver {
      * @param userType - The type of the new user.
      * @returns A message indicating the success of the user creation.
      */
-    @Mutation(() => String)
+    @Mutation(() => GenericReturn)
     createUser(
         @Arg("username", () => String) username: string,
         @Arg("email", () => String) email: string,
@@ -31,7 +32,7 @@ export class UserResolver {
         @Arg("userType", () => String) userType: string,
         @Arg("companyId", () => String) companyId: string,
         @Ctx() context: Context
-    ): Promise<string> {
+    ): Promise<GenericReturn> {
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
 
         return createComanyAdmin(username, email, password, userType, companyId, jwtToken);
