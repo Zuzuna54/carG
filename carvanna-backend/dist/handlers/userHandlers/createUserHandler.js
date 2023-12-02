@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const createUser_1 = require("../../neo4jCalls/userCalls/createUser");
 const getUserByUsername_1 = require("../../neo4jCalls/userCalls/getUserByUsername");
-const getCompanyById_1 = require("../../neo4jCalls/compnayCalls/getCompanyById");
+const getCompany_1 = require("../../neo4jCalls/compnayCalls/getCompany");
 const uuid_1 = require("uuid");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = require("../../entities/User");
@@ -97,7 +97,7 @@ const createComanyAdminHandler = async (username, email, password, userType, com
             return result;
         }
         console.log(`Validating that the Company exists\n`);
-        const company = await (0, getCompanyById_1.getCompanyById)(compnayId);
+        const company = await (0, getCompany_1.getCompany)(compnayId);
         if (company.statusCode !== 200) {
             console.error(`Error: 404 Auction ${compnayId} not found`);
             result.result = `failed`;

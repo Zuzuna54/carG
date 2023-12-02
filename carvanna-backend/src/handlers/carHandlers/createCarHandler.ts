@@ -1,7 +1,7 @@
 import { createCar } from '../../neo4jCalls/carCalls/createCar';
 import { getCarByVin } from '../../neo4jCalls/carCalls/getCarByVin';
-import { getCompanyById } from '../../neo4jCalls/compnayCalls/getCompanyById';
-import { getUserById } from '../../neo4jCalls/userCalls/getUserById';
+import { getCompany } from '../../neo4jCalls/compnayCalls/getCompany';
+import { getUser } from '../../neo4jCalls/userCalls/getUser';
 import { v4 as uuidv4 } from 'uuid';
 import { Car } from '../../entities/Car';
 import { ACTIVE, SUPER_ADMIN, COMPANY_ADMIN } from '../../constants/constants';
@@ -111,7 +111,7 @@ const createCarHandler = async (
 
         //Validate companyId company exists
         console.log(`Validating companyId company exists\n`)
-        const companyExists: GenericReturn = await getCompanyById(companyId);
+        const companyExists: GenericReturn = await getCompany(companyId);
         if (companyExists.statusCode !== 200) {
 
             console.error(`Error: 404 Company ${companyId} not found`);
@@ -125,7 +125,7 @@ const createCarHandler = async (
 
         //Validate userId user exists
         console.log(`Validating userId user exists\n`)
-        const userExists: GenericReturn = await getUserById(userId);
+        const userExists: GenericReturn = await getUser(userId);
         if (userExists.statusCode !== 200) {
 
             console.error(`Error: 404 User ${userId} not found`);

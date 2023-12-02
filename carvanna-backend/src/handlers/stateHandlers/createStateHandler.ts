@@ -1,6 +1,6 @@
 import { createState } from "../../neo4jCalls/stateCalls/createState";
 import { getStateByName } from "../../neo4jCalls/stateCalls/getStateByName";
-import { getAuctionById } from "../../neo4jCalls/auctionCalls/getAuctionById";
+import { getAuction } from "../../neo4jCalls/auctionCalls/getAuction";
 import { v4 as uuidv4 } from "uuid";
 import { State } from "../../entities/State";
 import { decodeToken, validateSession } from '../../utils/utils';
@@ -76,7 +76,7 @@ const createStateHandler = async (
 
         // Validate that the Auction exists
         console.log(`Validating that the Auction exists\n`)
-        const auction: GenericReturn = await getAuctionById(auctionId);
+        const auction: GenericReturn = await getAuction(auctionId);
         if (auction.statusCode !== 200) {
 
             console.error(`Error: 404 Auction ${auctionId} not found`);

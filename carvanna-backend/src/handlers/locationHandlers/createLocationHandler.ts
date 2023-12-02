@@ -1,6 +1,6 @@
 import { createLocation } from "../../neo4jCalls/locationCalls/createLocation";
 import { getLocationByName } from "../../neo4jCalls/locationCalls/getLocationByName";
-import { getStateById } from "../../neo4jCalls/stateCalls/getStateById";
+import { getState } from "../../neo4jCalls/stateCalls/getState";
 import { v4 as uuidv4 } from "uuid";
 import { Location } from "../../entities/Location";
 import { decodeToken, validateSession } from '../../utils/utils';
@@ -88,7 +88,7 @@ const createLocationHandler = async (
 
         //Validate state id
         console.log(`Validating state id\n`)
-        const stateIdValidated: GenericReturn = await getStateById(stateId);
+        const stateIdValidated: GenericReturn = await getState(stateId);
         if (stateIdValidated.statusCode !== 200) {
 
             console.error(`Error: ${stateIdValidated.statusCode} ${stateIdValidated.result}`);

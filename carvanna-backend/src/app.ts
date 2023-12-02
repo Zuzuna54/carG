@@ -11,6 +11,7 @@ import { StateResolver } from './resolvers/stateResolver';
 import { LocationResolver } from './resolvers/locationResolver';
 import { PriceResolver } from './resolvers/priceResolver';
 import { CarResolver } from './resolvers/carResolver';
+import { CalcResolver } from './resolvers/calcResolver';
 
 const main = async () => {
 
@@ -23,7 +24,8 @@ const main = async () => {
                 AuctionResolver,
                 LocationResolver,
                 PriceResolver,
-                CarResolver
+                CarResolver,
+                CalcResolver
             ],
             validate: false
         }),

@@ -1,6 +1,6 @@
 import { createUser } from '../../neo4jCalls/userCalls/createUser';
 import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername';
-import { getCompanyById } from '../../neo4jCalls/compnayCalls/getCompanyById';
+import { getCompany } from '../../neo4jCalls/compnayCalls/getCompany';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { User } from '../../entities/User';
@@ -159,7 +159,7 @@ const createComanyAdminHandler = async (
 
         //Validate that company exists
         console.log(`Validating that the Company exists\n`)
-        const company: GenericReturn = await getCompanyById(compnayId);
+        const company: GenericReturn = await getCompany(compnayId);
         if (company.statusCode !== 200) {
 
             console.error(`Error: 404 Auction ${compnayId} not found`);

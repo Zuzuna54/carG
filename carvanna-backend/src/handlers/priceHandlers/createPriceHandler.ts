@@ -4,8 +4,8 @@ import { Price } from "../../entities/Price";
 import { decodeToken, validateSession } from '../../utils/utils';
 import { ACTIVE, SUPER_ADMIN, COMPANY_ADMIN } from "../../constants/constants";
 import { GenericReturn } from "../../entities/genericReturn";
-import { getLocationById } from "../../neo4jCalls/locationCalls/getLocationById";
-import { getCompanyById } from "../../neo4jCalls/compnayCalls/getCompanyById";
+import { getLocation } from "../../neo4jCalls/locationCalls/getLocation";
+import { getCompany } from "../../neo4jCalls/compnayCalls/getCompany";
 
 const createPriceHandler = async (
 
@@ -76,7 +76,7 @@ const createPriceHandler = async (
 
         //Validate locationId
         console.log(`Validating locationId\n`)
-        const location: GenericReturn = await getLocationById(locationId);
+        const location: GenericReturn = await getLocation(locationId);
         if (location.statusCode !== 200) {
 
             console.error(`Error: 500 ${location.message}`);
@@ -90,7 +90,7 @@ const createPriceHandler = async (
 
         //Validate companyId
         console.log(`Validating companyId\n`)
-        const company: GenericReturn = await getCompanyById(companyId);
+        const company: GenericReturn = await getCompany(companyId);
         if (company.statusCode !== 200) {
 
             console.error(`Error: 500 ${company.message}`);
