@@ -22,7 +22,8 @@ export const createCompany = async (company: Company): Promise<GenericReturn> =>
                 createdBy: $createdBy, 
                 address: $address, 
                 phone: $phone, 
-                email: $email
+                email: $email,
+                status: $status
             }) 
             RETURN c`,
             {
@@ -33,7 +34,8 @@ export const createCompany = async (company: Company): Promise<GenericReturn> =>
                 createdBy: company.createdBy,
                 address: company.address,
                 phone: company.phone,
-                email: company.email
+                email: company.email,
+                status: company.status
             }
         );
 

@@ -1,5 +1,5 @@
 import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
-import createComanyAdmin from "../handlers/companyAdminHandlers/createCompanyAdminHandler";
+import createComanyAdmin from "../handlers/userHandlers/createUserHandler";
 import logInHandler from "../handlers/authHandlers/logInHandler";
 import { User } from "../entities/User";
 import { GenericReturn } from "../entities/genericReturn";

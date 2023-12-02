@@ -116,7 +116,7 @@ const createCompanyHandler = async (
             phone,
             email,
             new Date().toISOString(),
-            user?.id,
+            user.username,
             ACTIVE
         );
 
@@ -134,7 +134,7 @@ const createCompanyHandler = async (
 
         }
 
-        console.log(`Company ${company.id} created successfully\n`);
+        console.log(`Company ${id} created successfully\n`);
         result.id = company.id;
         result.result = `success`;
         result.statusCode = 200;

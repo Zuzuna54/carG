@@ -59,6 +59,19 @@ const createLocationHandler = async (
 
         }
 
+        //Validate that the name and state id are not empty
+        console.log(`Validating that the name and state id are not empty\n`)
+        if (!name || !stateId) {
+
+            console.error('Error: 400 Name and state id are required');
+            result.result = `failed`;
+            result.statusCode = 400;
+            result.message = `Error: 400 Name and state id are required`;
+
+            return result;
+
+        }
+
         //Validate location name
         console.log(`Validating location name\n`)
         const locationNameValidated: GenericReturn = await getLocationByName(name);
@@ -103,7 +116,14 @@ const createLocationHandler = async (
         //Create the location
         console.log(`Creating the location\n`)
         const locationId: string = uuidv4();
-        const locationToBeCreated: Location = new Location(locationId, name, stateId, new Date().toISOString(), user.username, ACTIVE);
+        const locationToBeCreated: Location = new Location(
+            locationId,
+            name,
+            stateId,
+            new Date().toISOString(),
+            user.username,
+            ACTIVE
+        );
         const locationCreated: GenericReturn = await createLocation(locationToBeCreated);
 
         if (locationCreated.statusCode !== 200) {
@@ -117,7 +137,7 @@ const createLocationHandler = async (
 
         }
 
-        console.log(`Location ${name} created successfully\n`);
+        console.log(`Location ${locationId} created successfully\n`);
         result.id = locationId;
         result.result = `success`;
         result.statusCode = 200;

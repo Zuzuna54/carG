@@ -43,7 +43,7 @@ const returnUserQuery = (userType: string): string => {
                     createdBy: $createdBy, 
                     status: $status
                 })
-                MERGE (creator)<-[:CREATED_BY]-(u)-[:BELONGS_TO]->(company)
+                MERGE (creator)-[:CREATED_BY]->(u)-[:BELONGS_TO]->(company)
                 RETURN u
             `;
 

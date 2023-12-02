@@ -4,24 +4,27 @@ import { Field, ID, ObjectType } from 'type-graphql';
 export class Price {
 
     constructor(
-
+        id: string,
+        cost: number,
+        locationId: string,
+        companyId: string,
+        description: string,
+        createdAt: string,
+        createdBy: string,
+        status: string
     ) {
-        this.id = '';
-        this.name = '';
-        this.cost = 0;
-        this.locationId = '';
-        this.companyId = '';
-        this.description = '';
-        this.createdAt = '';
-        this.createdBy = '';
-        this.status = '';
+        this.id = id;
+        this.cost = cost;
+        this.locationId = locationId;
+        this.companyId = companyId;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.status = status;
     }
 
     @Field(() => ID)
     id: string;
-
-    @Field(() => String)
-    name: string;
 
     @Field(() => Number)
     cost: number;

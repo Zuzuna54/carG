@@ -17,7 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const createCompanyAdminHandler_1 = __importDefault(require("../handlers/companyAdminHandlers/createCompanyAdminHandler"));
+const createUserHandler_1 = __importDefault(require("../handlers/userHandlers/createUserHandler"));
 const logInHandler_1 = __importDefault(require("../handlers/authHandlers/logInHandler"));
 const User_1 = require("../entities/User");
 const genericReturn_1 = require("../entities/genericReturn");
@@ -28,7 +28,7 @@ let UserResolver = class UserResolver {
     createUser(username, email, password, userType, companyId, context) {
         var _a;
         const jwtToken = (_a = context.req.headers.authorization) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
-        return (0, createCompanyAdminHandler_1.default)(username, email, password, userType, companyId, jwtToken);
+        return (0, createUserHandler_1.default)(username, email, password, userType, companyId, jwtToken);
     }
     logInUser(username, password) {
         return (0, logInHandler_1.default)(username, password);

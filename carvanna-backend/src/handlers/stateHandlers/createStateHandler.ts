@@ -127,7 +127,7 @@ const createStateHandler = async (
 
         }
 
-        console.log(`State ${name} created successfully\n`);
+        console.log(`State ${id} created successfully\n`);
         result.id = id;
         result.result = `success`;
         result.statusCode = 200;

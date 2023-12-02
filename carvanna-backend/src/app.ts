@@ -9,13 +9,13 @@ import { Context } from './contextInterface/context';
 import { AuctionResolver } from './resolvers/auctionResolver';
 import { StateResolver } from './resolvers/stateResolver';
 import { LocationResolver } from './resolvers/locationResolver';
-
+import { PriceResolver } from './resolvers/priceResolver';
 
 const main = async () => {
 
     const appoloServer: ApolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [UserResolver, CompanyResolver, StateResolver, AuctionResolver, LocationResolver],
+            resolvers: [UserResolver, CompanyResolver, StateResolver, AuctionResolver, LocationResolver, PriceResolver],
             validate: false
         }),
         context: ({ req }): Context => ({ req })

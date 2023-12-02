@@ -237,7 +237,7 @@ const createComanyAdminHandler = async (
 
         }
 
-        console.log(`User ${user.username} created successfully\n`)
+        console.log(`User ${userTobeCreated.id} created successfully\n`)
         result.id = user.id;
         result.result = `success`;
         result.statusCode = 200;
