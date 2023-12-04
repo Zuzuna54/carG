@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuthenticationStatus } from '../../../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
@@ -7,13 +7,13 @@ import { LOGIN_USER } from '../../../graphql/mutations';
 import './Login.scss';
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [loginUser] = useMutation(LOGIN_USER);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoginError, setIsLoginError] = useState(false);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const [loginUser] = useMutation(LOGIN_USER);
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -27,15 +27,13 @@ const LoginForm = () => {
         e.preventDefault();
 
         try {
+
             const { data } = await loginUser({
                 variables: { username, password },
             });
 
-            console.log('Login data:', data.logInUser);
             // Assuming your server returns a token on successful login
             const token = data.logInUser.token;
-
-            // Set the token to localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(data.logInUser));
 
@@ -49,6 +47,7 @@ const LoginForm = () => {
             setIsLoginError(true);
         }
     };
+
 
     return (
         <form className={isLoginError ? 'error-visible' : ''} onSubmit={handleSubmit}>

@@ -25,6 +25,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         '',
         '',
         '',
+        ""
     );
     try {
 
@@ -72,7 +73,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
             return user
         }
 
-        //Create and assign a token
+        //Create and assign a access token
         console.log(`Creating and assigning a token\n`)
         const signature: Record<string, any> = {
             id: result.data.id,
@@ -81,17 +82,22 @@ const logInHandler = async (username: string, password: string): Promise<User> =
             userType: result.data.userType,
             lastLogIn: Date.now()
         };
-
         const token = jwt.sign({ user: signature }, tokenSecret);
+
+        //Create and assign a refresh token
+        console.log(`Creating and assigning a refresh token\n`)
+        const refreshToken = jwt.sign({ user: { username: result.data.username, lastLogIn: Date.now() } }, tokenSecret);
+
+
         user.id = result.data.id;
         user.username = result.data.username;
         user.email = result.data.email;
-        user.password = result.data.password;
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
-        user.token = token;
+        user.acessToken = token;
+        user.refreshToken = refreshToken;
 
         //Update the last login time
         console.log(`Updating the last login time\n`)

@@ -1,12 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import store from './redux/store';
-import { Provider } from 'react-redux';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react';
 import './styles/index.css';
 import Modal from 'react-modal';
+import ReactDOM from 'react-dom';
+import store from './redux/store';
+import reportWebVitals from './reportWebVitals';
 import {
     ApolloClient,
     InMemoryCache,
@@ -14,8 +12,12 @@ import {
     createHttpLink,
     from
 } from '@apollo/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { LOGIN_USER } from './graphql/mutations';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
+
 
 // Set the root element that should be hidden from screen readers
 Modal.setAppElement('#root');
@@ -51,6 +53,7 @@ const authLink = setContext((_, { headers }) => {
     };
 });
 
+// Combine errorLink, authLink, and httpLink
 const link = from([errorLink, authLink, httpLink]);
 
 // Set up the Apollo client
@@ -60,7 +63,54 @@ const client = new ApolloClient({
 });
 
 // Set up refresh token call with apollo client
+const refreshToken = async () => {
 
+    const user = JSON.parse(localStorage.getItem('user')) || null;
+
+    if (user) {
+        console.log(user.password)
+        client.mutate({
+            mutation: LOGIN_USER,
+            variables: {
+                username: user.username,
+                password: user.password,
+            },
+        }).then((response) => {
+            console.log(response);
+            localStorage.setItem('token', response.data.login.token);
+            localStorage.setItem('user', JSON.stringify(response.data.login.user));
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+}
+
+refreshToken();
+
+
+// Refresh token every 18 minutes
+const tokenRefreshInterval = setInterval(() => {
+
+    const token = localStorage.getItem('token');
+    if (token) {
+
+        try {
+
+            // const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+
+            // if (decodedToken.lastLogin < currentTime) {
+            //     refreshToken();
+            // }
+
+
+        } catch (error) {
+            console.error('Error refreshing/decoding token: ', error);
+        }
+
+    }
+
+}, 1080000);
 
 
 ReactDOM.render(

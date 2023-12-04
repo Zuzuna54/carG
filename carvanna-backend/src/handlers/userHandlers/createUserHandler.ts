@@ -193,6 +193,7 @@ const createComanyAdminHandler = async (
         //Send the email verification code to the user
         // console.log(`Sending the email verification code to the user`)
         // const emailResult = await sendEmail(email, code);
+
         // console.log(`emailResult: ${emailResult}`);
 
         //Generate an Unique ID for the user
@@ -213,6 +214,7 @@ const createComanyAdminHandler = async (
             hashedPassword,
             userType,
             new Date().toISOString(),
+            '',
             '',
             new Date().toISOString(),
             '',

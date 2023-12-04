@@ -141,6 +141,25 @@ export const validateSession = (lastLogin: string): boolean => {
 };
 
 
+//Helper function that validates refresh token is still valid
+export const validateRefreshSession = (lastLogin: string): boolean => {
+
+    console.log(`initiating validateSession \n`);
+
+    //Validate the session
+    console.log(`Validating the session\n`)
+    const lastLoginDate: Date = new Date(lastLogin);
+    const currentDate: Date = new Date();
+    const diff: number = currentDate.getTime() - lastLoginDate.getTime();
+    const diffInMinutes: number = diff / (1000 * 60);
+    const sessionValidated: boolean = diffInMinutes < 240;
+    console.log(`sessionValidated: ${sessionValidated}`);
+
+    return sessionValidated
+
+};
+
+
 //Helper function that validates car vin code 
 export const validateVin = (vin: string): boolean => {
 

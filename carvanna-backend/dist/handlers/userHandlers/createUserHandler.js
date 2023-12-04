@@ -120,7 +120,7 @@ const createComanyAdminHandler = async (username, email, password, userType, com
         const salt = await bcrypt_1.default.genSalt(10);
         const hashedPassword = await bcrypt_1.default.hash(password, salt);
         console.log(`hashedPassword: ${hashedPassword}`);
-        const userTobeCreated = new User_1.User(id, username, email, hashedPassword, userType, new Date().toISOString(), '', new Date().toISOString(), '', user.username, compnayId, constants_1.ACTIVE, '', '');
+        const userTobeCreated = new User_1.User(id, username, email, hashedPassword, userType, new Date().toISOString(), '', '', new Date().toISOString(), '', user.username, compnayId, constants_1.ACTIVE, '', '');
         console.log(`Calling createUser neo4j call\n`);
         const userCreated = await (0, createUser_1.createUser)(userTobeCreated);
         if (userCreated.statusCode !== 200) {

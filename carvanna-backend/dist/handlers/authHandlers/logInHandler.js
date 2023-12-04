@@ -11,7 +11,7 @@ const updateUser_1 = require("../../neo4jCalls/userCalls/updateUser");
 const User_1 = require("../../entities/User");
 const logInHandler = async (username, password) => {
     console.log(`\n\nRunning logInHandler.ts\n\n`);
-    const user = new User_1.User('', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    const user = new User_1.User('', '', '', '', '', '', '', '', '', '', '', '', '', '', "");
     try {
         console.log(`Creating a new Token object\n`);
         console.log(`Validating that password and username are provided in the request body\n`);
@@ -51,15 +51,17 @@ const logInHandler = async (username, password) => {
             lastLogIn: Date.now()
         };
         const token = jsonwebtoken_1.default.sign({ user: signature }, tokenSecret);
+        console.log(`Creating and assigning a refresh token\n`);
+        const refreshToken = jsonwebtoken_1.default.sign({ user: { username: result.data.username, lastLogIn: Date.now() } }, tokenSecret);
         user.id = result.data.id;
         user.username = result.data.username;
         user.email = result.data.email;
-        user.password = result.data.password;
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
-        user.token = token;
+        user.acessToken = token;
+        user.refreshToken = refreshToken;
         console.log(`Updating the last login time\n`);
         const updateLastLogin = await (0, updateUser_1.updateUser)(user);
         if (updateLastLogin.statusCode !== 200) {

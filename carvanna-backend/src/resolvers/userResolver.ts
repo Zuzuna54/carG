@@ -1,6 +1,7 @@
 import { Mutation, Query, Resolver, Arg, Ctx } from "type-graphql";
 import createComanyAdmin from "../handlers/userHandlers/createUserHandler";
 import logInHandler from "../handlers/authHandlers/logInHandler";
+import refreshAcessTokenHandler from "../handlers/authHandlers/refreshAcessTokenHandler";
 import { User } from "../entities/User";
 import { GenericReturn } from "../entities/genericReturn";
 import { Context } from "../contextInterface/context";
@@ -55,4 +56,19 @@ export class UserResolver {
         return logInHandler(username, password);
 
     }
+
+    /**
+     * Mutation resolver to refresh the access token.
+     * @param refreshToken - The refresh token.
+     * @returns The new access token.
+     */
+    @Mutation(() => GenericReturn)
+    refreshAcessToken(
+        @Arg("refreshToken", () => String) refreshToken: string
+    ): Promise<GenericReturn> {
+
+        return refreshAcessTokenHandler(refreshToken);
+
+    }
+
 }

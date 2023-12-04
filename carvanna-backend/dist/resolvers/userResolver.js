@@ -19,6 +19,7 @@ exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const createUserHandler_1 = __importDefault(require("../handlers/userHandlers/createUserHandler"));
 const logInHandler_1 = __importDefault(require("../handlers/authHandlers/logInHandler"));
+const refreshAcessTokenHandler_1 = __importDefault(require("../handlers/authHandlers/refreshAcessTokenHandler"));
 const User_1 = require("../entities/User");
 const genericReturn_1 = require("../entities/genericReturn");
 let UserResolver = class UserResolver {
@@ -32,6 +33,9 @@ let UserResolver = class UserResolver {
     }
     logInUser(username, password) {
         return (0, logInHandler_1.default)(username, password);
+    }
+    refreshAcessToken(refreshToken) {
+        return (0, refreshAcessTokenHandler_1.default)(refreshToken);
     }
 };
 exports.UserResolver = UserResolver;
@@ -61,6 +65,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "logInUser", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => genericReturn_1.GenericReturn),
+    __param(0, (0, type_graphql_1.Arg)("refreshToken", () => String)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "refreshAcessToken", null);
 exports.UserResolver = UserResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], UserResolver);
