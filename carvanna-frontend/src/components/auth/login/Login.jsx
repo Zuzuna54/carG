@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuthenticationStatus } from '../../../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
-import "./Login.scss"
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../../../graphql/mutations';
+import './Login.scss';
 
-const LoginForm = ({ setIsAuthenticated }) => {
+const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
     const [isLoginError, setIsLoginError] = useState(false);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const dummyCredentials = {
-        username: 'Elizbar777',
-        password: 'elizbar777',
-    };
+    const navigate = useNavigate();
+
+    const [loginUser] = useMutation(LOGIN_USER);
+
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
     };
@@ -23,18 +23,29 @@ const LoginForm = ({ setIsAuthenticated }) => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add your login logic here, e.g., send a request to an authentication API
-        // Navigate to the dashboard page after successful login with dummy credentials
-        if (
-            username === dummyCredentials.username &&
-            password === dummyCredentials.password
-        ) {
+
+        try {
+            const { data } = await loginUser({
+                variables: { username, password },
+            });
+
+            console.log('Login data:', data.logInUser);
+            // Assuming your server returns a token on successful login
+            const token = data.logInUser.token;
+
+            // Set the token to localStorage
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(data.logInUser));
+
+            // Update authentication status
             dispatch(setAuthenticationStatus(true));
-            navigate('/dashboard/homepage')
-        } else {
-            setError('Invalid username or password');
+
+            // Navigate to the dashboard page
+            navigate('/dashboard/homepage');
+        } catch (error) {
+            console.error('Login error:', error.message);
             setIsLoginError(true);
         }
     };
@@ -64,14 +75,13 @@ const LoginForm = ({ setIsAuthenticated }) => {
             <div>
                 <button type="submit">Login</button>
             </div>
-            <div className='error-log'>
+            <div className="error-log">
                 {isLoginError && (
                     <div>
-                        <p>{error}</p>
+                        <p>Login failed. Please check your credentials.</p>
                     </div>
                 )}
             </div>
-
         </form>
     );
 };

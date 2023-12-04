@@ -24,18 +24,19 @@ export default function Routing() {
                 <Suspense fallback={<Loading />}>
                     <ScrollToTop />
                     <Routes>
-                        <Route path='' element={<LogInPage />} />
+                        {/* <Route path='' element={<LogInPage />} /> */}
                         <Route path='/401' element={<NotAuthorized />} />
-                        <Route path="/dashboard" element={<ProtectedRoutes />} >
-                            <Route path='' element={<Layout />} >
-                                <Route path='homepage' element={<Home />} />
-                                <Route path='calculator' element={<Calc />} />
-                                <Route path='about-us' element={<AboutUs />} />
-                                <Route path='contact-us' element={<ContactUs />} />
-                                <Route path='settings' element={<Settings />} />
-                            </Route>
+                        <Route path="/dashboard" element={<Layout />} >
+                            {/* <Route path='' element={<Layout />} > */}
+                            <Route path='homepage' element={<Home />} />
+                            <Route path='calculator' element={<Calc />} />
+                            <Route path='about-us' element={<AboutUs />} />
+                            <Route path='contact-us' element={<ContactUs />} />
+                            <Route path='settings' element={<Settings />} />
+                            {/* </Route> */}
                         </Route>
-                        <Route path='*' element={<Navigate replace to='/401' />} />
+                        <Route path='/login' element={<LogInPage />} />
+                        <Route path='*' element={<Navigate replace to='/dashboard' />} />
                     </Routes>
                 </Suspense>
             </ErrorBoundary>
