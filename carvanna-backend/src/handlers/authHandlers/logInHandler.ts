@@ -42,7 +42,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
 
         // Get the user by username 
         console.log(`Getting the user by username \n`)
-        const result: GenericReturn = await getUserByUsername(username);
+        const result: GenericReturn = await getUserByUsername(username.toLowerCase());
         if (result.statusCode !== 200) {
 
             console.error('Error: 404 Username does not exist');

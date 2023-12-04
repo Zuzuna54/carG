@@ -1,6 +1,7 @@
 require('dotenv').config();
 import 'reflect-metadata';
 import express, { Express } from 'express';
+import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { UserResolver } from './resolvers/userResolver';
@@ -36,6 +37,7 @@ const main = async () => {
     await appoloServer.start();
     const app: Express = express();
 
+    app.use(cors());
 
     appoloServer.applyMiddleware({ app });
     const port: string | undefined = process.env.PORT || "8002";

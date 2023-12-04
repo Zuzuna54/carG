@@ -21,7 +21,7 @@ const logInHandler = async (username, password) => {
             return user;
         }
         console.log(`Getting the user by username \n`);
-        const result = await (0, getUserByUsername_1.getUserByUsername)(username);
+        const result = await (0, getUserByUsername_1.getUserByUsername)(username.toLowerCase());
         if (result.statusCode !== 200) {
             console.error('Error: 404 Username does not exist');
             user.error = `Error: 404 Username does not exist`;

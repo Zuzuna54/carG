@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 const userResolver_1 = require("./resolvers/userResolver");
@@ -35,6 +36,7 @@ const main = async () => {
     });
     await appoloServer.start();
     const app = (0, express_1.default)();
+    app.use((0, cors_1.default)());
     appoloServer.applyMiddleware({ app });
     const port = process.env.PORT || "8002";
     app.listen(port, () => {
