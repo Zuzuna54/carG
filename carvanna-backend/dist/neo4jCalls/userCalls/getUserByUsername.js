@@ -11,6 +11,7 @@ const getUserByUsername = async (username) => {
     const session = db_1.default.session();
     const result = new genericReturn_1.GenericReturn('', 0, '', '', '');
     try {
+        console.log(username);
         console.log(`session opened, getting user ${username}\n`);
         const queryResult = await session.run('MATCH (u:User {username: $username}) RETURN u', { username });
         if (!queryResult.records[0]) {

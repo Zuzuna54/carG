@@ -27,8 +27,6 @@ const logInHandler = async (username, password) => {
             user.error = `Error: 404 Username does not exist`;
             return user;
         }
-        console.log(`user returned data: ${JSON.stringify(result.data)}`);
-        console.log(`Checking if the password is valid\n`);
         const validPassword = await bcrypt_1.default.compare(password, result.data.password);
         console.log(`validPassword: ${validPassword}`);
         if (!validPassword) {
@@ -58,6 +56,7 @@ const logInHandler = async (username, password) => {
         user.email = result.data.email;
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
+        user.password = result.data.password;
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
         user.acessToken = token;

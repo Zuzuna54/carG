@@ -51,10 +51,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
             return user
         }
 
-        console.log(`user returned data: ${JSON.stringify(result.data)}`);
-
-        //Check if the password is valid
-        console.log(`Checking if the password is valid\n`)
+        //Validate password
         const validPassword = await bcrypt.compare(password, result.data.password);
         console.log(`validPassword: ${validPassword}`);
         if (!validPassword) {
@@ -94,6 +91,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         user.email = result.data.email;
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
+        user.password = result.data.password
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
         user.acessToken = token;

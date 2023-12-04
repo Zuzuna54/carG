@@ -10,7 +10,7 @@ export const getUserByUsername = async (username: string): Promise<GenericReturn
     const result: GenericReturn = new GenericReturn('', 0, '', '', '');
 
     try {
-
+        console.log(username)
         console.log(`session opened, getting user ${username}\n`);
         const queryResult: QueryResult<RecordShape> = await session.run(
             'MATCH (u:User {username: $username}) RETURN u',
