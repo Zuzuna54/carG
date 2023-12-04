@@ -11,3 +11,8 @@ export const setAuthenticationStatus = (isAuthenticated) => ({
     type: 'SET_AUTHENTICATION_STATUS',
     payload: isAuthenticated,
 });
+
+export const setUser = (user) => ({
+    type: 'SET_USER',
+    payload: user,
+});

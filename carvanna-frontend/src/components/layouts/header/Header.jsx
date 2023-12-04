@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAuthenticationStatus } from '../../../redux/actions/authActions';
+import { setAuthenticationStatus, setUser } from '../../../redux/actions/authActions';
 
 
 
@@ -12,7 +12,6 @@ const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const authStatus = useSelector(state => state.authState.isAuthenticated)
-    console.log(authStatus);
 
     const returnLogInButton = () => {
 
@@ -24,9 +23,9 @@ const Header = () => {
 
     const handleLogOut = () => {
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
         dispatch(setAuthenticationStatus(false));
+        dispatch(setUser({}));
         navigate('/dashboard/homepage')
 
     }

@@ -28,7 +28,7 @@ export default function TransportationCostSection() {
     React.useEffect(() => {
         if (!data) return;
 
-        const companies = data.data.companies;
+        const companies = data.companies;
         const company = companies.find(company => company.name === "Estimated Prices");
         const auctions = company ? company.auctions : [];
         const auction = auctions.find(auction => auction.name === selectedAuction);

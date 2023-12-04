@@ -94,7 +94,7 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         user.password = result.data.password
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
-        user.acessToken = token;
+        user.accessToken = token;
         user.refreshToken = refreshToken;
 
         //Update the last login time

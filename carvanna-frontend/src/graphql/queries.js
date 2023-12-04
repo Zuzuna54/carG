@@ -10,4 +10,15 @@ export const GET_CALC_DATA = gql`
             result
         }
     }
-`
+`;
+
+export const GET_COMPANIES_LIST = gql`
+    query{
+        getCompaniesList{
+            statusCode,
+            message,
+            result,
+            data
+        }
+    }
+`;

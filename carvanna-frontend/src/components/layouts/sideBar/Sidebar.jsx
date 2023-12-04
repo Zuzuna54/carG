@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import CalculatorIcon from '@mui/icons-material/Calculate';  // Corrected import
+import CalculatorIcon from '@mui/icons-material/Calculate';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -10,6 +12,23 @@ import './SideBar.scss';
 
 export default function SideBar() {
     const navigate = useNavigate();
+    const authStatus = useSelector(state => state.authState.isAuthenticated);
+    const user = useSelector(state => state.authState.user);
+
+    const handleConditionalItem = () => {
+
+        if (authStatus) {
+            return (
+                <ListItem button onClick={() => navigate('/dashboard/my-panel')}>
+                    <ListItemIcon>
+                        <AccountCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='My Panel' />
+                </ListItem>
+            );
+        }
+
+    }
 
     return (
         <div className='sideBar'>
@@ -17,6 +36,9 @@ export default function SideBar() {
                 <div className='line-div'>
                     <div className='liner'></div>
                 </div>
+
+                {/* Conditional Item */}
+                {handleConditionalItem()}
 
                 {/* Home */}
                 <ListItem button onClick={() => navigate('/dashboard/homepage')}>

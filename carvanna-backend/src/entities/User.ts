@@ -10,7 +10,7 @@ export class User {
         password: string,
         userType: string,
         createdAt: string,
-        acessToken: string,
+        accessToken: string,
         refreshToken: string,
         lastLogin: string,
         error: string,
@@ -27,7 +27,7 @@ export class User {
         this.password = password;
         this.userType = userType;
         this.createdAt = createdAt;
-        this.acessToken = acessToken;
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.lastLogin = lastLogin;
         this.error = error;
@@ -60,7 +60,7 @@ export class User {
     lastLogin: String;
 
     @Field(() => String)
-    acessToken: string;
+    accessToken: string;
 
     @Field(() => String)
     refreshToken: string;

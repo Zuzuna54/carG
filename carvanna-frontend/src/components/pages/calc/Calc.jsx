@@ -18,21 +18,19 @@ export default function Calc() {
     const { loading, error, data } = useQuery(GET_CALC_DATA);
     // get the data from api
     React.useEffect(() => {
-        // const process = async () => {
-        //     try {
-        //         dispatch(SetLoading(true));
-        //         dispatch(SetError(null));
-        //         const resp = await getDataSet();
-        //         dispatch(SetCalcDataSet(resp));
-        //         dispatch(SetLoading(false));
-        //     } catch (err) {
-        //         dispatch(SetError(err));
-        //         dispatch(SetLoading(false));
-        //     }
-        // };
-        // process();
 
-        console.log('data', data);
+        if (!data) return;
+
+        try {
+            dispatch(SetLoading(true));
+            dispatch(SetError(null));
+            dispatch(SetCalcDataSet(data.getCalcData.data));
+            dispatch(SetLoading(false));
+        } catch (err) {
+            dispatch(SetError(err));
+            dispatch(SetLoading(false));
+        }
+
 
     }, [data]);
 

@@ -1,5 +1,6 @@
-import { Mutation, Resolver, Arg, Ctx } from "type-graphql";
+import { Mutation, Resolver, Arg, Ctx, Query } from "type-graphql";
 import createCompanyHandler from "../handlers/companyHandlers/createCompanyHandler";
+import getCompaniesListHandler from "../handlers/companyHandlers/getCompaniesList";
 // import { Company } from "../entities/Compnay";
 import { Context } from "../contextInterface/context";
 import { GenericReturn } from "../entities/genericReturn";
@@ -31,6 +32,21 @@ export class CompanyResolver {
 
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
         return createCompanyHandler(name, description, address, phone, email, jwtToken);
+
+    }
+
+    /**
+     * Mutation resolver to get the companies list.
+     * @param context 
+     * @returns 
+     */
+    @Query(() => GenericReturn)
+    getCompaniesList(
+        @Ctx() context: Context
+    ): Promise<GenericReturn> {
+
+        const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
+        return getCompaniesListHandler(jwtToken);
 
     }
 

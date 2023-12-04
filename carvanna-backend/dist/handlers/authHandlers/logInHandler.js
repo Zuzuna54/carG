@@ -59,7 +59,7 @@ const logInHandler = async (username, password) => {
         user.password = result.data.password;
         user.lastLogin = new Date().toISOString();
         user.createdBy = result.data.createdBy;
-        user.acessToken = token;
+        user.accessToken = token;
         user.refreshToken = refreshToken;
         console.log(`Updating the last login time\n`);
         const updateLastLogin = await (0, updateUser_1.updateUser)(user);

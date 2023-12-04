@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuthenticationStatus } from '../../../redux/actions/authActions';
+import { setAuthenticationStatus, setUser } from '../../../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../../graphql/mutations';
@@ -33,12 +33,13 @@ const LoginForm = () => {
             });
 
             // Assuming your server returns a token on successful login
-            const token = data.logInUser.token;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(data.logInUser));
+            const accessToken = data.logInUser.accessToken;
+            console.log('accessToken', data.logInUser);
+            localStorage.setItem('accessToken', accessToken);
 
             // Update authentication status
             dispatch(setAuthenticationStatus(true));
+            dispatch(setUser(data.logInUser));
 
             // Navigate to the dashboard page
             navigate('/dashboard/homepage');
