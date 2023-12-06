@@ -84,7 +84,7 @@ const createCarHandler = async (
 
         //Validate that companyId, userId, vin, price, transportationPrice, priceDue and transportationPriceDue are not empty
         console.log(`Validating that companyId, userId, vin, price, transportationPrice, priceDue and transportationPriceDue are not empty\n`)
-        if (!companyId || !vin || !price || !transporationPrice || !priceDue || !transporationPriceDue) {
+        if (!companyId || !vin || !price || !transporationPrice || !priceDue || !transporationPriceDue || !userId) {
 
             console.error('Error: 400 Missing required fields');
             result.result = `failed`;
