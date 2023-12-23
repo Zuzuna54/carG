@@ -1,5 +1,5 @@
 import { createState } from "../../neo4jCalls/stateCalls/createState";
-import { getStateByName } from "../../neo4jCalls/stateCalls/getStateByName";
+// import { getStateByName } from "../../neo4jCalls/stateCalls/getStateByName";
 import { getAuction } from "../../neo4jCalls/auctionCalls/getAuction";
 import { v4 as uuidv4 } from "uuid";
 import { State } from "../../entities/State";
@@ -83,20 +83,6 @@ const createStateHandler = async (
             result.result = `failed`;
             result.statusCode = 404;
             result.message = `Error: 404 Auction ${auctionId} not found`;
-
-            return result;
-
-        }
-
-        // Validate that the State doesn't already exist
-        console.log(`Validating that the State doesn't already exist\n`)
-        const state: GenericReturn = await getStateByName(name);
-        if (state.statusCode === 200) {
-
-            console.error(`Error: 409 State ${name} already exists`);
-            result.result = `failed`;
-            result.statusCode = 409;
-            result.message = `Error: 409 State ${name} already exists`;
 
             return result;
 

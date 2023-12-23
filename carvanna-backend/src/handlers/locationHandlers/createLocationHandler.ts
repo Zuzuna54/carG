@@ -1,5 +1,4 @@
 import { createLocation } from "../../neo4jCalls/locationCalls/createLocation";
-import { getLocationByName } from "../../neo4jCalls/locationCalls/getLocationByName";
 import { getState } from "../../neo4jCalls/stateCalls/getState";
 import { v4 as uuidv4 } from "uuid";
 import { Location } from "../../entities/Location";
@@ -72,20 +71,6 @@ const createLocationHandler = async (
 
         }
 
-        //Validate location name
-        console.log(`Validating location name\n`)
-        const locationNameValidated: GenericReturn = await getLocationByName(name);
-        if (locationNameValidated.statusCode === 200) {
-
-            console.error(`Error: ${locationNameValidated.statusCode} ${locationNameValidated.result}`);
-            result.result = `failed`;
-            result.statusCode = locationNameValidated.statusCode;
-            result.message = `Error: ${locationNameValidated.statusCode} ${locationNameValidated.result}`;
-
-            return result;
-
-        }
-
         //Validate state id
         console.log(`Validating state id\n`)
         const stateIdValidated: GenericReturn = await getState(stateId);
@@ -99,19 +84,6 @@ const createLocationHandler = async (
             return result;
         }
 
-        //Validate that the location does not already exist
-        console.log(`Validating that the location does not already exist\n`)
-        const location: GenericReturn = await getLocationByName(name);
-        if (location.statusCode === 200) {
-
-            console.error(`Error: 409 Location ${name} already exists`);
-            result.result = `failed`;
-            result.statusCode = 409;
-            result.message = `Error: 409 Location ${name} already exists`;
-
-            return result;
-
-        }
 
         //Create the location
         console.log(`Creating the location\n`)
