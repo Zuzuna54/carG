@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
+import { AnyScalar } from "../utils/utils";
 
 @ObjectType()
 export class Company {
@@ -11,7 +12,9 @@ export class Company {
         email: string,
         createdAt: string,
         createdBy: string,
-        status: string
+        status: string,
+        ratingsArray: Record<any, any>[],
+        avgRating: number,
     ) {
         this.id = id;
         this.name = name;
@@ -22,6 +25,8 @@ export class Company {
         this.phone = phone;
         this.email = email;
         this.status = status;
+        this.ratingsArray = ratingsArray;
+        this.avgRating = avgRating;
     }
 
     @Field(() => ID)
@@ -50,5 +55,11 @@ export class Company {
 
     @Field(() => String)
     status: string;
+
+    @Field(() => [AnyScalar])
+    ratingsArray: Record<any, any>[];
+
+    @Field(() => Number)
+    avgRating: number;
 
 }

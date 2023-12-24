@@ -12,6 +12,7 @@ const createCarHandler = async (
 
     companyId: string,
     userId: string,
+    owner: string,
     description: string,
     make: string,
     model: string,
@@ -183,6 +184,7 @@ const createCarHandler = async (
             "",
             [],
             ACTIVE,
+            owner
         );
 
         //Create the Car

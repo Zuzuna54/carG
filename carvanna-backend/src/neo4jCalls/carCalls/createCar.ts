@@ -41,7 +41,8 @@ export const createCar = async (car: Car): Promise<GenericReturn> => {
                     transporationPriceDue: $transporationPriceDue,
                     createdAt: $createdAt, 
                     createdBy: $createdBy, 
-                    status: $status
+                    status: $status,
+                    owner: $owner
                 }) 
                 MERGE (u)-[:CREATED]->(car)<-[:IMPORTED_BY]-(c)
                 RETURN c
@@ -69,7 +70,8 @@ export const createCar = async (car: Car): Promise<GenericReturn> => {
                 transporationPriceDue: car.transporationPriceDue,
                 createdAt: car.createdAt,
                 createdBy: car.createdBy,
-                status: car.status
+                status: car.status,
+                owner: car.owner
             }
         );
 

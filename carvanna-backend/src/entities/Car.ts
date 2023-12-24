@@ -30,7 +30,8 @@ export class Car {
         createdBy: string,
         updatedBy: string,
         actionsArray: Record<any, any>[],
-        status: string
+        status: string,
+        owner: string,
     ) {
         this.id = id;
         this.description = description;
@@ -57,6 +58,7 @@ export class Car {
         this.updatedBy = updatedBy;
         this.actionsArray = actionsArray;
         this.status = status;
+        this.owner = owner;
     }
 
     @Field(() => ID)
@@ -134,5 +136,7 @@ export class Car {
     @Field(() => String)
     status: string;
 
+    @Field(() => String)
+    owner: string;
 }
 

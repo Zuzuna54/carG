@@ -51,6 +51,7 @@ export class CarResolver {
         @Arg("priceDue", () => Number) priceDue: number,
         @Arg("transporationPrice", () => Number) transporationPrice: number,
         @Arg("transporationPriceDue", () => Number) transporationPriceDue: number,
+        @Arg("owner", () => String) owner: string,
         @Ctx() context: Context
     ): Promise<GenericReturn> {
 
@@ -58,6 +59,7 @@ export class CarResolver {
         return createCarHandler(
             companyId,
             userId,
+            owner,
             description,
             make,
             model,
