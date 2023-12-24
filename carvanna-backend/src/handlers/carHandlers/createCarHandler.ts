@@ -180,6 +180,8 @@ const createCarHandler = async (
             transporationPriceDue,
             new Date().toISOString(),
             user.username,
+            "",
+            [],
             ACTIVE,
         );
 

@@ -9,9 +9,14 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getUserByUsername_1 = require("../../neo4jCalls/userCalls/getUserByUsername");
 const updateUser_1 = require("../../neo4jCalls/userCalls/updateUser");
 const User_1 = require("../../entities/User");
-const logInHandler = async (username, password) => {
+const axios_1 = __importDefault(require("axios"));
+const logInHandler = async (username, password, context) => {
     console.log(`\n\nRunning logInHandler.ts\n\n`);
-    const user = new User_1.User('', '', '', '', '', '', '', '', '', '', '', '', '', '', "");
+    const req = context.req;
+    console.log(`log users ip \n`);
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    console.log(`ip: ${ip}`);
+    const user = new User_1.User('', '', '', '', '', '', '', '', '', '', '', '', '', '', "", [], [], {});
     try {
         console.log(`Creating a new Token object\n`);
         console.log(`Validating that password and username are provided in the request body\n`);
@@ -51,16 +56,34 @@ const logInHandler = async (username, password) => {
         const token = jsonwebtoken_1.default.sign({ user: signature }, tokenSecret);
         console.log(`Creating and assigning a refresh token\n`);
         const refreshToken = jsonwebtoken_1.default.sign({ user: { username: result.data.username, lastLogIn: Date.now() } }, tokenSecret);
+        const response = await axios_1.default.get(`https://ipapi.co/${ip}/json/`);
+        console.log(`response.data: ${JSON.stringify(response.data)}`);
+        const city = response.data.city;
+        const region = response.data.region;
+        const country = response.data.country;
+        const countryName = response.data.country_name;
+        const location = {
+            city,
+            region,
+            country,
+            countryName,
+        };
+        const date = new Date().toISOString();
+        response.data.date = date;
+        const ipLocations = JSON.parse(result.data.ipLocations) || [];
+        ipLocations.push({ login: response.data });
         user.id = result.data.id;
         user.username = result.data.username;
         user.email = result.data.email;
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
         user.password = result.data.password;
-        user.lastLogin = new Date().toISOString();
+        user.lastLogin = date;
         user.createdBy = result.data.createdBy;
         user.accessToken = token;
         user.refreshToken = refreshToken;
+        user.ipLocations = ipLocations;
+        user.location = location;
         console.log(`Updating the last login time\n`);
         const updateLastLogin = await (0, updateUser_1.updateUser)(user);
         if (updateLastLogin.statusCode !== 200) {

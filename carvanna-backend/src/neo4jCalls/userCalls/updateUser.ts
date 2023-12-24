@@ -19,7 +19,12 @@ export const updateUser = async (user: User): Promise<GenericReturn> => {
         const queryResult: QueryResult<RecordShape> = await session.run(
             `
             MATCH (u:User {id: $id})
-            SET u.username = $username, u.email = $email, u.password = $password, u.userType = $userType, u.lastLogin = $lastLogin
+            SET u.username = $username, 
+            u.email = $email, 
+            u.password = $password, 
+            u.userType = $userType, 
+            u.lastLogin = $lastLogin,
+            u.ipLocations = $ipLocations
             RETURN u
             `,
             {
@@ -29,7 +34,7 @@ export const updateUser = async (user: User): Promise<GenericReturn> => {
                 password: user.password,
                 userType: user.userType,
                 lastLogin: user.lastLogin,
-
+                ipLocations: JSON.stringify(user.ipLocations),
             }
         );
 

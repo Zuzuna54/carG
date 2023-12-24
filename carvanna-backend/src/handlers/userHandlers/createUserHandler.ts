@@ -222,7 +222,10 @@ const createComanyAdminHandler = async (
             compnayId,
             ACTIVE,
             '',
-            ''
+            '',
+            [],
+            [],
+            {}
         );
 
         // Create the user

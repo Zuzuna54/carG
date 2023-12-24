@@ -1,4 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
+import { AnyScalar } from '../utils/utils';
+
 
 @ObjectType()
 export class User {
@@ -18,7 +20,10 @@ export class User {
         companyId: string,
         status: string,
         updatedAt: string,
-        updatedBy: string
+        updatedBy: string,
+        actionsArray: Record<any, any>[],
+        ipLocations: Record<any, any>[],
+        location: Record<string, string>
 
     ) {
         this.id = id;
@@ -36,6 +41,9 @@ export class User {
         this.status = status;
         this.updatedAt = updatedAt;
         this.updatedBy = updatedBy;
+        this.actionsArray = actionsArray;
+        this.ipLocations = ipLocations;
+        this.location = location;
     }
 
     @Field(() => ID)
@@ -82,5 +90,14 @@ export class User {
 
     @Field(() => String)
     updatedBy: string;
+
+    @Field(() => [AnyScalar])
+    actionsArray: Record<any, any>[];
+
+    @Field(() => [AnyScalar])
+    ipLocations: Record<any, any>[];
+
+    @Field(() => AnyScalar)
+    location: Record<string, string>;
 
 }

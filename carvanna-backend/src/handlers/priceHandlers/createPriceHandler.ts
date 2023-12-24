@@ -112,6 +112,7 @@ const createPriceHandler = async (
             description,
             new Date().toISOString(),
             user.username,
+            "",
             ACTIVE
         );
 

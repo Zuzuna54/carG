@@ -8,6 +8,7 @@ import { Context } from "../contextInterface/context";
 
 @Resolver()
 export class UserResolver {
+
     /**
      * Query resolver to return a greeting.
      * @returns A greeting.
@@ -50,10 +51,11 @@ export class UserResolver {
     @Mutation(() => User)
     logInUser(
         @Arg("username", () => String) username: string,
-        @Arg("password", () => String) password: string
+        @Arg("password", () => String) password: string,
+        @Ctx() context: Context
     ): Promise<User> {
 
-        return logInHandler(username, password);
+        return logInHandler(username, password, context);
 
     }
 

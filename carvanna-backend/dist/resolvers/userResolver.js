@@ -31,8 +31,8 @@ let UserResolver = class UserResolver {
         const jwtToken = (_a = context.req.headers.authorization) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
         return (0, createUserHandler_1.default)(username, email, password, userType, companyId, jwtToken);
     }
-    logInUser(username, password) {
-        return (0, logInHandler_1.default)(username, password);
+    logInUser(username, password, context) {
+        return (0, logInHandler_1.default)(username, password, context);
     }
     refreshAcessToken(refreshToken) {
         return (0, refreshAcessTokenHandler_1.default)(refreshToken);
@@ -61,8 +61,9 @@ __decorate([
     (0, type_graphql_1.Mutation)(() => User_1.User),
     __param(0, (0, type_graphql_1.Arg)("username", () => String)),
     __param(1, (0, type_graphql_1.Arg)("password", () => String)),
+    __param(2, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "logInUser", null);
 __decorate([

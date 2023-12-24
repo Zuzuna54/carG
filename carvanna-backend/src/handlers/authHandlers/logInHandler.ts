@@ -5,11 +5,19 @@ import { getUserByUsername } from '../../neo4jCalls/userCalls/getUserByUsername'
 import { updateUser } from '../../neo4jCalls/userCalls/updateUser';
 import { User } from '../../entities/User';
 import { GenericReturn } from '../../entities/genericReturn';
+import { Context } from "../../contextInterface/context";
+import axios from 'axios';
 
-
-const logInHandler = async (username: string, password: string): Promise<User> => {
+const logInHandler = async (username: string, password: string, context: Context): Promise<User> => {
 
     console.log(`\n\nRunning logInHandler.ts\n\n`);
+    const req = context.req;
+
+    // log users ip 
+    console.log(`log users ip \n`)
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    console.log(`ip: ${ip}`);
+
     const user: User = new User(
         '',
         '',
@@ -25,7 +33,10 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         '',
         '',
         '',
-        ""
+        "",
+        [],
+        [],
+        {}
     );
     try {
 
@@ -85,6 +96,24 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         console.log(`Creating and assigning a refresh token\n`)
         const refreshToken = jwt.sign({ user: { username: result.data.username, lastLogIn: Date.now() } }, tokenSecret);
 
+        //Get users ip location 
+        const response = await axios.get(`https://ipapi.co/${ip}/json/`);
+        console.log(`response.data: ${JSON.stringify(response.data)}`);
+
+        const city = response.data.city;
+        const region = response.data.region;
+        const country = response.data.country;
+        const countryName = response.data.country_name;
+        const location = {
+            city,
+            region,
+            country,
+            countryName,
+        }
+        const date = new Date().toISOString();
+        response.data.date = date;
+        const ipLocations = JSON.parse(result.data.ipLocations) || [];
+        ipLocations.push({ login: response.data })
 
         user.id = result.data.id;
         user.username = result.data.username;
@@ -92,10 +121,12 @@ const logInHandler = async (username: string, password: string): Promise<User> =
         user.userType = result.data.userType;
         user.createdAt = result.data.createdAt;
         user.password = result.data.password
-        user.lastLogin = new Date().toISOString();
+        user.lastLogin = date;
         user.createdBy = result.data.createdBy;
         user.accessToken = token;
         user.refreshToken = refreshToken;
+        user.ipLocations = ipLocations;
+        user.location = location;
 
         //Update the last login time
         console.log(`Updating the last login time\n`)

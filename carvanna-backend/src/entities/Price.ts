@@ -11,6 +11,7 @@ export class Price {
         description: string,
         createdAt: string,
         createdBy: string,
+        updatedBy: string,
         status: string
     ) {
         this.id = id;
@@ -20,6 +21,7 @@ export class Price {
         this.description = description;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
         this.status = status;
     }
 
@@ -43,6 +45,9 @@ export class Price {
 
     @Field(() => String)
     createdBy: string;
+
+    @Field(() => String)
+    updatedBy: string;
 
     @Field(() => String)
     status: string;

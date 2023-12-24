@@ -1,4 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
+import { AnyScalar } from '../utils/utils';
+
 
 @ObjectType()
 export class Car {
@@ -26,6 +28,8 @@ export class Car {
         transporationPriceDue: number,
         createdAt: string,
         createdBy: string,
+        updatedBy: string,
+        actionsArray: Record<any, any>[],
         status: string
     ) {
         this.id = id;
@@ -50,6 +54,8 @@ export class Car {
         this.transporationPriceDue = transporationPriceDue;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.actionsArray = actionsArray;
         this.status = status;
     }
 
@@ -118,6 +124,12 @@ export class Car {
 
     @Field(() => String)
     createdBy: string;
+
+    @Field(() => String)
+    updatedBy: string;
+
+    @Field(() => AnyScalar)
+    actionsArray: Record<any, any>[];
 
     @Field(() => String)
     status: string;
