@@ -3,11 +3,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_USER } from '../../../../graphql/mutations';
 import { GET_COMPANIES_LIST } from '../../../../graphql/queries';
-
-
+import { useDispatch } from 'react-redux';
+import './UserForm.scss';
 
 const UserForm = () => {
-
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         password: '',
@@ -16,10 +15,12 @@ const UserForm = () => {
         userType: 'COMPANY_ADMIN',
         companyId: '',
     });
+    const { loading, error: queryError, data } = useQuery(GET_COMPANIES_LIST);
+    const [createUser, { loading: creatingUser }] = useMutation(CREATE_USER);
 
-    const { loading, error, data } = useQuery(GET_COMPANIES_LIST);
-
-    const [createUser] = useMutation(CREATE_USER);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,22 +34,35 @@ const UserForm = () => {
                 variables: { ...formData },
             });
 
-            console.log('User created:', userData.createUser);
+            if (userData.createUser.result === 'success') {
+                setIsSuccess(true);
+                setIsError(false);
+                setFormData({ password: '', email: '', username: '', userType: 'COMPANY_ADMIN', companyId: '' });
 
-            //Handle success here, e.g., show a success message and then redirect to another page.
-            alert('User created successfully!');
-
-            navigate('/dashboard/my-panel');
-
+                navigate('/dashboard/my-panel');
+            } else {
+                setIsError(true);
+                setErrorMessage(userData.createUser.message);
+            }
         } catch (error) {
-            console.error('Error creating user:', error.message);
+            setIsError(true);
+            setErrorMessage(error.message || 'Error creating user');
         }
     };
 
     return (
-        <div>
+        <div className='user-form'>
             <h2>Create User</h2>
             <form onSubmit={handleFormSubmit}>
+                <div>
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                    />
+                </div>
                 <div>
                     <label>Password:</label>
                     <input
@@ -64,15 +78,6 @@ const UserForm = () => {
                         type="email"
                         name="email"
                         value={formData.email}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -97,7 +102,7 @@ const UserForm = () => {
                     >
                         <option value="">Select a company</option>
                         {!loading &&
-                            data &&
+                            data.getCompaniesList.data &&
                             data.getCompaniesList.data.map((company) => (
                                 <option key={company.id} value={company.id}>
                                     {company.name}
@@ -105,8 +110,14 @@ const UserForm = () => {
                             ))}
                     </select>
                 </div>
-                <div>
-                    <button type="submit">Create User</button>
+
+                <button type="submit" disabled={creatingUser}>Create User</button>
+                <div className={isSuccess ? 'success-log success' : 'error-log error'}>
+                    {isSuccess ? (
+                        <p>User created successfully!</p>
+                    ) : isError && (
+                        <p>{errorMessage}</p>
+                    )}
                 </div>
             </form>
         </div>
@@ -114,3 +125,4 @@ const UserForm = () => {
 };
 
 export default UserForm;
+

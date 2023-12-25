@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { CREATE_COMPANY } from "../../../../graphql/mutations";
 import { GET_COMPANIES_LIST } from '../../../../graphql/queries';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SetCompaniesList } from '../../../../redux/actions/companyActions';
+import './CompanyForm.scss';
 
 const CompanyForm = () => {
+
+    const dispatch = useDispatch();
+    const [getCompaniesList, companyData] = useLazyQuery(GET_COMPANIES_LIST);
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -17,29 +21,26 @@ const CompanyForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const dispatch = useDispatch();
-    const companiesList = useSelector(state => state.company.companiesList);
-
-
-    const { error: queryError, data: queryData } = useQuery(GET_COMPANIES_LIST, {
-        skip: companiesList.length < 0,
-    });
-
-    console.log('Companies list:', queryData);
-
-
-    useEffect(() => {
-        if (queryData) {
-            dispatch(SetCompaniesList(queryData.getCompaniesList.data));
-        }
-    }, [queryData, dispatch]);
-
     const [createCompany, { loading }] = useMutation(CREATE_COMPANY, {
         onCompleted: (data) => {
-            setIsSuccess(true);
-            setIsError(false);
-            setFormData({ name: '', description: '', address: '', phone: '', email: '' });
-            // Optionally, fetch companies list again or update redux state
+
+            if (data.createCompany.result === 'success') {
+
+                //Handle success and reset form here, e.g., show a success message and then reset form.
+                setIsSuccess(true);
+                setIsError(false);
+                setFormData({ name: '', description: '', address: '', phone: '', email: '' });
+
+                // Optionally, fetch companies list again or update redux state}
+                getCompaniesList();
+
+            }
+
+            if (data.createCompany.result === 'failed') {
+                setIsError(true);
+                setErrorMessage(data.createCompany.message);
+            }
+
         },
         onError: (error) => {
             setIsError(true);
@@ -62,42 +63,49 @@ const CompanyForm = () => {
         createCompany({ variables: formData });
     };
 
+    useEffect(() => {
+
+        if (companyData.data && companyData.data.getCompaniesList) {
+            dispatch(SetCompaniesList(companyData.data.getCompaniesList.data));
+        }
+
+    }, [companyData]);
+
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Name:
-                <input type="text" name="name" value={formData.name} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Description:
-                <input type="text" name="description" value={formData.description} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Address:
-                <input type="text" name="address" value={formData.address} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Phone:
-                <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Email:
-                <input type="text" name="email" value={formData.email} onChange={handleChange} />
-            </label>
-            <br />
-            <button type="submit" disabled={loading}>Create Company</button>
-            <div className={isSuccess ? 'success-log' : 'error-log'}>
-                {isSuccess ? (
-                    <p>Company created successfully!</p>
-                ) : isError && (
-                    <p>{errorMessage}</p>
-                )}
-            </div>
-        </form>
+        <div className="company-form">
+            <h2>Create Company</h2>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Name:
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
+                    Description:
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
+                    Address:
+                    <input type="text" name="address" value={formData.address} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
+                    Phone:
+                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
+                    Email:
+                    <input type="text" name="email" value={formData.email} onChange={handleChange} />
+                </label>
+                <br />
+                <button type="submit" disabled={loading}>Create Company</button>
+                <div className={isSuccess ? 'success-log success' : 'error-log error'}>
+                    {isSuccess ? <p>Company created successfully!</p> : <p>{errorMessage}</p>}
+                </div>
+            </form>
+        </div>
     );
 };
 

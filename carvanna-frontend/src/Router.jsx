@@ -13,7 +13,7 @@ const NotAuthorized = React.lazy(() => import('./components/NotAuthorized/NotAut
 const Calc = React.lazy(() => import('./components/pages/calc/Calc'));
 const MyPanel = React.lazy(() => import('./components/pages/myPanel/MyPanel'));
 const CompanyForm = React.lazy(() => import('./components/pages/myPanel/companyForm/CompanyForm'));
-const UserForm = React.lazy(() => import('./components/pages/myPanel/userForm/userForm'));
+const UserForm = React.lazy(() => import('./components/pages/myPanel/userForm/UserForm'));
 const Home = React.lazy(() => import('./components/pages/home/Homepage'));
 const AboutUs = React.lazy(() => import('./components/pages/aboutUs/Aboutus'));
 const ContactUs = React.lazy(() => import('./components/pages/contactUs/Contactus'));
