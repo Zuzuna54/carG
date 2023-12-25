@@ -38,7 +38,6 @@ export default function CalcFooter() {
 
     const companiesListInternal = useMemo(() => {
         const clonedList = sortByProperty(JSON.parse(JSON.stringify(companiesList)), filterValue.property, filterValue.order);
-        console.log(clonedList);
         const index = clonedList.findIndex((company) => company.name === 'Estimated Prices');
         if (index > -1) {
             clonedList.splice(index, 1);

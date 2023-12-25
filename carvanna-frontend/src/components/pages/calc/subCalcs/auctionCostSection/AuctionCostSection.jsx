@@ -13,7 +13,6 @@ export default function AuctionCarCostSection() {
     const totalAuctionCost = useSelector(state => state.calcData.totalAuctionCost);
     const carCost = useSelector(state => state.calcData.carCost);
     const state = useSelector(state => state)
-    console.log(state)
 
     const calculateTotalAuctionCost = useCallback((carCost, selectedAuction) => {
         // Implement your logic to calculate the total auction cost based on carCost

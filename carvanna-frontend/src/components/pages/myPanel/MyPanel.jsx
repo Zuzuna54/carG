@@ -1,21 +1,27 @@
 import { Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GET_COMPANIES_LIST } from '../../../graphql/queries';
+import { useQuery } from '@apollo/client';
+import { SetCompaniesList } from '../../../redux/actions/companyActions';
 
 const MyPanel = () => {
 
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { error, data } = useQuery(GET_COMPANIES_LIST);
+    const dispatch = useDispatch();
+    const companiesList = useSelector(state => state.company.companiesList);
 
     useEffect(() => {
 
-    }, []);
+        if (data && JSON.stringify(data.getCompaniesList.data) !== JSON.stringify(companiesList)) {
+            console.log(data.getCompaniesList.data);
+            dispatch(SetCompaniesList(data.getCompaniesList.data));
+        }
 
-    if (loading) {
-        // return <Loading />
-    }
+    });
+
 
     return (
         <div className="container">

@@ -34,7 +34,7 @@ const initialState = {
 
 };
 
-export const calcDataReducer = (state = initialState, action) => {
+const calcDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_SELECTED_COMPANY':
             return { ...state, selectedCompany: action.payload };
@@ -93,3 +93,5 @@ export const calcDataReducer = (state = initialState, action) => {
             return state;
     }
 }
+
+export default calcDataReducer;

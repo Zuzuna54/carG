@@ -18,7 +18,6 @@ const UserForm = () => {
     });
 
     const { loading, error, data } = useQuery(GET_COMPANIES_LIST);
-    console.log('data', data);
 
     const [createUser] = useMutation(CREATE_USER);
 

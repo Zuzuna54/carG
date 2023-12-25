@@ -117,7 +117,9 @@ const createCompanyHandler = async (
             email,
             new Date().toISOString(),
             user.username,
-            ACTIVE
+            ACTIVE,
+            [],
+            0
         );
 
         // Create the Company

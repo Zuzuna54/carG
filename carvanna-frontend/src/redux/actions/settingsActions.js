@@ -1,4 +1,5 @@
 // settingsActions.js
+
 export const updateLogo = (newLogo) => ({
     type: 'UPDATE_LOGO',
     payload: newLogo,

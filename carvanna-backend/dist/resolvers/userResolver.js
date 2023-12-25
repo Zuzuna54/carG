@@ -34,7 +34,7 @@ let UserResolver = class UserResolver {
     logInUser(username, password, context) {
         return (0, logInHandler_1.default)(username, password, context);
     }
-    refreshAcessToken(refreshToken) {
+    refreshAccessToken(refreshToken) {
         return (0, refreshAcessTokenHandler_1.default)(refreshToken);
     }
 };
@@ -72,7 +72,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserResolver.prototype, "refreshAcessToken", null);
+], UserResolver.prototype, "refreshAccessToken", null);
 exports.UserResolver = UserResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], UserResolver);

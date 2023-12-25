@@ -3,7 +3,7 @@ import './Header.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthenticationStatus, setUser } from '../../../redux/actions/authActions';
-
+import Cookies from 'js-cookie';
 
 
 
@@ -11,7 +11,7 @@ const Header = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const authStatus = useSelector(state => state.authState.isAuthenticated)
+    const token = Cookies.get('accessToken') || '';
 
     const returnLogInButton = () => {
 
@@ -23,7 +23,8 @@ const Header = () => {
 
     const handleLogOut = () => {
 
-        localStorage.removeItem("accessToken");
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
         dispatch(setAuthenticationStatus(false));
         dispatch(setUser({}));
         navigate('/dashboard/homepage')
@@ -48,7 +49,7 @@ const Header = () => {
                 <h1 className="title">Your App Title</h1>
                 {/* You can add more information or content here */}
             </div>
-            {authStatus ? returnLogOutButton() : returnLogInButton()}
+            {token ? returnLogOutButton() : returnLogInButton()}
         </header>
     );
 };

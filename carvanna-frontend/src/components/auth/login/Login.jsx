@@ -4,6 +4,7 @@ import { setAuthenticationStatus, setUser } from '../../../redux/actions/authAct
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../../graphql/mutations';
+import Cookies from 'js-cookie';
 import './Login.scss';
 
 const LoginForm = () => {
@@ -34,8 +35,9 @@ const LoginForm = () => {
 
             // Assuming your server returns a token on successful login
             const accessToken = data.logInUser.accessToken;
-            console.log('accessToken', data.logInUser);
-            localStorage.setItem('accessToken', accessToken);
+            const refreshToken = data.logInUser.refreshToken;
+            Cookies.set('accessToken', accessToken);
+            Cookies.set('refreshToken', refreshToken);
 
             // Update authentication status
             dispatch(setAuthenticationStatus(true));
@@ -43,9 +45,12 @@ const LoginForm = () => {
 
             // Navigate to the dashboard page
             navigate('/dashboard/homepage');
+
         } catch (error) {
+
             console.error('Login error:', error.message);
             setIsLoginError(true);
+
         }
     };
 

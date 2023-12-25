@@ -21,8 +21,6 @@ const RegistrationForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Add your registration logic here, e.g., send a request to a registration API
-        console.log('Username:', username);
-        console.log('Email:', email);
         // Reset the form
         setUsername('');
         setEmail('');

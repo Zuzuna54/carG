@@ -65,7 +65,7 @@ export class UserResolver {
      * @returns The new access token.
      */
     @Mutation(() => GenericReturn)
-    refreshAcessToken(
+    refreshAccessToken(
         @Arg("refreshToken", () => String) refreshToken: string
     ): Promise<GenericReturn> {
 
