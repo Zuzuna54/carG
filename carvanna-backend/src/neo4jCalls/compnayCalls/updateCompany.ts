@@ -20,9 +20,7 @@ export const updateCompany = async (company: Company): Promise<GenericReturn> =>
                  c.address = COALESCE($address, c.address),
                  c.phone = COALESCE($phone, c.phone),
                  c.email = COALESCE($email, c.email),
-                 c.status = COALESCE($status, c.status),
-                 c.ratingsArray = COALESCE($ratingsArray, c.ratingsArray),
-                 c.avgRating = COALESCE($avgRating, c.avgRating)
+                 c.status = COALESCE($status, c.status)
              RETURN c`,
             {
                 id: company.id,
@@ -32,8 +30,8 @@ export const updateCompany = async (company: Company): Promise<GenericReturn> =>
                 phone: company.phone,
                 email: company.email,
                 status: company.status,
-                ratingsArray: company.ratingsArray,
-                avgRating: company.avgRating
+                // ratingsArray: company.ratingsArray,
+                // avgRating: company.avgRating
             }
         );
 
@@ -44,7 +42,7 @@ export const updateCompany = async (company: Company): Promise<GenericReturn> =>
             result.statusCode = 500;
             result.message = `Error: 500 Failed to update company ${company.name} with id ${company.id}`;
 
-            return result
+            return result;
 
         } else {
 
@@ -56,7 +54,7 @@ export const updateCompany = async (company: Company): Promise<GenericReturn> =>
             result.message = `200: Company ${updatedCompany.name} updated with id ${updatedCompany.id}`;
             result.id = updatedCompany.id;
 
-            return result
+            return result;
 
         }
     } catch (err) {
@@ -66,10 +64,11 @@ export const updateCompany = async (company: Company): Promise<GenericReturn> =>
         result.statusCode = 500;
         result.message = `Error: ${err}`;
 
-        return result
+        return result;
+
     } finally {
 
         await session.close();
-        console.log(`session closed\n`)
+        console.log(`session closed\n`);
     }
 };
