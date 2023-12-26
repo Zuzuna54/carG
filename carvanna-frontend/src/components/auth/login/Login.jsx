@@ -14,7 +14,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoginError, setIsLoginError] = useState(false);
-
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -28,32 +28,36 @@ const LoginForm = () => {
         e.preventDefault();
 
         try {
-
             const { data } = await loginUser({
                 variables: { username, password },
             });
 
-            // Assuming your server returns a token on successful login
-            const accessToken = data.logInUser.accessToken;
-            const refreshToken = data.logInUser.refreshToken;
-            Cookies.set('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken);
+            if (data.logInUser.error) {
+                setIsLoginError(true);
+                setErrorMessage(data.logInUser.message || 'Login failed. Please check your credentials.');
+                return;
+            }
 
-            // Update authentication status
-            dispatch(setAuthenticationStatus(true));
-            dispatch(setUser(data.logInUser));
+            if (!data.logInUser.error) {
+                setIsLoginError(false);
 
-            // Navigate to the dashboard page
-            navigate('/dashboard/homepage');
+                const accessToken = data.logInUser.accessToken;
+                const refreshToken = data.logInUser.refreshToken;
+                Cookies.set('accessToken', accessToken);
+                Cookies.set('refreshToken', refreshToken);
+
+                dispatch(setAuthenticationStatus(true));
+                dispatch(setUser(data.logInUser));
+
+                navigate('/dashboard/homepage');
+            }
 
         } catch (error) {
-
             console.error('Login error:', error.message);
             setIsLoginError(true);
-
+            setErrorMessage('An error occurred during login. Please try again.');
         }
     };
-
 
     return (
         <form className={isLoginError ? 'error-visible' : ''} onSubmit={handleSubmit}>
