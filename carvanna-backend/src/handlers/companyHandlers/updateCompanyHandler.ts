@@ -1,7 +1,7 @@
 import { updateCompany } from '../../neo4jCalls/compnayCalls/updateCompany';
 import { getCompany } from '../../neo4jCalls/compnayCalls/getCompany';
 import { Company } from '../../entities/Company';
-import { SUPER_ADMIN, COMPANY_ADMIN } from '../../constants/constants';
+import { SUPER_ADMIN, COMPANY_ADMIN, ACTIVE } from '../../constants/constants';
 import { validateEmail, validateSession, decodeToken } from '../../utils/utils';
 import { GenericReturn } from "../../entities/genericReturn";
 
@@ -12,7 +12,6 @@ const updateCompanyHandler = async (
     address: string,
     phone: string,
     email: string,
-    status: string,
     jwtToken: string | undefined
 ): Promise<GenericReturn> => {
 
@@ -85,7 +84,7 @@ const updateCompanyHandler = async (
             email,
             existingCompany.data.createdAt, // Keep the original creation date
             user.username, // Updated by the current user
-            status, // Assuming the status remains ACTIVE after update
+            ACTIVE,
             existingCompany.data.ratingsArray, // Preserve existing ratings
             existingCompany.data.avgRating // Preserve existing average rating
         );

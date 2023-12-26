@@ -58,12 +58,11 @@ export class CompanyResolver {
         @Arg("address", () => String) address: string,
         @Arg("phone", () => String) phone: string,
         @Arg("email", () => String) email: string,
-        @Arg("status", () => String) status: string,
         @Ctx() context: Context
     ): Promise<GenericReturn> {
 
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
-        return updateCompanyHandler(id, name, description, address, phone, email, status, jwtToken);
+        return updateCompanyHandler(id, name, description, address, phone, email, jwtToken);
 
     }
 

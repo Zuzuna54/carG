@@ -9,19 +9,6 @@ import { SetCompaniesList } from '../../../redux/actions/companyActions';
 const MyPanel = () => {
 
     const navigate = useNavigate();
-    const { error, data } = useQuery(GET_COMPANIES_LIST);
-    const dispatch = useDispatch();
-    const companiesList = useSelector(state => state.company.companiesList);
-
-    useEffect(() => {
-
-        if (data && JSON.stringify(data.getCompaniesList.data) !== JSON.stringify(companiesList)) {
-            console.log(data.getCompaniesList.data);
-            dispatch(SetCompaniesList(data.getCompaniesList.data));
-        }
-
-    });
-
 
     return (
         <div className="container">
@@ -35,6 +22,8 @@ const MyPanel = () => {
                 <div className="col-12">
                     <h3>Company Actions</h3>
                     <Button className='btn btn-primary' variant='contained' onClick={() => navigate('/dashboard/my-panel/create-company')}>Create Company</Button>
+                    <hr />
+                    <Button className='btn btn-primary' variant='contained' onClick={() => navigate('/dashboard/my-panel/update-company')}>Update Company</Button>
                     <hr />
                 </div>
             </div>

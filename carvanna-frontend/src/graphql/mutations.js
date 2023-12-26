@@ -78,12 +78,11 @@ export const CREATE_COMPANY = gql`
 export const UPDATE_COMPANY = gql`
     mutation UpdateCompany(
         $id: String!,
-        $name: String,
-        $description: String,
-        $address: String,
-        $phone: String,
-        $email: String,
-        $status: String
+        $name: String!,
+        $description: String!,
+        $address: String!,
+        $phone: String!,
+        $email: String!,
     ) {
         updateCompany(
             id: $id,
@@ -92,7 +91,6 @@ export const UPDATE_COMPANY = gql`
             address: $address,
             phone: $phone,
             email: $email,
-            status: $status
         ) {
             result
             statusCode
@@ -105,6 +103,17 @@ export const UPDATE_COMPANY = gql`
 export const DISABLE_COMPANY = gql`
     mutation DisableCompany($id: String!) {
         disableCompany(id: $id) {
+            result
+            statusCode
+            message
+            id
+        }
+    }
+`;
+
+export const ENABLE_COMPANY = gql`
+    mutation EnableCompany($id: String!) {
+        enableCompany(id: $id) {
             result
             statusCode
             message
