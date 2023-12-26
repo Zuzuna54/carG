@@ -22,3 +22,26 @@ export const GET_COMPANIES_LIST = gql`
         }
     }
 `;
+
+export const GET_COMPANY = gql`
+    query GetCompany($id: String!) {
+        getCompany(id: $id) {
+            statusCode
+            message
+            result
+            data {
+                id
+                name
+                description
+                address
+                phone
+                email
+                createdAt
+                createdBy
+                status
+                ratingsArray
+                avgRating
+            }
+        }
+    }
+`;

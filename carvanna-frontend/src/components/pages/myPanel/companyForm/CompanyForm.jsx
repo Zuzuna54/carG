@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { CREATE_COMPANY } from "../../../../graphql/mutations";
+import { CREATE_COMPANY, UPDATE_COMPANY, DELETE_COMPANY, DISABLE_COMPANY } from "../../../../graphql/mutations";
 import { GET_COMPANIES_LIST } from '../../../../graphql/queries';
 import { useDispatch } from "react-redux";
 import { SetCompaniesList } from '../../../../redux/actions/companyActions';

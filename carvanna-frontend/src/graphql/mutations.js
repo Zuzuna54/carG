@@ -19,6 +19,29 @@ export const LOGIN_USER = gql`
     }
 `;
 
+export const CREATE_USER = gql`
+  mutation CreateUser(
+    $password: String!,
+    $email: String!,
+    $username: String!,
+    $userType: String!,
+    $companyId: String!
+  ) {
+    createUser(
+      password: $password,
+      email: $email,
+      username: $username,
+      userType: $userType,
+      companyId: $companyId
+    ) {
+      result
+      statusCode
+      message
+      id
+    }
+  }
+`;
+
 export const REFRESH_ACCESS_TOKEN = gql`
     mutation refreshAccessToken($refreshToken: String!) {
         refreshAccessToken(refreshToken: $refreshToken) {
@@ -52,25 +75,51 @@ export const CREATE_COMPANY = gql`
     }
 `;
 
-export const CREATE_USER = gql`
-  mutation CreateUser(
-    $password: String!,
-    $email: String!,
-    $username: String!,
-    $userType: String!,
-    $companyId: String!
-  ) {
-    createUser(
-      password: $password,
-      email: $email,
-      username: $username,
-      userType: $userType,
-      companyId: $companyId
+export const UPDATE_COMPANY = gql`
+    mutation UpdateCompany(
+        $id: String!,
+        $name: String,
+        $description: String,
+        $address: String,
+        $phone: String,
+        $email: String,
+        $status: String
     ) {
-      result
-      statusCode
-      message
-      id
+        updateCompany(
+            id: $id,
+            name: $name,
+            description: $description,
+            address: $address,
+            phone: $phone,
+            email: $email,
+            status: $status
+        ) {
+            result
+            statusCode
+            message
+            id
+        }
     }
-  }
+`;
+
+export const DISABLE_COMPANY = gql`
+    mutation DisableCompany($id: String!) {
+        disableCompany(id: $id) {
+            result
+            statusCode
+            message
+            id
+        }
+    }
+`;
+
+export const DELETE_COMPANY = gql`
+    mutation DeleteCompany($id: String!) {
+        deleteCompany(id: $id) {
+            result
+            statusCode
+            message
+            id
+        }
+    }
 `;

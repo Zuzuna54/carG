@@ -4,13 +4,14 @@ import getCompaniesListHandler from "../handlers/companyHandlers/getCompaniesLis
 import updateCompanyHandler from "../handlers/companyHandlers/updateCompanyHandler";
 import getCompanyHandler from "../handlers/companyHandlers/getCompany";
 import deleteCompanyHandler from "../handlers/companyHandlers/deleteCompanyHandler";
+import diableCompanuHandler from "../handlers/companyHandlers/disableCompanyHandler";
+import enableCompanyHandler from "../handlers/companyHandlers/enableCompanyHandler";
 import { Context } from "../contextInterface/context";
 import { GenericReturn } from "../entities/genericReturn";
 
 
 @Resolver()
 export class CompanyResolver {
-
 
     /**
      * Mutation resolver to create a new company.
@@ -98,6 +99,40 @@ export class CompanyResolver {
 
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
         return deleteCompanyHandler(id, jwtToken);
+
+    }
+
+    /**
+     * Mutation resolver to disable a company.
+     * @param id 
+     * @param context 
+     * @returns 
+     */
+    @Mutation(() => GenericReturn)
+    disableCompany(
+        @Arg("id", () => String) id: string,
+        @Ctx() context: Context
+    ): Promise<GenericReturn> {
+
+        const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
+        return diableCompanuHandler(id, jwtToken);
+
+    }
+
+    /**
+     * Mutation resolver to enable a company.
+     * @param id
+     * @param context
+     * @returns
+     * */
+    @Mutation(() => GenericReturn)
+    enableCompany(
+        @Arg("id", () => String) id: string,
+        @Ctx() context: Context
+    ): Promise<GenericReturn> {
+
+        const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
+        return enableCompanyHandler(id, jwtToken);
 
     }
 
