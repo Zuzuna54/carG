@@ -21,10 +21,9 @@ const MyPanel = () => {
             <div className="row">
                 <div className="col-12">
                     <h3>Company Actions</h3>
-                    <Button className='btn btn-primary' variant='contained' onClick={() => navigate('/dashboard/my-panel/create-company')}>Create Company</Button>
+                    <Button className='btn btn-primary' variant='contained' onClick={() => navigate('/dashboard/my-panel/company-actions')}>Company Actions</Button>
                     <hr />
-                    <Button className='btn btn-primary' variant='contained' onClick={() => navigate('/dashboard/my-panel/update-company')}>Update Company</Button>
-                    <hr />
+
                 </div>
             </div>
             <div className="row">

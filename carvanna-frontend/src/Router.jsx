@@ -12,8 +12,7 @@ const LogInPage = React.lazy(() => import('./components/auth/preAuth/Login'));
 const NotAuthorized = React.lazy(() => import('./components/NotAuthorized/NotAuthorized'));
 const Calc = React.lazy(() => import('./components/pages/calc/Calc'));
 const MyPanel = React.lazy(() => import('./components/pages/myPanel/MyPanel'));
-const CreateCompanyForm = React.lazy(() => import('./components/pages/myPanel/companyForm/CreateCompanyForm'));
-const UpdateCompanyForm = React.lazy(() => import('./components/pages/myPanel/companyForm/UpdateCompanyForm'));
+const AllCompanyActions = React.lazy(() => import('./components/pages/myPanel/companyForm/AllActions'));
 const UserForm = React.lazy(() => import('./components/pages/myPanel/userForm/UserForm'));
 const Home = React.lazy(() => import('./components/pages/home/Homepage'));
 const AboutUs = React.lazy(() => import('./components/pages/aboutUs/Aboutus'));
@@ -32,8 +31,7 @@ export default function Routing() {
                         <Route path="/dashboard" element={<Layout />} >
                             <Route path='my-panel' element={<ProtectedRoutes />} >
                                 <Route path='' element={<MyPanel />} />
-                                <Route path='create-company' element={<CreateCompanyForm />} />
-                                <Route path='update-company' element={<UpdateCompanyForm />} />
+                                <Route path='company-actions' element={<AllCompanyActions />} />
                                 <Route path='create-user' element={<UserForm />} />
                             </Route>
                             <Route path='homepage' element={<Home />} />

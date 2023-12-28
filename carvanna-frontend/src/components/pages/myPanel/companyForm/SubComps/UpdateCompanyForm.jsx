@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
-import { GET_COMPANIES_LIST } from '../../../../graphql/queries';
-import { UPDATE_COMPANY } from '../../../../graphql/mutations';
-import { SetCompaniesList } from '../../../../redux/actions/companyActions';
+import { GET_COMPANIES_LIST } from '../../../../../graphql/queries';
+import { UPDATE_COMPANY } from '../../../../../graphql/mutations';
+import { SetCompaniesList } from '../../../../../redux/actions/companyActions';
 import './CreateCompanyForm.scss';
 
 const UpdateCompanyForm = () => {
@@ -43,13 +43,16 @@ const UpdateCompanyForm = () => {
     });
 
     useEffect(() => {
+        getCompaniesList();
+    }, []);
+
+    useEffect(() => {
 
         if (companyData.data && companyData.data.getCompaniesList) {
             dispatch(SetCompaniesList(companyData.data.getCompaniesList.data));
         }
 
     }, [companyData]);
-
 
     const [updateCompany, { loading }] = useMutation(UPDATE_COMPANY, {
         onCompleted: (data) => {

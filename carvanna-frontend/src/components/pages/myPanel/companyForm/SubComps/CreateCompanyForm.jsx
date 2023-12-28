@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { CREATE_COMPANY } from "../../../../graphql/mutations";
-import { GET_COMPANIES_LIST } from '../../../../graphql/queries';
+import { CREATE_COMPANY } from "../../../../../graphql/mutations";
+import { GET_COMPANIES_LIST } from '../../../../../graphql/queries';
 import { useDispatch } from "react-redux";
-import { SetCompaniesList } from '../../../../redux/actions/companyActions';
+import { SetCompaniesList } from '../../../../../redux/actions/companyActions';
 import './CreateCompanyForm.scss';
 
 const CompanyForm = () => {
@@ -24,32 +24,33 @@ const CompanyForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const [createCompany, { loading }] = useMutation(CREATE_COMPANY, {
-        onCompleted: (data) => {
+    const [
+        , { loading }] = useMutation(CREATE_COMPANY, {
+            onCompleted: (data) => {
 
-            if (data.createCompany.result === 'success') {
+                if (data.createCompany.result === 'success') {
 
-                //Handle success and reset form here, e.g., show a success message and then reset form.
-                setIsSuccess(true);
-                setIsError(false);
-                setFormData({ name: '', description: '', address: '', phone: '', email: '' });
+                    //Handle success and reset form here, e.g., show a success message and then reset form.
+                    setIsSuccess(true);
+                    setIsError(false);
+                    setFormData({ name: '', description: '', address: '', phone: '', email: '' });
 
-                // Optionally, fetch companies list again or update redux state}
-                getCompaniesList();
+                    // Optionally, fetch companies list again or update redux state}
+                    getCompaniesList();
 
-            }
+                }
 
-            if (data.createCompany.result === 'failed') {
+                if (data.createCompany.result === 'failed') {
+                    setIsError(true);
+                    setErrorMessage(data.createCompany.message);
+                }
+
+            },
+            onError: (error) => {
                 setIsError(true);
-                setErrorMessage(data.createCompany.message);
-            }
-
-        },
-        onError: (error) => {
-            setIsError(true);
-            setErrorMessage(error.message);
-        },
-    });
+                setErrorMessage(error.message);
+            },
+        });
 
     const handleChange = (e) => {
         const { name, value } = e.target;

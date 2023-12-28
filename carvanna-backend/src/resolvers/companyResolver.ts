@@ -142,11 +142,12 @@ export class CompanyResolver {
      */
     @Query(() => GenericReturn)
     getCompaniesList(
+        status: string,
         @Ctx() context: Context
     ): Promise<GenericReturn> {
 
         const jwtToken = context.req.headers.authorization?.replace('Bearer ', '');
-        return getCompaniesListHandler(jwtToken);
+        return getCompaniesListHandler(status, jwtToken);
 
     }
 

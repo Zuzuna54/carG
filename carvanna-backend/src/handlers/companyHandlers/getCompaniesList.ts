@@ -5,6 +5,7 @@ import { validateSession, decodeToken } from "../../utils/utils";
 
 const getCompaniesListHandler = async (
 
+    status: string,
     jwtToken: string | undefined
 
 ): Promise<GenericReturn> => {
@@ -64,22 +65,31 @@ const getCompaniesListHandler = async (
 
         //Filtering the companies list to only return active companies
         console.log(`Filtering the companies list to only return active companies\n`)
-        const activeCompanies: Record<string, any>[] = [];
-        companies.data.forEach((company: Record<string, any>) => {
+        let companieList: Record<string, any>[] = [];
 
-            if (company.status === ACTIVE) {
+        if (status === ACTIVE) {
 
-                activeCompanies.push(company);
-            }
-        });
+            companies.data.forEach((company: Record<string, any>) => {
 
-        console.log(`activeCompanies: ${JSON.stringify(activeCompanies, null, 2)}\n`)
+                if (company.status === ACTIVE) {
+
+                    companieList.push(company);
+                }
+            });
+        }
+        if (status === 'ALL') {
+
+            companieList = companies.data;
+
+        }
+
+        console.log(`activeCompanies: ${JSON.stringify(companieList, null, 2)}\n`)
 
         console.log(`Returning the company \n`)
         result.result = `success`;
         result.statusCode = 200;
         result.message = `Success: 200 Company retrieved`;
-        result.data = activeCompanies;
+        result.data = companieList;
         return result;
 
     } catch (error) {

@@ -16,6 +16,7 @@ export const disableCompany = async (id: string): Promise<GenericReturn> => {
              SET c.status = COALESCE($status, c.status)
              RETURN c`,
             {
+                id: id,
                 status: "DISABLED",
             }
         );
