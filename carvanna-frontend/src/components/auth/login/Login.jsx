@@ -28,6 +28,7 @@ const LoginForm = () => {
         e.preventDefault();
 
         try {
+
             const { data } = await loginUser({
                 variables: { username, password },
             });
@@ -49,6 +50,7 @@ const LoginForm = () => {
                 dispatch(setAuthenticationStatus(true));
                 dispatch(setUser(data.logInUser));
 
+                console.log(Cookies.get('accessToken'));
                 navigate('/dashboard/homepage');
             }
 

@@ -10,7 +10,6 @@ const UpdateCompanyForm = () => {
 
     const dispatch = useDispatch();
     const companiesList = useSelector(state => state.company.companiesList);
-    console.log('companiesList', companiesList);
     const [selectedCompanyId, setSelectedCompanyId] = useState('');
     const [formData, setFormData] = useState({
         name: '',
@@ -23,29 +22,32 @@ const UpdateCompanyForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-
+    // Query to get companies list
     const [getCompaniesList, companyData] = useLazyQuery(GET_COMPANIES_LIST, {
-        skip: companiesList.length > 0,
         fetchPolicy: "network-only",
         onCompleted: data => {
-
-            if (data.getCompaniesList.result === 'failed') {
-                setIsError(true);
-                setErrorMessage(data.getCompaniesList.message);
-                return;
-            }
-
             if (data.getCompaniesList.result === 'success') {
                 dispatch(SetCompaniesList(data.getCompaniesList.data));
+            } else {
+                setIsError(true);
+                setErrorMessage(data.getCompaniesList.message);
             }
-
         },
+        onError: error => {
+            console.log(error);
+            setIsError(true);
+            setErrorMessage("An error occurred while fetching companies.");
+        }
     });
 
+    // Use effect to fetch companies list
     useEffect(() => {
-        getCompaniesList();
-    }, []);
+        getCompaniesList({
+            variables: { status: "ACTIVE" }
+        });
+    }, [companiesList]);
 
+    // Use effect to update companies list in redux store
     useEffect(() => {
 
         if (companyData.data && companyData.data.getCompaniesList) {
@@ -54,13 +56,16 @@ const UpdateCompanyForm = () => {
 
     }, [companyData]);
 
+    // Mutation to update company
     const [updateCompany, { loading }] = useMutation(UPDATE_COMPANY, {
         onCompleted: (data) => {
             if (data.updateCompany.result === 'success') {
                 setIsSuccess(true);
                 setIsError(false);
                 // Optionally, reset form here or perform other actions
-                getCompaniesList()
+                getCompaniesList({
+                    variables: { status: "ACTIVE" }
+                });
             } else {
                 setIsError(true);
                 setErrorMessage(data.updateCompany.message);
@@ -72,7 +77,7 @@ const UpdateCompanyForm = () => {
         },
     });
 
-
+    // Use effect to set form data when company is selected
     useEffect(() => {
         if (selectedCompanyId && companiesList.length > 0) {
             const company = companiesList.find(c => c.id === selectedCompanyId);

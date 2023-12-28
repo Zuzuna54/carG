@@ -8,16 +8,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Cookies from 'js-cookie';
+
 import './SideBar.scss';
 
 export default function SideBar() {
     const navigate = useNavigate();
-    const authStatus = useSelector(state => state.authState.isAuthenticated);
-    const user = useSelector(state => state.authState.user);
+    const token = Cookies.get('accessToken') || '';
 
     const handleConditionalItem = () => {
 
-        if (authStatus) {
+        if (token) {
             return (
                 <ListItem button onClick={() => navigate('/dashboard/my-panel')}>
                     <ListItemIcon>

@@ -13,11 +13,11 @@ export const GET_CALC_DATA = gql`
 `;
 
 export const GET_COMPANIES_LIST = gql`
-    query{
-        getCompaniesList{
-            statusCode,
-            message,
-            result,
+    query GetCompaniesList($status: String!) {
+        getCompaniesList(status: $status) {
+            statusCode
+            message
+            result
             data
         }
     }
@@ -29,19 +29,7 @@ export const GET_COMPANY = gql`
             statusCode
             message
             result
-            data {
-                id
-                name
-                description
-                address
-                phone
-                email
-                createdAt
-                createdBy
-                status
-                ratingsArray
-                avgRating
-            }
+            data
         }
     }
 `;

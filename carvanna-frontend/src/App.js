@@ -1,7 +1,6 @@
 import './styles/App.css';
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Router from './Router';
-import { useSelector } from 'react-redux';
 import {
     ApolloClient,
     InMemoryCache,
@@ -16,9 +15,25 @@ import Cookies from 'js-cookie';
 
 function App() {
 
-    // const accessToken = useSelector(state => state.authState.user.accessToken)
+    const [client, setClient] = useState(createApolloClient('')); // Initialize with empty token
     const accessToken = Cookies.get('accessToken');
 
+    useEffect(() => {
+        // Update the client if accessToken changes
+        setClient(createApolloClient(accessToken));
+    }, [accessToken]);
+
+    return (
+        <ApolloProvider client={client}>
+            <div className="App">
+                <Router />
+            </div>
+        </ApolloProvider>
+    );
+}
+
+
+function createApolloClient(accessToken) {
     // Set up Error Handling
     const errorLink = onError(({ graphqlErrors, networkError }) => {
         if (graphqlErrors) {
@@ -61,18 +76,10 @@ function App() {
 
 
     // Set up the Apollo client
-    const client = new ApolloClient({
+    return new ApolloClient({
         cache: new InMemoryCache(),
         link: link,
     });
-
-    return (
-        <ApolloProvider client={client}>
-            <div className="App">
-                <Router />
-            </div>
-        </ApolloProvider>
-    );
 }
 
 export default App;

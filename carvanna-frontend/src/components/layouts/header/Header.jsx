@@ -23,8 +23,10 @@ const Header = () => {
 
     const handleLogOut = () => {
 
-        Cookies.remove('accessToken');
-        Cookies.remove('refreshToken');
+        //SET TOKEN TO EMPTY STRING
+        Cookies.set('accessToken', '');
+        Cookies.set('refreshToken', '');
+
         dispatch(setAuthenticationStatus(false));
         dispatch(setUser({}));
         navigate('/dashboard/homepage')

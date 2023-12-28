@@ -1,33 +1,46 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { DELETE_COMPANY, DISABLE_COMPANY } from '../../../../../graphql/mutations';
+import { DELETE_COMPANY, DISABLE_COMPANY, ENABLE_COMPANY } from '../../../../../graphql/mutations';
 import { useSelector, useDispatch } from 'react-redux';
 import { SetCompaniesList } from '../../../../../redux/actions/companyActions';
 import './CreateCompanyForm.scss';
 
 const DeleteOrDisableCompanyForm = () => {
     const dispatch = useDispatch();
-    const companiesList = useSelector(state => state.company.companiesList);
-    const [selectedCompanyId, setSelectedCompanyId] = useState('');
-    const [action, setAction] = useState('disable'); // 'delete' or 'disable'
+    const companiesList = useSelector(state => state.company.companiesList) || [];
+    const [selectedCompanyIdForEnable, setSelectedCompanyIdForEnable] = useState('');
+    const [selectedCompanyIdForDisable, setSelectedCompanyIdForDisable] = useState('');
+    const [selectedCompanyIdForDelete, setSelectedCompanyIdForDelete] = useState('');
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [disabledCompaniesList, setDisabledCompaniesList] = useState([]);
+    const [enabledCompaniesList, setEnabledCompaniesList] = useState([]);
 
-    const [deleteCompany, { loading: deleting }] = useMutation(DELETE_COMPANY, mutationConfig('delete'));
+    const [enableCompany, { loading: enabling }] = useMutation(ENABLE_COMPANY, mutationConfig('enable'));
     const [disableCompany, { loading: disabling }] = useMutation(DISABLE_COMPANY, mutationConfig('disable'));
+    const [deleteCompany, { loading: deleting }] = useMutation(DELETE_COMPANY, mutationConfig('delete'));
 
     function mutationConfig(actionType) {
         return {
             onCompleted: (data) => {
                 if (actionType === 'delete' && data.deleteCompany.result === 'success') {
-                    handleSuccess();
-                    dispatch(SetCompaniesList(companiesList.filter(c => c.id !== selectedCompanyId)));
+                    handleSuccess('deleted');
+                    dispatch(SetCompaniesList(companiesList.filter(c => c.id !== selectedCompanyIdForDelete)));
                 } else if (actionType === 'disable' && data.disableCompany.result === 'success') {
-                    handleSuccess();
+                    handleSuccess('disabled');
                     const updatedList = companiesList.map(company => {
-                        if (company.id === selectedCompanyId) {
+                        if (company.id === selectedCompanyIdForDisable) {
                             return { ...company, status: 'Disabled' };
+                        }
+                        return company;
+                    });
+                    dispatch(SetCompaniesList(updatedList));
+                } else if (actionType === 'enable' && data.enableCompany.result === 'success') {
+                    handleSuccess('enabled');
+                    const updatedList = companiesList.map(company => {
+                        if (company.id === selectedCompanyIdForEnable) {
+                            return { ...company, status: 'Active' };
                         }
                         return company;
                     });
@@ -42,10 +55,13 @@ const DeleteOrDisableCompanyForm = () => {
         };
     }
 
-    const handleSuccess = () => {
+    const handleSuccess = (action) => {
         setIsSuccess(true);
         setIsError(false);
-        setSelectedCompanyId('');
+        setErrorMessage(`Company ${action} successfully!`);
+        setSelectedCompanyIdForEnable('');
+        setSelectedCompanyIdForDisable('');
+        setSelectedCompanyIdForDelete('');
     };
 
     const handleError = (message) => {
@@ -54,44 +70,80 @@ const DeleteOrDisableCompanyForm = () => {
         setIsSuccess(false);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, action) => {
         e.preventDefault();
+        let selectedCompanyId;
+        switch (action) {
+            case 'enable':
+                selectedCompanyId = selectedCompanyIdForEnable;
+                break;
+            case 'disable':
+                selectedCompanyId = selectedCompanyIdForDisable;
+                break;
+            case 'delete':
+                selectedCompanyId = selectedCompanyIdForDelete;
+                break;
+            default:
+                handleError('Invalid action');
+                return;
+        }
+
         if (!selectedCompanyId) {
             handleError(`Please select a company to ${action}`);
             return;
         }
-        if (action === 'delete') {
-            deleteCompany({ variables: { id: selectedCompanyId } });
-        } else {
-            disableCompany({ variables: { id: selectedCompanyId } });
+
+        switch (action) {
+            case 'enable':
+                enableCompany({ variables: { id: selectedCompanyId } });
+                break;
+            case 'disable':
+                disableCompany({ variables: { id: selectedCompanyId } });
+                break;
+            case 'delete':
+                deleteCompany({ variables: { id: selectedCompanyId } });
+                break;
+            default:
+                handleError('Invalid action');
         }
     };
 
     return (
-        <div className="delete-disable-company-form">
-            <h2>{action === 'delete' ? 'Delete' : 'Disable'} Company</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="delete-disable-enable-company-form">
+            <h2>Manage Companies</h2>
+            <form>
                 <div>
-                    <label>Company:</label>
-                    <select value={selectedCompanyId} onChange={(e) => setSelectedCompanyId(e.target.value)}>
+                    <label>Enable Company:</label>
+                    <select value={selectedCompanyIdForEnable} onChange={(e) => setSelectedCompanyIdForEnable(e.target.value)}>
+                        <option value="">Select a Company</option>
+                        {companiesList?.filter(company => company.status === 'Disabled').map(company => (
+                            <option key={company.id} value={company.id}>{company.name}</option>
+                        ))}
+                    </select>
+                    <button onClick={(e) => handleSubmit(e, 'enable')} disabled={enabling}>Enable</button>
+                </div>
+                <div>
+                    <label>Disable Company:</label>
+                    <select value={selectedCompanyIdForDisable} onChange={(e) => setSelectedCompanyIdForDisable(e.target.value)}>
+                        <option value="">Select a Company</option>
+                        {companiesList.filter(company => company.status === 'Active').map(company => (
+                            <option key={company.id} value={company.id}>{company.name}</option>
+                        ))}
+                    </select>
+                    <button onClick={(e) => handleSubmit(e, 'disable')} disabled={disabling}>Disable</button>
+                </div>
+                <div>
+                    <label>Delete Company:</label>
+                    <select value={selectedCompanyIdForDelete} onChange={(e) => setSelectedCompanyIdForDelete(e.target.value)}>
                         <option value="">Select a Company</option>
                         {companiesList.map(company => (
                             <option key={company.id} value={company.id}>{company.name}</option>
                         ))}
                     </select>
+                    <button onClick={(e) => handleSubmit(e, 'delete')} disabled={deleting}>Delete</button>
                 </div>
-                <div>
-                    <label>Action:</label>
-                    <select value={action} onChange={(e) => setAction(e.target.value)}>
-                        <option value="disable">Disable</option>
-                        <option value="delete">Delete</option>
-                    </select>
-                </div>
-                <button type="submit" disabled={deleting || disabling}>
-                    {action === 'delete' ? 'Delete' : 'Disable'} Company
-                </button>
                 <div className={isSuccess ? 'success-log success' : 'error-log error'}>
-                    {isSuccess ? <p>Company {action === 'delete' ? 'deleted' : 'disabled'} successfully!</p> : <p>{errorMessage}</p>}
+                    {isSuccess ? <p>{errorMessage}</p> : <p>{errorMessage}</p>}
                 </div>
             </form>
         </div>
