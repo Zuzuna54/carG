@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { DELETE_COMPANY, DISABLE_COMPANY, ENABLE_COMPANY } from '../../../../../graphql/mutations';
+import { GET_COMPANIES_LIST } from '../../../../../graphql/queries';
 import { useSelector, useDispatch } from 'react-redux';
-import { SetCompaniesList } from '../../../../../redux/actions/companyActions';
+import { SetCompaniesList, setAllCompaniesList } from '../../../../../redux/actions/companyActions';
 import './CreateCompanyForm.scss';
 
 const DeleteOrDisableCompanyForm = () => {
+
     const dispatch = useDispatch();
     const companiesList = useSelector(state => state.company.companiesList) || [];
     const [selectedCompanyIdForEnable, setSelectedCompanyIdForEnable] = useState('');
@@ -14,13 +16,13 @@ const DeleteOrDisableCompanyForm = () => {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
-    const [disabledCompaniesList, setDisabledCompaniesList] = useState([]);
-    const [enabledCompaniesList, setEnabledCompaniesList] = useState([]);
 
+    //Mutations to enable, disable and delete company
     const [enableCompany, { loading: enabling }] = useMutation(ENABLE_COMPANY, mutationConfig('enable'));
     const [disableCompany, { loading: disabling }] = useMutation(DISABLE_COMPANY, mutationConfig('disable'));
     const [deleteCompany, { loading: deleting }] = useMutation(DELETE_COMPANY, mutationConfig('delete'));
 
+    // Mutation config
     function mutationConfig(actionType) {
         return {
             onCompleted: (data) => {
@@ -31,7 +33,7 @@ const DeleteOrDisableCompanyForm = () => {
                     handleSuccess('disabled');
                     const updatedList = companiesList.map(company => {
                         if (company.id === selectedCompanyIdForDisable) {
-                            return { ...company, status: 'Disabled' };
+                            return { ...company, status: 'DISABLED' };
                         }
                         return company;
                     });
@@ -40,7 +42,7 @@ const DeleteOrDisableCompanyForm = () => {
                     handleSuccess('enabled');
                     const updatedList = companiesList.map(company => {
                         if (company.id === selectedCompanyIdForEnable) {
-                            return { ...company, status: 'Active' };
+                            return { ...company, status: 'ACTIVE' };
                         }
                         return company;
                     });
@@ -54,6 +56,7 @@ const DeleteOrDisableCompanyForm = () => {
             }
         };
     }
+
 
     const handleSuccess = (action) => {
         setIsSuccess(true);
@@ -116,7 +119,7 @@ const DeleteOrDisableCompanyForm = () => {
                     <label>Enable Company:</label>
                     <select value={selectedCompanyIdForEnable} onChange={(e) => setSelectedCompanyIdForEnable(e.target.value)}>
                         <option value="">Select a Company</option>
-                        {companiesList?.filter(company => company.status === 'Disabled').map(company => (
+                        {companiesList.filter(company => company.status === "DISABLED").map(company => (
                             <option key={company.id} value={company.id}>{company.name}</option>
                         ))}
                     </select>
@@ -126,7 +129,7 @@ const DeleteOrDisableCompanyForm = () => {
                     <label>Disable Company:</label>
                     <select value={selectedCompanyIdForDisable} onChange={(e) => setSelectedCompanyIdForDisable(e.target.value)}>
                         <option value="">Select a Company</option>
-                        {companiesList.filter(company => company.status === 'Active').map(company => (
+                        {companiesList.filter(company => company.status === "ACTIVE").map(company => (
                             <option key={company.id} value={company.id}>{company.name}</option>
                         ))}
                     </select>

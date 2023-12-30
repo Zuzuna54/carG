@@ -142,7 +142,7 @@ export class CompanyResolver {
      */
     @Query(() => GenericReturn)
     getCompaniesList(
-        status: string,
+        @Arg("status", () => String) status: string,
         @Ctx() context: Context
     ): Promise<GenericReturn> {
 

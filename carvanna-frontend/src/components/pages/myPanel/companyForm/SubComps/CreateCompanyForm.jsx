@@ -12,8 +12,18 @@ const CompanyForm = () => {
     const dispatch = useDispatch();
     const [getCompaniesList, companyData] = useLazyQuery(GET_COMPANIES_LIST,
         {
-            fetchPolicy: "network-only"
+            fetchPolicy: "network-only",
+            onCompleted: data => {
+                if (data.getCompaniesList.result === 'success') {
+                    console.log(data.getCompaniesList.data);
+                    dispatch(SetCompaniesList(data.getCompaniesList.data));
+                } else {
+                    setIsError(true);
+                    setErrorMessage(data.getCompaniesList.message);
+                }
+            }
         });
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -36,7 +46,11 @@ const CompanyForm = () => {
                 setFormData({ name: '', description: '', address: '', phone: '', email: '' });
 
                 // Optionally, fetch companies list again or update redux state}
-                getCompaniesList();
+                getCompaniesList(
+                    {
+                        variables: { status: "ALL" }
+                    }
+                );
 
             }
 

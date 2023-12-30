@@ -43,7 +43,7 @@ const UpdateCompanyForm = () => {
     // Use effect to fetch companies list
     useEffect(() => {
         getCompaniesList({
-            variables: { status: "ACTIVE" }
+            variables: { status: "ALL" }
         });
     }, [companiesList]);
 
